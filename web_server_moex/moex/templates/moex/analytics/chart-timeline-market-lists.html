@@ -111,8 +111,8 @@
     var colors = ['#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425'];             // https://www.color-hex.com/color-palette/700
     colors = colors.concat(['#ed5555', '#b4c468', '#b8a7ea', '#b7e0dc', '#bdd1a0']);  // https://www.color-hex.com/color-palette/36398
     var i_color = 0;
-    for (var i_m = 0; i_m < jqXHR_iss_index_json.markets.data.length; i_m += 1) {
-    //for (var i_m = 0; i_m < 2; i_m += 1) {
+    //for (var i_m = 0; i_m < jqXHR_iss_index_json.markets.data.length; i_m += 1) {
+    for (var i_m = 0; i_m < 3; i_m += 1) {
       // 0: "id"
       // 1: "trade_engine_id"
       // 2: "trade_engine_name"
@@ -207,7 +207,7 @@
               obj_min.line = line;
               obj_min.till = till.getTime();
             }
-            arr_rows.push([line.toString(), hit._source.secid, from, till]);
+            arr_rows.push([line.toString(), hit._source.secid, "", from, till]);
             obj_lines[line] = till.getTime();
           }
         })
@@ -236,6 +236,7 @@
         var dataTable = new google.visualization.DataTable();
         dataTable.addColumn({ type: 'string', id: 'num' });
         dataTable.addColumn({ type: 'string', id: 'secid' });
+        dataTable.addColumn({ type: 'string', role: 'tooltip' });
         dataTable.addColumn({ type: 'date',   id: 'from' });
         dataTable.addColumn({ type: 'date',   id: 'till' });
         dataTable.addRows(arr_rows);
@@ -245,7 +246,28 @@
         };
         i_color += 1;
         spinner.remove(); 
+        
+        // https://developers.google.com/chart/interactive/docs/events
+        // https://developers.google.com/chart/interactive/docs/gallery/timeline#events
+        google.visualization.events.addListener(chart, 'select', (function (c, d, id) {
+          //https://developers.google.com/chart/interactive/docs/reference#DataTable_getValue
+          //!!! ISSUE FIXED WITH CLOSURE https://groups.google.com/forum/#!topic/google-visualization-api/p1avIYvcLWQ
+          return function () {
+            //selectHandler(baselinechart[x]);
+            //console.log(c.getSelection());
+            //console.log(d.getValue(c.getSelection()[0].row, 1)); // 1 column - secid
+            var market = get_iss_index_market_by_id(id);
+            var es_index_list_market = esi_list_market + "-" + market.trade_engine_name + "-" + market.name;
+            var es_index_hist_market = esi_hist_market + "-" + market.trade_engine_name + "-" + market.name;
+            console.log(es_index_list_market, es_index_hist_market, d.getValue(c.getSelection()[0].row, 1)); // 1 column - secid
+          }
+          
+        }) (chart, dataTable, market[jqXHR_iss_index_json.markets.columns.indexOf("id")]));
+        
         chart.draw(dataTable, options);
+        
+        
+        
       } catch (error) {
         console.log(error);
       }
