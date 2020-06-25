@@ -1,0 +1,62 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Here",
+		"_postman_id": "bf069950-a4af-707d-b753-ba500dd3d446",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://discover.search.hereapi.com/v1/discover?at=40.7307999,-73.9973085&q=%22%D0%9D%D0%B5%D1%84%D1%82%D1%8F%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%20%22%22%D0%A0%D0%BE%D1%81%D0%BD%D0%B5%D1%84%D1%82%D1%8C%22%22&limit=2&apiKey=yECSLviT9I_bhNZc8ia9PpJMwPBiGgefwmffmgsj3TI",
+			"request": {
+				"url": {
+					"raw": "https://discover.search.hereapi.com/v1/discover?at=40.7307999,-73.9973085&q=%22%D0%9D%D0%B5%D1%84%D1%82%D1%8F%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%20%22%22%D0%A0%D0%BE%D1%81%D0%BD%D0%B5%D1%84%D1%82%D1%8C%22%22&limit=2&apiKey=yECSLviT9I_bhNZc8ia9PpJMwPBiGgefwmffmgsj3TI",
+					"protocol": "https",
+					"host": [
+						"discover",
+						"search",
+						"hereapi",
+						"com"
+					],
+					"path": [
+						"v1",
+						"discover"
+					],
+					"query": [
+						{
+							"key": "at",
+							"value": "40.7307999,-73.9973085",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "q",
+							"value": "%22%D0%9D%D0%B5%D1%84%D1%82%D1%8F%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%20%22%22%D0%A0%D0%BE%D1%81%D0%BD%D0%B5%D1%84%D1%82%D1%8C%22%22",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "apiKey",
+							"value": "yECSLviT9I_bhNZc8ia9PpJMwPBiGgefwmffmgsj3TI",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

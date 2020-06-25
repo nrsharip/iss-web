@@ -1,0 +1,1586 @@
+<html>
+  {% load static %}
+
+  <title>{% block title %} Скрипты {% endblock %}</title>
+  <!-- https://www.favicon-generator.org/ -->
+  <link rel="apple-touch-icon" sizes="57x57" href='{% static "moex/icon2.ico/apple-icon-57x57.png" %}'>
+  <link rel="apple-touch-icon" sizes="60x60" href='{% static "moex/icon2.ico/apple-icon-60x60.png" %}'>
+  <link rel="apple-touch-icon" sizes="72x72" href='{% static "moex/icon2.ico/apple-icon-72x72.png" %}'>
+  <link rel="apple-touch-icon" sizes="76x76" href='{% static "moex/icon2.ico/apple-icon-76x76.png" %}'>
+  <link rel="apple-touch-icon" sizes="114x114" href='{% static "moex/icon2.ico/apple-icon-114x114.png" %}'>
+  <link rel="apple-touch-icon" sizes="120x120" href='{% static "moex/icon2.ico/apple-icon-120x120.png" %}'>
+  <link rel="apple-touch-icon" sizes="144x144" href='{% static "moex/icon2.ico/apple-icon-144x144.png" %}'>
+  <link rel="apple-touch-icon" sizes="152x152" href='{% static "moex/icon2.ico/apple-icon-152x152.png" %}'>
+  <link rel="apple-touch-icon" sizes="180x180" href='{% static "moex/icon2.ico/apple-icon-180x180.png" %}'>
+  <link rel="icon" type="image/png" sizes="192x192"  href='{% static "moex/icon2.ico/android-icon-192x192.png" %}'>
+  <link rel="icon" type="image/png" sizes="32x32" href='{% static "moex/icon2.ico/favicon-32x32.png" %}'>
+  <link rel="icon" type="image/png" sizes="96x96" href='{% static "moex/icon2.ico/favicon-96x96.png" %}'>
+  <link rel="icon" type="image/png" sizes="16x16" href='{% static "moex/icon2.ico/favicon-16x16.png" %}'>
+  <!-- This one causing 404 for android icons going out of Django 'static' parser -->
+  <!-- <link rel="manifest" href='{% static "moex/icon2.ico/manifest.json" %}'>   -->
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content='{% static "moex/icon2.ico/ms-icon-144x144.png" %}'>
+  <meta name="theme-color" content="#ffffff">
+
+  <div id="mobile-device-test"></div>
+
+  <!-- jQuery CDN – Latest Stable Versions: https://code.jquery.com/ -->
+  <!-- jQuery Core – All Versions:          https://code.jquery.com/jquery/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+  <!-- DataTables CDN: https://cdn.datatables.net/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- https://bashooka.com/coding/9-useful-javascript-color-libraries/ -->
+  <!-- chroma.js -->
+  <!-- https://gka.github.io/chroma.js/ -->
+  <!-- https://www.npmjs.com/package/chroma-js -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src='{% static "moex/node_modules/chroma-js/chroma.min.js" %}'></script> -->
+  <script src='{% static "moex/node_modules/chroma-js/chroma.js" %}'></script>
+
+
+  <!-- https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html -->
+  <script src='{% static "moex/node_modules/elasticsearch-browser/elasticsearch.jquery.min.js" %}'></script>
+
+  <style>
+    .divider{
+        width  :10px;
+        height :auto;
+        display:inline-block;
+    }
+  </style>
+
+  <script src='{% static "moex/scripts/global.js" %}'></script>
+  <script>
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+    // https://stackoverflow.com/questions/27612372/how-to-await-the-ajax-request
+    // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
+    // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
+    $( document ).ready(function() {
+      var request = "http://iss.moex.com/iss/index.json"
+      console.log("GET iss/index: " + request);
+      // http://iss.moex.com/iss/reference/28
+      // http://iss.moex.com/iss/index
+      jQuery.get("http://iss.moex.com/iss/index.json").done( function( data ) {
+        jqXHR_iss_index_json = data;
+
+        process_iss_index_markets();              // map_jqXHR_iss_index_json_markets_data              : engine -> markets
+        process_iss_index_boardgroups();          // map_jqXHR_iss_index_json_boardgroups_data          : engine -> markets -> boardgroups
+        process_iss_index_boards();               // map_jqXHR_iss_index_json_boards_data               : engine -> markets -> boardgroups -> boards
+        process_iss_index_securitytypes();        // map_jqXHR_iss_index_json_securitytypes_data        : engine -> securitytypes
+        process_iss_index_securitygroups();       // map_jqXHR_iss_index_json_securitygroups_data       : engine -> securitygroups
+        process_iss_index_securitycollections();  // map_jqXHR_iss_index_json_securitycollection_data   : engine -> securitygroups -> securitycollection
+
+        var grid = $("<div/>", {'class' : "container-fluid", 'id' : prefix_grid + marker_row_home});  // grid-home
+        grid.appendTo($('body'));
+
+        var row =   grid_create_row(grid, marker_row_main);                                           // grid-home-main
+        var col =   grid_create_col(row, "col-md-12 align-top", marker_col_entire);                   // grid-home-main-entire
+
+            row =  grid_create_row(grid, marker_row_info);                                            // grid-home-info
+        var cell =  grid_create_col(row, "col-md-12 align-top", marker_col_entire);                   // grid-home-info-entire
+
+        var index_all_sec = add_ymd(esi_all_sec);
+        var button = $("<button/>", {type : "button", class : "btn btn-outline-primary btn-sm", html: index_all_sec})
+        button.mouseup(async function (event) {
+          cell.empty();
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
+          $.ajax({
+              type: "HEAD",
+              url: "http://192.168.196.146:9200/" + index_all_sec,
+              contentType: "application/json",
+              dataType: "json",
+              // see https://api.jquery.com/jquery.ajax/
+              success: function(data, textStatus, jqXHR) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_sec + " already exists - nothing else to do.")
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_sec + " does not exist. Downloading...")
+                get_iss_securities(cell, function() {
+                  es_bulk_iss_securities(cell, index_all_sec);
+                })
+              }
+          });
+        })
+        button.appendTo(col);
+
+        button = $("<button/>", {type : "button", class : "btn btn-outline-primary btn-sm", html: "description & boards"})
+        button.mouseup(async function (event) {
+          cell.empty();
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
+          $.ajax({
+              type: "HEAD",
+              url: "http://192.168.196.146:9200/" + index_all_sec,
+              contentType: "application/json",
+              dataType: "json",
+              // see https://api.jquery.com/jquery.ajax/
+              success: function(data, textStatus, jqXHR) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_sec + " exists")
+                get_description_and_boards (cell, index_all_sec);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_sec + " does not exist. Push \"" + index_all_sec + "\"");
+              }
+          });
+        })
+        button.appendTo(col);
+
+        var index_all_boards = add_ymd(esi_all_boards);
+        button = $("<button/>", {type : "button", class : "btn btn-outline-success btn-sm", html: index_all_boards})
+        button.mouseup(async function (event) {
+          cell.empty();
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
+          $.ajax({
+              type: "HEAD",
+              url: "http://192.168.196.146:9200/" + index_all_boards,
+              contentType: "application/json",
+              dataType: "json",
+              // see https://api.jquery.com/jquery.ajax/
+              success: function(data, textStatus, jqXHR) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_boards + " exists")
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_all_boards + " does not exist. Downloading...");
+                get_board_securities_and_marketdata (cell, index_all_boards);
+              }
+          });
+        })
+        button.appendTo(col);
+
+        // MARKETS HISTORY
+        var div = add_select(jqXHR_iss_index_json.markets.data, "Рынки: ", "select-markets",
+            jqXHR_iss_index_json.markets.columns.indexOf("market_id"),
+            jqXHR_iss_index_json.markets.columns.indexOf("market_title")
+        )
+        div.appendTo(col);
+
+        var market = get_iss_index_market_by_id($("#select-markets").val());
+        
+        var index_hist_market = esi_hist_market + "-" + market.trade_engine_name + "-" + market.name;
+        var button_hist_mrkt = $("<button/>", {type : "button", class : "btn btn-outline-danger btn-sm", html: index_hist_market})
+        var index_list_market = esi_list_market + "-" + market.trade_engine_name + "-" + market.name;
+        var button_list_mrkt = $("<button/>", {type : "button", class : "btn btn-outline-danger btn-sm", html: index_list_market})
+        
+        var div_dates = $("<div/>",    {'class' : "", id : "", style : "display: inline-block; vertical-align: sub;" })
+        var hist_market_dates = null;
+        
+        $("#select-markets").change( function (event) {
+          market = get_iss_index_market_by_id($("#select-markets").val());
+          var request = "https://iss.moex.com/iss/history" 
+            + "/engines/" + market.trade_engine_name
+            + "/markets/" + market.name 
+            + "/dates.json"
+          console.log("GET request: " + request);
+          jQuery.get(request).done( function( data ) {
+            hist_market_dates = data;
+            div_dates.html(data.dates.data[0][data.dates.columns.indexOf("from")] + " - " + data.dates.data[0][data.dates.columns.indexOf("till")])
+          }).fail( function() {
+            // TODO: FINISH THIS PART
+            // Power Outage causing Internet off. Switching to saved JSONs for now
+            alert("Failed request: " + request);
+          });
+
+          index_hist_market = esi_hist_market + "-" + market.trade_engine_name  + "-" + market.name;
+          button_hist_mrkt.html(index_hist_market);
+          index_list_market = esi_list_market + "-" + market.trade_engine_name + "-" + market.name;
+          button_list_mrkt.html(index_list_market);
+        })
+
+        var request = "https://iss.moex.com/iss/history" 
+          + "/engines/" + market.trade_engine_name
+          + "/markets/" + market.name 
+          + "/dates.json"
+        console.log("GET request: " + request);
+        jQuery.get(request).done( function( data ) {
+          //console.log(data)
+          hist_market_dates = data;
+          div_dates.html(data.dates.data[0][data.dates.columns.indexOf("from")] + " - " + data.dates.data[0][data.dates.columns.indexOf("till")])
+          
+          // https://iss.moex.com/iss/history/engines/futures/markets/options/securities?date=
+        }).fail( function() {
+          // TODO: FINISH THIS PART
+          // Power Outage causing Internet off. Switching to saved JSONs for now
+          alert("Failed request: " + request);
+        });
+        
+        button_hist_mrkt.mouseup(async function (event) {
+          cell.empty();
+          
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
+          $.ajax({
+              type: "HEAD",
+              url: "http://192.168.196.146:9200/" + index_hist_market,
+              contentType: "application/json",
+              dataType: "json",
+              // see https://api.jquery.com/jquery.ajax/
+              success: function(data, textStatus, jqXHR) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_hist_market + " exists.")
+                if (hist_market_dates.dates.data[0][hist_market_dates.dates.columns.indexOf("from")] === null) {
+                  console.log("ERROR: dates are null:");
+                  console.log(hist_market_dates);
+                  return;
+                }
+                es_download_hist_iss_market(cell, index_hist_market, $("#select-markets").val(), hist_market_dates.dates);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Status: " + jqXHR.status + ". Index: " + index_hist_market + " does not exist. Creating the index...");
+                if (hist_market_dates.dates.data[0][hist_market_dates.dates.columns.indexOf("from")] === null) {
+                  console.log("ERROR: dates are null:");
+                  console.log(hist_market_dates);
+                  return;
+                }
+                es_create_index_iss_market(cell, index_hist_market, $("#select-markets").val(), hist_market_dates.dates);
+              }
+          });
+        })
+        button_hist_mrkt.appendTo(col);
+        $("<div/>", { 'class' : "divider" }).appendTo(col);
+        div_dates.appendTo(col);
+        $("<div/>", { 'class' : "divider" }).appendTo(col);
+        // MARKETS HISTORY - END
+
+        // MARKETS LISTS
+        button_list_mrkt.mouseup(async function (event) {
+          cell.empty();
+          
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
+          $.ajax({
+            type: "HEAD",
+            url: "http://192.168.196.146:9200/" + index_hist_market,
+            contentType: "application/json",
+            dataType: "json",
+            // see https://api.jquery.com/jquery.ajax/
+            success: function(data, textStatus, jqXHR) {
+              console.log("Status: " + jqXHR.status + ". Index: " + index_hist_market + " exists.")
+              
+              $.ajax({
+                type: "HEAD",
+                url: "http://192.168.196.146:9200/" + index_list_market,
+                contentType: "application/json",
+                dataType: "json",
+                // see https://api.jquery.com/jquery.ajax/
+                success: function(data, textStatus, jqXHR) {
+                  console.log("Status: " + jqXHR.status + ". Index: " + index_list_market + " exists.")
+                  es_calc_index_list_market(cell, index_hist_market, index_list_market, hist_market_dates.dates);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                  console.log("Status: " + jqXHR.status + ". Index: " + index_list_market + " does not exist. Creating the index...");
+                  es_create_index_list_market(cell, index_list_market);
+                }
+              });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log("Status: " + jqXHR.status + ". Index: " + index_hist_market + " does not exist. Create and download the history data first (push \"" + index_hist_market + "\" button)");
+            }
+          });
+        })
+        button_list_mrkt.appendTo(col);
+        
+      }).fail( function() {
+        // TODO: FINISH THIS PART
+        // Power Outage causing Internet off. Switching to saved JSONs for now
+        alert("Failed request: " + request);
+      });
+    });
+
+    function add_select (data, title, id, i_value, i_html) {
+      var div    = $("<div/>",    {'class' : "", id : "", style : "display: inline-block; vertical-align: sub;" })
+      var label  = $("<label/>",  {'html' : title})
+      var select = $("<select/>", {'id' : id})
+      select.css('border-style', 'dashed');
+      //select.css('min-height', $("#" + table.table.attr("id") + postfix_DataTables_filter).find("input").outerHeight())
+      //select.css('max-height', $("#" + table.table.attr("id") + postfix_DataTables_filter).find("input").outerHeight())
+
+      //var option = $("<option/>", {'value' : "", 'html' : ""}) // first - empty option
+      //option.appendTo(select);
+      var option = null;
+      $.each(data, function( i, val ) {
+        option = $("<option/>", {'value' : val[i_value], 'html' : i + ". " + val[i_html] + " (id: " + val[i_value] + ")"}) 
+        option.appendTo(select);
+      });
+      $("<div/>", { 'class' : "divider" }).appendTo(div);
+      select.appendTo(label);
+      label .appendTo(div);
+      $("<div/>", { 'class' : "divider" }).appendTo(div);
+      return div;
+    }
+    
+    
+    function get_iss_securities (grid, finilize) {
+      if (arr_pages_jqXHR_iss_securities_json.length == 0) {
+        var start = 0;
+        var limit = 100;
+        var total = 0;
+        var stop  = 0; //!!! change to 0 once ready to download all pages //////////
+
+        var row     = grid_create_row(grid, marker_row_download);                             // {grid}-download
+        var col     = grid_create_col(row, "col-md-12 align-top", marker_col_entire);         // {grid}-download-entire
+        var subrow  = grid_create_row(col, marker_col_spinner);                               // {grid}-download-entire-spinner
+        var subcol  = grid_create_col(subrow, "col-md-12 align-top", marker_col_entire);      // {grid}-download-entire-spinner-entire
+        grid_create_spinner(subcol, "Загрузка списка бумаг торгуемых на московской бирже...");
+        col   .css('font-size', "12px"); // entire
+        subcol.css('font-size', "16px"); // spinner
+
+        get_multipage_iss_securities(col, start, limit, total, stop, function () { 
+          row.remove();
+          //*************************
+          // row = grid_create_row(grid, marker_row_main);                         // {grid}-main
+          // col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // {grid}-main-entire
+
+          finilize();
+        });
+      } else {
+        finilize(); 
+      }
+    }
+    function get_iss_board_securities_secid (cell, secid, boardid) { 
+      // security
+      if (    !map_secid_jqXHR_iss_securities_security_json.has(secid)
+           || !map_secid_jqXHR_iss_securities_security_json.get(secid).has(map_key_security_securities_board)
+           || !map_secid_jqXHR_iss_securities_security_json.get(secid).has(map_key_security_marketdata)
+      ) {
+        // 0: "id"
+        // 1: "board_group_id"
+        // 2: "engine_id"
+        // 3: "market_id"
+        // 4: "boardid"
+        // 5: "board_title"
+        // 6: "is_traded"
+        // 7: "has_candles"
+        // 8: "is_primary"
+        var board       = get_iss_index_board_by_boardid(boardid);
+        var engine      = get_iss_index_engine_by_id(board.engine_id);
+        var market      = get_iss_index_market_by_id(board.market_id);
+        var boardgroup  = get_iss_index_boardgroup_by_id(board.board_group_id);
+        
+        // http://iss.moex.com/iss/reference/13  - http://iss.moex.com/iss/securities/AFKS
+        var row = grid_create_row(cell, prefix_security + secid);                 // grid-home-info-entire-security-{secid}
+        var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // grid-home-info-entire-security-{secid}-entire
+
+        // https://iss.moex.com/iss/engines/futures/markets/options/boards/ROPD/securities/AF7750BR0
+        request = "https://iss.moex.com/iss" 
+          + "/engines/"     + engine.name 
+          + "/markets/"     + market.name
+          + "/boards/"      + board.boardid
+          + "/securities/"  + secid
+          + ".json"
+        console.log("GET security " + secid + " board securities and marketdata for board " + boardid + ": " + request);
+        var deferred = $.Deferred();
+        jQuery.get(request).done( function( securities ) {
+          var map = null;
+          if (!map_secid_jqXHR_iss_securities_security_json.has(secid)) {
+            map = new Map();
+          } else {
+            map = map_secid_jqXHR_iss_securities_security_json.get(secid);
+          }
+          map.set(map_key_security_securities_board,  securities.securities);
+          map.set(map_key_security_marketdata,        securities.marketdata);
+          map_secid_jqXHR_iss_securities_security_json.set(secid, map);
+
+          var subrow    = grid_create_row(col, marker_row_main);         // grid-home-info-entire-security-{secid}-entire-main
+                          grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-1
+          var subcol_1  = grid_create_col(subrow, "col-md-3 align-top"); // grid-home-info-entire-security-{secid}-entire-main-2
+          var subcol_2  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-3
+          var subcol_3  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-4
+          var subcol_4  = grid_create_col(subrow, "col-md-3 align-top"); // grid-home-info-entire-security-{secid}-entire-main-5
+          var subcol_5  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-5
+                          grid_create_col(subrow, "col-md-2 align-top"); // grid-home-info-entire-security-{secid}-entire-main-6
+
+          subcol_1.html("<font color='darkcyan'>" + request + "</font>");
+
+          // mark the ajax call as completed
+          deferred.resolve(securities);
+        }).fail( function (error) {
+          // mark the ajax call as failed
+          deferred.reject(error);
+          // TODO: FINISH THIS PART
+          alert ("ERROR: Request failed: " + request);
+        });
+        return deferred.promise();
+      }
+    }
+    function get_iss_board_securities (cell, info, progress) { 
+      // security
+      if (!map_board_jqXHR_iss_engines_markets_boards_securities_json.has(info.board)) {
+        
+        var row = grid_create_row(cell, prefix_board + info.board);               // grid-home-info-entire-board-{boardid}
+        var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // grid-home-info-entire-board-{boardid}-entire
+
+        // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities
+        request_securities = "https://iss.moex.com/iss" 
+          + "/engines/"     + info.engine
+          + "/markets/"     + info.market
+          + "/boards/"      + info.board
+          + "/securities.json"
+        console.log("GET securities and marketdata for board " + info.board + ": " + request_securities);
+        var deferred = $.Deferred();
+        jQuery.get(request_securities).done( function( securities ) {
+          // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/columns
+          request_columns = "https://iss.moex.com/iss" 
+            + "/engines/"     + info.engine
+            + "/markets/"     + info.market
+            + "/boards/"      + info.board
+            + "/securities/columns.json";
+          console.log("GET board columns " + info.board + ": " + request_columns);
+          jQuery.get(request_columns).done( function( columns ) {
+            map = new Map();
+            map.set(map_key_board_securities_board,         securities.securities);
+            map.set(map_key_board_marketdata,               securities.marketdata);
+            map.set(map_key_board_columns_securities_board, columns.securities);
+            map.set(map_key_board_columns_marketdata,       columns.marketdata);
+            map_board_jqXHR_iss_engines_markets_boards_securities_json.set(info.board, map)
+
+            var subrow    = grid_create_row(col, marker_row_main);         // grid-home-info-entire-board-{boardid}-entire-main
+                            grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-1
+            var subcol_1  = grid_create_col(subrow, "col-md-4 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-2
+            var subcol_2  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-3
+            var subcol_3  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-4
+            var subcol_4  = grid_create_col(subrow, "col-md-2 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-5
+            var subcol_5  = grid_create_col(subrow, "col-md-2 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-5
+                            grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-board-{boardid}-entire-main-6
+
+            subcol_1.html("<font color='darkcyan'>" + request_securities + "</font>");
+            subcol_2.html("<font color='darkcyan'>securities: " + securities.securities.data.length + "</font>");
+            subcol_3.html("<font color='darkcyan'>marketdata: " + securities.marketdata.data.length + "</font>");
+            subcol_4.html("<font color='darkcyan'>columns.securities: " + columns.securities.data.length + "</font>");
+            subcol_5.html("<font color='darkcyan'>columns.marketdata: " + columns.marketdata.data.length + "</font>");
+
+            var valuenow = parseInt(progress.download.attr('aria-valuenow'));
+            var valuemax = parseInt(progress.download.attr('aria-valuemax'));
+            valuenow += 1;
+            progress.download.attr('aria-valuenow', valuenow);
+            var width = valuenow + '/' + valuemax;
+            progress.download.html(width);
+            progress.download.css('width', ( 100 * valuenow/valuemax ) + '%');
+
+            // mark the ajax call as completed
+            deferred.resolve(securities);
+
+          }).fail( function (error) {
+            // mark the ajax call as failed
+            deferred.reject(error);
+            // TODO: FINISH THIS PART
+            alert ("ERROR: Request failed: " + request_columns);
+          });
+        }).fail( function (error) {
+          // mark the ajax call as failed
+          deferred.reject(error);
+          // TODO: FINISH THIS PART
+          alert ("ERROR: Request failed: " + request_securities);
+        });
+        return deferred.promise();
+      }
+    }
+    function get_iss_securities_secid (cell, secid, index, progress) { 
+      // security
+      if (    !map_secid_jqXHR_iss_securities_security_json.has(secid)
+           || !map_secid_jqXHR_iss_securities_security_json.get(secid).has(map_key_security_description)
+           || !map_secid_jqXHR_iss_securities_security_json.get(secid).has(map_key_security_boards)
+      ) {
+        // http://iss.moex.com/iss/reference/13  - http://iss.moex.com/iss/securities/AFKS
+        var row = grid_create_row(cell, prefix_security + secid);                 // grid-home-info-entire-security-{secid}
+        var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // grid-home-info-entire-security-{secid}-entire
+
+        var request = "https://iss.moex.com/iss" + 
+          "/securities/" + secid + 
+          ".json" 
+        console.log("GET security " + secid + " description: " + request);
+        var deferred = $.Deferred();
+        jQuery.get(request).done( function( security ) {
+          if (security === undefined)             { console.log("(get_iss_securities_secid) No security data received for "     + secid + ", index: " + index); return; }
+          if (security.description === undefined) { console.log("(get_iss_securities_secid) No description data received for "  + secid + ", index: " + index); return; }
+          if (security.boards === undefined)      { console.log("(get_iss_securities_secid) No boards data received for "       + secid + ", index: " + index); return; }
+          //var map = new Map();
+          //map.set(map_key_security_description,  security.description);
+          //map.set(map_key_security_boards,       security.boards);
+          //map_secid_jqXHR_iss_securities_security_json.set(secid, map);
+
+          // Disabling for the better performance
+          //var subrow    = grid_create_row(col, marker_row_main);         // grid-home-info-entire-security-{secid}-entire-main
+          //                grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-1
+          //var subcol_1  = grid_create_col(subrow, "col-md-3 align-top"); // grid-home-info-entire-security-{secid}-entire-main-2
+          //var subcol_2  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-3
+          //var subcol_3  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-4
+          //var subcol_4  = grid_create_col(subrow, "col-md-3 align-top"); // grid-home-info-entire-security-{secid}-entire-main-5
+          //var subcol_5  = grid_create_col(subrow, "col-md-1 align-top"); // grid-home-info-entire-security-{secid}-entire-main-5
+          //                grid_create_col(subrow, "col-md-2 align-top"); // grid-home-info-entire-security-{secid}-entire-main-6
+          //subcol_1.html("<font color='darkcyan'>" + request + "</font>");
+          //subcol_2.html("<font color='darkcyan'>description: "  + security.description.data.length + "</font>");
+          //subcol_3.html("<font color='darkcyan'>boards: "       + security.boards.data.length      + "</font>");
+
+          var description = security.description;
+          var boards      = security.boards;
+
+          //console.log(description);
+          //console.log(boards);
+
+          var arr_description = new Array();
+          $.each(description.data, function(i, arr) {
+            var obj = {
+              "name"        : arr[description.columns.indexOf("name")],
+              "title"       : arr[description.columns.indexOf("title")],
+              "value"       : arr[description.columns.indexOf("value")],
+              "type"        : arr[description.columns.indexOf("type")],
+              "sort_order"  : arr[description.columns.indexOf("sort_order")],
+              "is_hidden"   : arr[description.columns.indexOf("is_hidden")],
+              "precision"   : arr[description.columns.indexOf("precision")],
+            }
+            arr_description.push(obj);
+          })
+
+          var arr_boards = new Array();
+          $.each(boards.data, function(i, arr) {
+            var obj = {
+              "secid"           : arr[boards.columns.indexOf("secid")],
+              "boardid"         : arr[boards.columns.indexOf("boardid")],
+              "title"           : arr[boards.columns.indexOf("title")],
+              "board_group_id"  : arr[boards.columns.indexOf("board_group_id")],
+              "market_id"       : arr[boards.columns.indexOf("market_id")],
+              "market"          : arr[boards.columns.indexOf("market")],
+              "engine_id"       : arr[boards.columns.indexOf("engine_id")],
+              "engine"          : arr[boards.columns.indexOf("engine")],
+              "is_traded"       : arr[boards.columns.indexOf("is_traded")],
+              "decimals"        : arr[boards.columns.indexOf("decimals")],
+              "history_from"    : arr[boards.columns.indexOf("history_from")],
+              "history_till"    : arr[boards.columns.indexOf("history_till")],
+              "listed_from"     : arr[boards.columns.indexOf("listed_from")],
+              "listed_till"     : arr[boards.columns.indexOf("listed_till")],
+              "is_primary"      : arr[boards.columns.indexOf("is_primary")],
+              "currencyid"      : arr[boards.columns.indexOf("currencyid")],
+            }
+            arr_boards.push(obj);
+          })
+
+          var info = {
+            id    : secid,
+            index : index,
+            body  : {
+              doc: {
+                description : arr_description,
+                boards      : arr_boards,
+              }
+            }
+          }
+
+          var valuenow = parseInt(progress.download.attr('aria-valuenow'));
+          var valuemax = parseInt(progress.download.attr('aria-valuemax'));
+          valuenow += 1;
+          progress.download.attr('aria-valuenow', valuenow);
+          var width = valuenow + '/' + valuemax;
+          progress.download.html(width);
+          progress.download.css('width', ( 100 * valuenow/valuemax ) + '%');
+
+          es_update(info, progress.upload);
+
+          // mark the ajax call as completed
+          deferred.resolve(security);
+        }).fail( function (error) {
+          // mark the ajax call as failed
+          deferred.reject(error);
+          // TODO: FINISH THIS PART
+          alert ("ERROR: Request failed: " + request);
+        });
+        return deferred.promise();
+      }
+    }
+    async function get_board_securities_and_marketdata (cell, index) {
+      // https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/
+      // parameters for ajax calls
+      var items = new Array();
+      $.each(jqXHR_iss_index_json.boards.data, function(i, board) { //!!!!! .slice(0,10)
+        // 0: "id"
+        // 1: "board_group_id"
+        // 2: "engine_id"
+        // 3: "market_id"
+        // 4: "boardid"
+        // 5: "board_title"
+        // 6: "is_traded"
+        // 7: "has_candles"
+        // 8: "is_primary"
+        var engine      = get_iss_index_engine_by_id    (board[jqXHR_iss_index_json.boards.columns.indexOf("engine_id")]);
+        var market      = get_iss_index_market_by_id    (board[jqXHR_iss_index_json.boards.columns.indexOf("market_id")]);
+        var boardgroup  = get_iss_index_boardgroup_by_id(board[jqXHR_iss_index_json.boards.columns.indexOf("board_group_id")]);
+
+        items.push({
+          engine  : engine.name,
+          market  : market.name,
+          board   : board[jqXHR_iss_index_json.boards.columns.indexOf("boardid")],
+        })
+      })
+      console.log(items);
+
+      var row = grid_create_row(cell, marker_row_progress + "-" + marker_row_download); // grid-home-info-progress-download
+      var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);         // grid-home-info-progress-download-entire
+      
+      var progress_download = grid_create_progress(col, 0, 0, items.length, "Загрузка board securities и marketdata из ISS");
+
+      row = grid_create_row(cell, marker_row_progress + "-" + marker_row_upload);       // grid-home-info-progress-upload
+      col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);             // grid-home-info-progress-upload-entire
+
+      row_log = grid_create_row(cell, marker_row_log);                                  // grid-home-info-log
+      col_log = grid_create_col(row_log, "col-md-12 align-top", marker_col_entire);     // grid-home-info-log-entire
+
+      col_log.empty();
+      // https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/
+      // function to trigger the ajax call
+      var looper = $.Deferred().resolve();
+      // go through each item and call the ajax function
+      $.when.apply($, $.map(items, function(obj, i) {
+        looper = looper.then(function() {
+          // trigger ajax call with item data
+          var promise = get_iss_board_securities (cell, obj, { download : progress_download }); 
+          return promise;
+        });
+        return looper;
+      })).then(function() {
+        //col_log.empty();
+        var map = map_board_jqXHR_iss_engines_markets_boards_securities_json;
+        var progress = grid_create_progress(col, 0, 0, map.size, "Трансформация board securities и marketdata и загрузка в ElasticSearch, index: " + index);
+        es_index_iss_boards(index, progress);
+      });
+    }
+    async function get_description_and_boards (cell, index) {
+      const body = await es_search({ index: index, size : 30000 });
+      console.log(body.hits.hits)
+      // https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/
+      // parameters for ajax calls
+      var items = new Array();
+      $.each(body.hits.hits, function(i, sec) {
+        if ((sec._source.description.length == 0) && (sec._source.boards.length == 0)) {
+          items.push(sec._source.securities_iss.secid);
+        }
+      })
+      // console.log(items);
+
+      if (items.length == 0) {
+        console.log("(" + arguments.callee.name + ") All records are up to date for description and boards, index: " + index);
+        return;
+      }
+      
+      var row = grid_create_row(cell, marker_row_progress + "-" + marker_row_download); // grid-home-info-progress-download
+      var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);         // grid-home-info-progress-download-entire
+      var progress_download = grid_create_progress(col, 0, 0, items.length, "Загрузка description и boards из ISS");
+
+      row = grid_create_row(cell, marker_row_progress + "-" + marker_row_upload);       // grid-home-info-progress-upload
+      col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);             // grid-home-info-progress-upload-entire
+      var progress_upload = grid_create_progress(col, 0, 0, items.length, "Загрузка description и boards в ElasticSearch, index: " + index);
+
+      row_log = grid_create_row(cell, marker_row_log);                                  // grid-home-info-log
+      col_log = grid_create_col(row_log, "col-md-12 align-top", marker_col_entire);     // grid-home-info-log-entire
+
+      col_log.empty();
+      // https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/
+      // function to trigger the ajax call
+      var looper = $.Deferred().resolve();
+      // go through each item and call the ajax function
+      $.when.apply($, $.map(items, function(secid, i) {
+        looper = looper.then(function() {
+          // trigger ajax call with item data
+          var promise = get_iss_securities_secid(col_log, secid, index, { download : progress_download, upload : progress_upload }); 
+          
+          return promise;
+        });
+        return looper;
+      })).then(function() {
+        col_log.empty();
+      });
+    }
+
+    
+    async function es_download_hist_iss_market(cell, index, id, dates) {
+      var market = get_iss_index_market_by_id(id);
+      
+      var response = await es_search({ 
+        index: index, 
+        size : size_days_per_market, 
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-max-aggregation.html
+        body : {
+          "_source" : false,
+          "aggs" : {
+            "max_date" : { "max" : { "field" : "tradedate" } }
+          }
+        }
+      });
+      console.log(response);
+      var date_last = null;
+      if (response.aggregations.max_date.value !== null) {
+        //console.log(response.aggregations.max_date.value_as_string.replace(/\s/,"T"));
+        date_last = new Date(response.aggregations.max_date.value);
+        
+        date_last.setDate(date_last.getDate() + 1) // incrementing so the loop would start with the date after the last recorded
+        //console.log(date_last);
+      }
+      
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
+      var date_from = date_last ? date_last : new Date(dates.data[0][dates.columns.indexOf("from")]);
+      //!!! uncomment when ready to download the entire history
+      var date_till = new Date(dates.data[0][dates.columns.indexOf("till")]);
+      //var date_till = new Date(date_from.getTime() + 864000000)
+      //var date_till = new Date("1997-03-30");
+      date_till.setDate(date_till.getDate() + 1) // incrementing so the loop condition (< till) work
+      //console.log (date_from);                // Fri Sep 01 1995 06:00:00 GMT+0600 (Yekaterinburg Summer Time)
+      //console.log (date_from.getFullYear());
+      //console.log (date_from.getMonth() + 1);
+      //console.log (date_from.getDate());
+      //console.log (date_from.getHours());     // 6
+      //console.log (date_from.getMinutes());   // 0
+      //console.log (date_from.getSeconds());   // 0
+
+      console.log ("Date FROM: " + date_from);
+      console.log ("Date TILL: " + date_till);
+      
+      // https://stackoverflow.com/questions/492994/compare-two-dates-with-javascript
+      if (date_from.getTime() >= date_till.getTime()) {
+        console.log("(" + arguments.callee.name + ") market history records are up to date, index: " + index);
+        return;
+      }
+      
+      var num_of_days = 1 + (date_till.getTime() - date_from.getTime()) / (1000 * 3600 * 24); 
+      var row = grid_create_row(cell, marker_row_progress + "-" + marker_row_download); // grid-home-info-progress-download
+      var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);         // grid-home-info-progress-download-entire
+      var progress_download = grid_create_progress(col, 0, 0, num_of_days, "Загрузка history market data из ISS, market: " + market.trade_engine_name + "-" + market.name);
+      row = grid_create_row(cell, marker_row_progress + "-" + marker_row_upload);       // grid-home-info-progress-upload
+      col = grid_create_col(row, "col-md-12 align-top", marker_col_entire);             // grid-home-info-progress-upload-entire
+      var progress_upload = grid_create_progress(col, 0, 0, num_of_days, "Загрузка history market data в ElasticSearch, market: " + market.trade_engine_name + "-" + market.name);
+      row_log = grid_create_row(cell, marker_row_log);                                  // grid-home-info-log
+      col_log = grid_create_col(row_log, "col-md-12 align-top", marker_col_entire);     // grid-home-info-log-entire
+      col_log.empty();
+      
+      // https://stackoverflow.com/questions/1090815/how-to-clone-a-date-object
+      //   Use the Date object's getTime() method, which returns the number of milliseconds since 1 January 1970 00:00:00 (epoch time):
+      // https://stackoverflow.com/questions/3674539/incrementing-a-date-in-javascript
+      //   this should be done incrementing the current date since rollover wouldn't work after +32 days - should be set to +2 after +32
+      //!!! uncomment when ready to download the entire history
+      for (var date_curr = new Date(date_from.getTime()); date_curr < date_till; date_curr.setDate(date_curr.getDate() + 1) ) {
+      // Milliseconds:
+      // 2592000000 = 30 days
+      //  864000000 = 10 days
+      //  432000000 =  5 days‬
+      //for (var date_curr = new Date(date_till.getTime() - 864000000); date_curr < new Date(date_till.getTime()); date_curr.setDate(date_curr.getDate() + 1) ) {
+      //for (var date_curr = new Date(date_from.getTime()); date_curr < new Date(date_from.getTime() + 864000000); date_curr.setDate(date_curr.getDate() + 1) ) { 
+        console.log (date_curr);
+        
+        col_log.empty();
+        var subrow    = grid_create_row(col_log);                         // grid-home-info-log-entire-1
+                        grid_create_col(subrow, "col-md-1 align-top");    // grid-home-info-log-entire-1-1
+        var subcol_1  = grid_create_col(subrow, "col-md-7 align-top");    // grid-home-info-log-entire-1-2
+        var subcol_2  = grid_create_col(subrow, "col-md-3 align-top");    // grid-home-info-log-entire-1-3
+        var subcol_3  = grid_create_col(subrow, "col-md-1 align-top");    // grid-home-info-log-entire-1-4
+        //var subcol_4  = grid_create_col(subrow, "col-md-3 align-top");  // grid-home-info-log-entire-1-5
+        //var subcol_5  = grid_create_col(subrow, "col-md-1 align-top");  // grid-home-info-log-entire-1-6
+        //                grid_create_col(subrow, "col-md-2 align-top");  // grid-home-info-log-entire-1-7
+        
+        var year  = date_curr.getFullYear();
+        var month = ("0" + (date_curr.getMonth() + 1)).slice(-2); //months from 1-12
+        var day   = ("0" + date_curr.getDate()).slice(-2);
+        
+        var start = 0;
+        var arr_responses = new Array();
+        var request = "https://iss.moex.com/iss/history" 
+          + "/engines/" + market.trade_engine_name
+          + "/markets/" + market.name 
+          + "/securities.json"
+          + "?"
+          + "numtrades=1"
+          + "&"
+          + "date=" + year + "-" + month + "-" + day
+          + "&"
+          + "start=" + start
+        console.log("GET request: " + request);
+        // https://stackoverflow.com/questions/45286834/how-to-use-jquerys-post-method-with-async-await-and-typescript
+        data = await Promise.resolve(jQuery.get(request));
+        
+        subcol_1.html("<font color='darkcyan'>" + request + "</font>");
+        subcol_2.html("<font color='darkcyan'> Записей: " + data.history.data.length + "</font>");
+        
+        if (data.history.data.length > 0) { arr_responses.push(data); }
+        //console.log(data);
+        
+        while (data.history.data.length > 0) {
+          start += data.history.data.length;
+          var request = "https://iss.moex.com/iss/history" 
+            + "/engines/" + market.trade_engine_name
+            + "/markets/" + market.name 
+            + "/securities.json"
+            + "?"
+            + "numtrades=1"
+            + "&"
+            + "date=" + year + "-" + month + "-" + day
+            + "&"
+            + "start=" + start
+          console.log("GET request: " + request);
+          // https://stackoverflow.com/questions/45286834/how-to-use-jquerys-post-method-with-async-await-and-typescript
+          data = await Promise.resolve(jQuery.get(request));
+          
+          var subrow    = grid_create_row(col_log);                         // grid-home-info-log-entire-1
+                          grid_create_col(subrow, "col-md-1 align-top");    // grid-home-info-log-entire-1-1
+          var subcol_1  = grid_create_col(subrow, "col-md-7 align-top");    // grid-home-info-log-entire-1-2
+          var subcol_2  = grid_create_col(subrow, "col-md-3 align-top");    // grid-home-info-log-entire-1-3
+          var subcol_3  = grid_create_col(subrow, "col-md-1 align-top");    // grid-home-info-log-entire-1-4
+          //var subcol_4  = grid_create_col(subrow, "col-md-3 align-top");  // grid-home-info-log-entire-1-5
+          //var subcol_5  = grid_create_col(subrow, "col-md-1 align-top");  // grid-home-info-log-entire-1-6
+          //                grid_create_col(subrow, "col-md-2 align-top");  // grid-home-info-log-entire-1-7
+          subcol_1.html("<font color='darkcyan'>" + request + "</font>");
+          subcol_2.html("<font color='darkcyan'> Записей: " + data.history.data.length + "</font>");
+          if (data.history.data.length > 0) { arr_responses.push(data); }
+          //console.log(data);
+        }
+        
+        //console.log(arr_responses);
+        
+        if (arr_responses.length > 0) {
+          var first = null;
+          var args = new Array();
+          $.each (arr_responses, function (i, response) {
+            if (!first) { first = response.history.data; return; }
+            args.push(response.history.data);
+          })
+
+          var arr_sec = null;
+          if (args.length > 0) { 
+            // https://stackoverflow.com/questions/1316371/converting-an-array-to-a-function-arguments-list
+            // https://www.w3schools.com/jsref/jsref_concat_array.asp
+            arr_sec = first.concat(...args);            
+          } else {
+            arr_sec = first;
+          }
+          //console.log(arr_sec);
+
+          var doc = {
+              tradedate : year + "-" + month + "-" + day,
+              history: new Array(),
+          }
+          
+          if (arr_sec.length > 0) {
+            $.each(arr_sec, function (i_sec, sec) {
+              var obj_sec = {};
+              $.each(arr_responses[0].history.columns, function (i_col, column) {
+                obj_sec[column] = sec[i_col];
+              })
+              doc.history.push(obj_sec);
+            })
+          
+            //console.log(doc);
+            var info = {
+                id:       year + "-" + month + "-" + day,
+                index:    index,
+                body:     doc,
+            }
+            console.log(info);
+            //console.log(JSON.stringify(doc));
+            //setTimeout( function() { es_index(info, progress_upload, false); }, 500);
+            await es_index(info, progress_upload, false);
+          }
+        }
+        var valuenow = parseInt(progress_download.attr('aria-valuenow'));
+        var valuemax = parseInt(progress_download.attr('aria-valuemax'));
+        valuenow += 1;
+        progress_download.attr('aria-valuenow', valuenow);
+        var width = valuenow + '/' + valuemax;
+        progress_download.html(width);
+        progress_download.css('width', ( 100 * valuenow/valuemax ) + '%');
+      }
+    }
+    async function es_calc_index_list_market(cell, index_hist, index_list, dates) {
+      
+      var index_hist_ids = await es_search({ 
+        index   : index_hist, 
+        size    : size_days_per_market, 
+        _source : false,
+        sort    : "_id",
+        //_source : "tradedate",
+        //sort    : "tradedate",
+      });
+      console.log(index_hist_ids);
+      
+      var index_list_minmaxes = await es_search({ 
+        index: index_list, 
+        size : size_secs_per_market, 
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-max-aggregation.html
+        body : {
+          "_source" : false,
+          "aggs" : {
+            "min_date" : { "min" : { "field" : "date_from" } },
+            "max_date" : { "max" : { "field" : "date_till" } }
+          }
+        }
+      });
+      console.log(index_list_minmaxes);
+      
+      var index_list_response = await es_search({ 
+        index   : index_list, 
+        size    : size_secs_per_market, 
+        //_source : false,
+        sort    : "_id",
+      });
+      console.log(index_list_response);
+      
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
+      var date_iss_from = new Date(dates.data[0][dates.columns.indexOf("from")]);
+      var date_iss_till = new Date(dates.data[0][dates.columns.indexOf("till")]);
+      var date_hist_min = new Date(index_hist_ids.hits.hits[0]._id);
+      var date_hist_max = new Date(index_hist_ids.hits.hits[index_hist_ids.hits.hits.length - 1]._id);
+      var date_list_min = index_list_minmaxes.aggregations.min_date.value ? new Date(index_list_minmaxes.aggregations.min_date.value) : null;
+      var date_list_max = index_list_minmaxes.aggregations.max_date.value ? new Date(index_list_minmaxes.aggregations.max_date.value) : null;
+
+      console.log("ISS dates: " + date_iss_from + " - " + date_iss_till);
+      console.log("Market hist dates: " + date_hist_min + " - " + date_hist_max);
+      console.log("Market list dates: " + date_list_min + " - " + date_list_max);
+      
+      // https://stackoverflow.com/questions/492994/compare-two-dates-with-javascript
+      if (date_iss_till.getTime() > date_hist_max.getTime()) {
+        console.log("(" + arguments.callee.name + ") new history data available for download, push " + index_hist + " button");
+        return;
+      }
+      if (date_iss_till.getTime() === date_hist_max.getTime()) {
+        console.log("(" + arguments.callee.name + ") market history data is up to date, index: " + index_hist);
+      }
+      if (date_list_max && date_list_max.getTime() === date_hist_max.getTime()) {
+        console.log("(" + arguments.callee.name + ") market list is aligned with history data, index: " + index_list);
+        return;
+      }
+      if (date_list_max && date_hist_max.getTime() > date_list_max.getTime()) {
+        console.log("(" + arguments.callee.name + ") history data has new records, delete this index (" + index_list + ") and calculate again");
+        return;
+      }
+
+      var row = grid_create_row(cell, marker_row_progress);                     // grid-home-info-progress
+      var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // grid-home-info-progress-entire
+      var progress = grid_create_progress(col, 0, 0, index_hist_ids.hits.hits.length, "Расчёт периода торгов, index: " + index_hist);
+      
+      var obj_secs = {};
+      for (var i = 0; i < index_hist_ids.hits.hits.length; i += 1) {
+      //for (var i = 0; i < 100; i += 1) {
+        //https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#_get
+        var date_data = await client.get({
+          id      : index_hist_ids.hits.hits[i]._id,  //string,
+          index   : index_hist,             //string,
+          //type: string,
+          //stored_fields: string | string[],
+          //preference: string,
+          //realtime: boolean,
+          //refresh: boolean,
+          //routing: string,
+          _source: ["tradedate", "history.SECID"], //string | string[],
+          //_source_excludes: string | string[],
+          //_source_includes: string | string[],
+          //version: number,
+          //version_type: 'internal' | 'external' | 'external_gte' | 'force'
+        })
+        //console.log(date_data._id);
+        //console.log(date_data._source);
+        $.each (date_data._source.history, function (i, sec) {
+          if (!obj_secs.hasOwnProperty(sec.SECID)) {
+            obj_secs[sec.SECID] = { from : date_data._source.tradedate, till : null }
+          } else {
+            obj_secs[sec.SECID].till = date_data._source.tradedate;
+          }
+        })
+        var valuenow = parseInt(progress.attr('aria-valuenow'));
+        var valuemax = parseInt(progress.attr('aria-valuemax'));
+        valuenow += 1;
+        progress.attr('aria-valuenow', valuenow);
+        var width = valuenow + '/' + valuemax;
+        progress.html(width);
+        progress.css('width', ( 100 * valuenow/valuemax ) + '%');
+      }
+      //console.log(obj_secs);
+      console.log("obj_secs length: " + Object.keys(obj_secs).length);
+      
+      var body = new Array();
+      for (secid in obj_secs) {
+        var doc = {
+          "secid"     : secid,
+          "date_from" : obj_secs[secid].from,
+          "date_till" : obj_secs[secid].till,
+        }
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html#bulk-api-request-body
+        body.push({ 
+          index: { 
+            _index: index_list,
+            _id:    secid 
+          }
+        });
+        body.push(doc);
+      };
+
+      var info = {
+        body: body,
+      }
+      console.log(info);
+      await es_bulk(info, null, false).catch(console.log);
+
+    }
+    async function es_create_index_list_market(cell, index) {
+      //var market = get_iss_index_market_by_id(id);
+      
+      var mappings = {
+        properties: {
+          secid:      { type: "keyword" },
+          date_from:  { type: "date", format: "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+          date_till:  { type: "date", format: "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+        }
+      }
+      const settings = {
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html        
+          index: {
+            max_result_window: size_secs_per_market, // expecting up to 200K securities traded in market during the whole history period
+          }
+      }
+      // CREATING THE INDEX
+      // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#_indices_create
+      await client.indices.create({
+        index: index,
+        body: {
+          mappings: mappings,
+          settings: settings,
+        }
+      }, { ignore: [400] })
+      
+      
+      var row_log = grid_create_row(cell, marker_row_log);                                  // grid-home-info-log
+      var col_log = grid_create_col(row_log, "col-md-12 align-top", marker_col_entire);     // grid-home-info-log-entire
+      col_log.empty();
+      
+      $("<div/>", {html : "Index created: " + index + ". Press \"" + index + "\" button again to start the calculation."}).appendTo(col_log);
+    }
+    async function es_create_index_iss_market(cell, index, id, dates) {
+      var market = get_iss_index_market_by_id(id);
+      var request = "https://iss.moex.com/iss/history" 
+        + "/engines/" + market.trade_engine_name
+        + "/markets/" + market.name 
+        + "/securities.json"
+        + "?"
+        + "date=" + dates.data[0][dates.columns.indexOf("from")]
+      console.log("GET request: " + request);
+      // https://stackoverflow.com/questions/45286834/how-to-use-jquerys-post-method-with-async-await-and-typescript
+      data = await Promise.resolve(jQuery.get(request));
+      console.log(data);
+      
+      var mappings = {
+        properties: {
+          tradedate: { type: "date", format: "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+          // https://iss.moex.com/iss/securities?is_trading=true&limit=100&start=0
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/object.html
+          history: {
+            type: "nested",
+            properties: {
+            },
+          },
+        }
+      }
+      
+      for (field in data.history.metadata) {
+        //console.log(field);
+        //console.log(data.history.metadata[field]);
+        var obj = null;
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
+        switch (data.history.metadata[field].type) {
+          case "string":
+            obj = { type: "keyword" };
+            break;
+          case "date":
+          case "datetime":
+            obj = { type: "date", format: "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" };
+            break;
+          case "int32":
+            obj = { type: "integer" };
+            break;
+          case "int64":
+            obj = { type: "long" };
+            break;
+          case "double":
+            obj = { type: "double" };
+            break;
+          case "float":
+            obj = { type: "float" };
+            break;
+          default:
+            var error = "ERROR (" + arguments.callee.name + "): unknown type in market's history: " + data.history.metadata[field].type;
+            alert(error);
+            console.log(error);
+            return;
+            break;
+        }
+        
+        mappings.properties.history.properties[field] = obj;
+      }
+      console.log(mappings);
+      
+      
+      const settings = {
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html        
+          index: {
+            max_result_window: 30000,       // expecting up to 30K days of trade in a single market
+            //  Top hits result window is too large, the top hits aggregator [emitent]'s from + size must be less than or equal to: [100] but was [1000]. 
+            //  This limit can be set by changing the [index.max_inner_result_window] index level setting.
+            max_inner_result_window: 10000, // expecting up to 10K securities traded in a single day
+            mapping: {
+              // https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html
+              // * index.mapping.nested_fields.limit
+              //   The maximum number of distinct nested mappings in an index. The nested type should only be used in special cases, when arrays of objects need to be queried independently 
+              //   of each other. To safeguard against poorly designed mappings, this setting limits the number of unique nested types per index. Default is 50.
+              // * index.mapping.nested_objects.limit
+              //   The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document 
+              //   contains too many nested objects. Default is 10000.
+              nested_objects: {
+                limit: 10000, // expecting up to 10K listed in a single day
+              },
+            },
+          }
+      }
+      // CREATING THE INDEX
+      // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#_indices_create
+      await client.indices.create({
+        index: index,
+        body: {
+          mappings: mappings,
+          settings: settings,
+        }
+      }, { ignore: [400] })
+      
+      
+      var row_log = grid_create_row(cell, marker_row_log);                                  // grid-home-info-log
+      var col_log = grid_create_col(row_log, "col-md-12 align-top", marker_col_entire);     // grid-home-info-log-entire
+      col_log.empty();
+      
+      $("<div/>", {html : "Index created: " + index + ". Press \"" + index + "\" button again to start the download."}).appendTo(col_log);
+      
+    }
+    
+    async function es_index_iss_boards(index, progress) {
+      if (map_board_jqXHR_iss_engines_markets_boards_securities_json.size == 0) {
+        // https://www.w3resource.com/javascript-exercises/javascript-function-exercise-29.php
+        alert ("ERROR (" + arguments.callee.name + "): no boards securities data available");
+        return false;
+      }
+
+      var dynamic_templates = new Array();
+      var columns_processed = new Array();
+      // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities
+      // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/columns
+      map_board_jqXHR_iss_engines_markets_boards_securities_json.forEach( function( map_boardid, boardid ) {
+        var securities          = map_boardid.get(map_key_board_securities_board);
+        var marketdata          = map_boardid.get(map_key_board_marketdata);
+        var columns_securities  = map_boardid.get(map_key_board_columns_securities_board);
+        var columns_marketdata  = map_boardid.get(map_key_board_columns_marketdata);
+
+        var arr_metadata = [
+          securities.metadata,
+          marketdata.metadata,
+          columns_securities.metadata,
+          columns_marketdata.metadata,
+        ]
+
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-field-mapping.html
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html
+
+        $.each(arr_metadata, function (i, metadata) {
+          for (column in metadata) {
+            //console.log(column + '-' + metadata[column].type);
+            switch (metadata[column].type) {
+              case "undefined":
+                //console.log("WARNING (es_index_iss_boards): metadata [" + column + "] has type: " + metadata[column].type);
+              case "double":
+                if (columns_processed.indexOf(column) < 0) {
+                  columns_processed.push(column);
+                  var obj = {};
+                  obj[column + "_to_double"] = {
+                    match: column,
+                    mapping: {
+                      type: "double"
+                    }
+                  }
+                  dynamic_templates.push(obj)
+                }
+                break;
+              case "date":
+              case "datetime":
+                if (columns_processed.indexOf(column) < 0) {
+                  columns_processed.push(column);
+                  var obj = {};
+                  obj[column + "_to_date"] = {
+                    match: column,
+                    mapping: {
+                      // https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html#multiple-date-formats
+                      // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html
+                      type: "date",
+                      format: "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis",
+                    }
+                  }
+                  dynamic_templates.push(obj)
+                }
+                break;
+            }
+          }
+        });
+      });
+
+      console.log(dynamic_templates);
+
+      const mappings = {
+        dynamic_templates: dynamic_templates,
+        properties: {
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
+          //     if no format is specified then it uses the default: "strict_date_optional_time||epoch_millis"
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#strict-date-time
+          //   * date_optional_time or strict_date_optional_time
+          //     A generic ISO datetime parser where the date, in year_month_day format, is mandatory and the time, separated by T, is optional. 
+          //     Examples: yyyy-MM-dd'T'HH:mm:ss.SSSZ or yyyy-MM-dd.
+
+          // need dynamic mapping...
+          securities: {
+            type: "nested",
+          },
+          // need dynamic mapping...
+          marketdata: {
+            type: "nested",
+          },
+          columns: {
+            type: "object",
+            properties: {
+              // need dynamic mapping...
+              securities: {
+                type: "nested",
+              },
+
+              // need dynamic mapping...
+              marketdata: {
+                type: "nested",
+              },
+            }
+          }
+        }
+      }
+      const settings = {
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html        
+        index: {
+          max_result_window: 30000,
+          //  Top hits result window is too large, the top hits aggregator [emitent]'s from + size must be less than or equal to: [100] but was [1000]. 
+          //  This limit can be set by changing the [index.max_inner_result_window] index level setting.
+          max_inner_result_window: 10000,
+          mapping: {
+            // https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html
+            // * index.mapping.nested_fields.limit
+            //   The maximum number of distinct nested mappings in an index. The nested type should only be used in special cases, when arrays of objects need to be queried independently 
+            //   of each other. To safeguard against poorly designed mappings, this setting limits the number of unique nested types per index. Default is 50.
+            // * index.mapping.nested_objects.limit
+            //   The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document 
+            //   contains too many nested objects. Default is 10000.
+            nested_objects: {
+              limit: 60000, // expecting up to 60K securities + marketdata listed in a single board
+            },
+          },
+        }
+      }
+
+      // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities
+      // https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/columns
+      map_board_jqXHR_iss_engines_markets_boards_securities_json.forEach( function( map_boardid, boardid ) {
+        var securities          = map_boardid.get(map_key_board_securities_board);
+        var marketdata          = map_boardid.get(map_key_board_marketdata);
+        var columns_securities  = map_boardid.get(map_key_board_columns_securities_board);
+        var columns_marketdata  = map_boardid.get(map_key_board_columns_marketdata);
+
+        var doc = {
+          securities: new Array(),
+          marketdata: new Array(),
+          columns: {
+            securities: new Array(),
+            marketdata: new Array(),
+          }
+        }
+        $.each(securities.data, function (i, sec) {
+          var obj = {}
+          $.each(securities.columns, function(j, column) {
+            // reason: "failed to parse date field [0000-00-00] with format [strict_date_optional_time||epoch_millis]"
+            if (securities.data[i][j] == '0000-00-00') { return }
+            // https://stackoverflow.com/questions/1184123/is-it-possible-to-add-dynamically-named-properties-to-javascript-object?rq=1
+            obj[column] = securities.data[i][j];
+          })
+          doc.securities.push(obj);
+        });
+        $.each(marketdata.data, function (i, sec) {
+          var obj = {}
+          $.each(marketdata.columns, function(j, column) {
+            // reason: "failed to parse date field [0000-00-00] with format [strict_date_optional_time||epoch_millis]"
+            if (marketdata.data[i][j] == '0000-00-00') { return }
+            // https://stackoverflow.com/questions/1184123/is-it-possible-to-add-dynamically-named-properties-to-javascript-object?rq=1
+            obj[column] = marketdata.data[i][j];
+          })
+          doc.marketdata.push(obj);
+        });
+        $.each(columns_securities.data, function (i, line) {
+          var obj = {}
+          $.each(columns_securities.columns, function(j, column) {
+            // https://stackoverflow.com/questions/1184123/is-it-possible-to-add-dynamically-named-properties-to-javascript-object?rq=1
+            obj[column] = line[j];
+          })
+          doc.columns.securities.push(obj);
+        });
+        $.each(columns_marketdata.data, function (i, line) {
+          var obj = {}
+          $.each(columns_marketdata.columns, function(j, column) {
+            // https://stackoverflow.com/questions/1184123/is-it-possible-to-add-dynamically-named-properties-to-javascript-object?rq=1
+            obj[column] = line[j];
+          })
+          doc.columns.marketdata.push(obj);
+        });
+
+        var info = {
+          id:       boardid,
+          index:    index,
+          mappings: mappings,
+          settings: settings,
+          body:     doc,
+        }
+        console.log(info);
+        //console.log(JSON.stringify(doc));
+        setTimeout( function() { es_index(info, progress); }, 500);
+      });
+
+
+      //var info = {
+      //  index:    index,
+      //  mappings: mappings,
+      //  settings: settings,
+      //  body:     body,
+      //}
+      //console.log(info);
+      //es_bulk(info).catch(console.log);
+    }
+    function es_bulk_iss_securities(grid, index) {
+      if (arr_pages_jqXHR_iss_securities_json.length == 0) {
+        // https://www.w3resource.com/javascript-exercises/javascript-function-exercise-29.php
+        alert ("ERROR (" + arguments.callee.name + "): no securities data available");
+        return false;
+      }
+      
+      // metadata: arr_pages_jqXHR_iss_securities_json[0].securities.metadata
+      // emitent_id:          {type: "int32"}
+      // emitent_inn:         {type: "string", bytes: 30, max_size: 0}
+      // emitent_okpo:        {type: "string", bytes: 24, max_size: 0}
+      // emitent_title:       {type: "string", bytes: 765, max_size: 0}
+      // gosreg:              {type: "string", bytes: 189, max_size: 0}
+      // group:               {type: "string", bytes: 93, max_size: 0}
+      // id:                  {type: "int32"}
+      // is_traded:           {type: "int32"}
+      // isin:                {type: "string", bytes: 765, max_size: 0}
+      // marketprice_boardid: {type: "string", bytes: 12, max_size: 0}
+      // name:                {type: "string", bytes: 765, max_size: 0}
+      // primary_boardid:     {type: "string", bytes: 12, max_size: 0}
+      // regnumber:           {type: "string", bytes: 189, max_size: 0}
+      // secid:               {type: "string", bytes: 36, max_size: 0}
+      // shortname:           {type: "string", bytes: 189, max_size: 0}
+      // type:                {type: "string", bytes: 93, max_size: 0}
+
+      const mappings = {
+        properties: {
+          // https://iss.moex.com/iss/securities?is_trading=true&limit=100&start=0
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/object.html
+          securities_iss: {
+            properties: {
+              emitent_id:           {type: "integer"},
+              emitent_inn:          {type: "keyword"},
+              emitent_okpo:         {type: "keyword"},
+              emitent_title:        {type: "keyword"},
+              gosreg:               {type: "keyword"},
+              group:                {type: "keyword"},
+              id:                   {type: "integer"},
+              is_traded:            {type: "integer"},
+              isin:                 {type: "keyword"},
+              marketprice_boardid:  {type: "keyword"},
+              name:                 {type: "keyword"},
+              primary_boardid:      {type: "keyword"},
+              regnumber:            {type: "keyword"},
+              secid:                {type: "keyword"},
+              shortname:            {type: "keyword"},
+              type:                 {type: "keyword"},
+            },
+          },
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html
+          // * index.mapping.nested_fields.limit
+          //   The maximum number of distinct nested mappings in an index. The nested type should only be used in special cases, when arrays of objects need to be queried independently 
+          //   of each other. To safeguard against poorly designed mappings, this setting limits the number of unique nested types per index. Default is 50.
+          // * index.mapping.nested_objects.limit
+          //   The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document 
+          //   contains too many nested objects. Default is 10000.
+
+          // metadata:
+          // is_hidden:   {type: "int64"}
+          // name:        {type: "string", bytes: 189, max_size: 0}
+          // precision:   {type: "int64"}
+          // sort_order:  {type: "int64"}
+          // title:       {type: "string", bytes: 765, max_size: 0}
+          // type:        {type: "string", bytes: 21, max_size: 0}
+          // value:       {type: "string", bytes: 765, max_size: 0}
+
+          // https://stackoverflow.com/questions/30308817/elastic-search-mapping-for-nested-json-objects
+          // https://iss.moex.com/iss/securities/RI125000BR0B
+          description: {
+            type: "nested",
+            properties: {
+              is_hidden:  {type: "long"},
+              name:       {type: "keyword"},
+              precision:  {type: "long"},
+              sort_order: {type: "long"},
+              title:      {type: "keyword"},
+              type:       {type: "keyword"},
+              value:      {type: "keyword"},
+            }
+          },
+          
+          // metadata:
+          // board_group_id:  {type: "int32"}
+          // boardid:         {type: "string", bytes: 12, max_size: 0}
+          // currencyid:      {type: "string", bytes: 9, max_size: 0}
+          // decimals:        {type: "int32"}
+          // engine:          {type: "string", bytes: 45, max_size: 0}
+          // engine_id:       {type: "int32"}
+          // history_from:    {type: "date", bytes: 10, max_size: 0}
+          // history_till:    {type: "date", bytes: 10, max_size: 0}
+          // is_primary:      {type: "int32"}
+          // is_traded:       {type: "int32"}
+          // listed_from:     {type: "date", bytes: 10, max_size: 0}
+          // listed_till:     {type: "date", bytes: 10, max_size: 0}
+          // market:          {type: "string", bytes: 45, max_size: 0}
+          // market_id:       {type: "int32"}
+          // secid:           {type: "string", bytes: 36, max_size: 0}
+          // title:           {type: "string", bytes: 381, max_size: 0}
+
+          // https://stackoverflow.com/questions/30308817/elastic-search-mapping-for-nested-json-objects
+          // https://iss.moex.com/iss/securities/RI125000BR0B
+          boards: {
+            type: "nested",
+            properties: {
+              board_group_id:  {type: "integer"},
+              boardid:         {type: "keyword"},
+              currencyid:      {type: "keyword"},
+              decimals:        {type: "integer"},
+              engine:          {type: "keyword"},
+              engine_id:       {type: "integer"},
+              // https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
+              //     if no format is specified then it uses the default: "strict_date_optional_time||epoch_millis"
+              // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#strict-date-time
+              //   * date_optional_time or strict_date_optional_time
+              //     A generic ISO datetime parser where the date, in year_month_day format, is mandatory and the time, separated by T, is optional. 
+              //     Examples: yyyy-MM-dd'T'HH:mm:ss.SSSZ or yyyy-MM-dd.
+              history_from:    {type: "date"},
+              history_till:    {type: "date"},
+              is_primary:      {type: "integer"},
+              is_traded:       {type: "integer"},
+              listed_from:     {type: "date"},
+              listed_till:     {type: "date"},
+              market:          {type: "keyword"},
+              market_id:       {type: "integer"},
+              secid:           {type: "keyword"},
+              title:           {type: "keyword"},
+            }
+          },
+
+          // id:   { type: 'integer' },
+          // text: { type: 'text' },
+          // user: { type: 'keyword' },
+          // time: { type: 'date' }
+        }
+      }
+
+      const settings = {
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
+        index: {
+          max_result_window: 30000,
+          //  Top hits result window is too large, the top hits aggregator [emitent]'s from + size must be less than or equal to: [100] but was [1000]. 
+          //  This limit can be set by changing the [index.max_inner_result_window] index level setting.
+          max_inner_result_window: 10000,
+        }
+      }
+
+      var row     = grid_create_row(grid, marker_row_upload);                           // {grid}-upload
+      var col     = grid_create_col(row, "col-md-12 align-top", marker_col_entire);     // {grid}-upload-entire
+      var subrow  = grid_create_row(col, marker_row_progress);                          // {grid}-upload-entire-progress
+      var subcol  = grid_create_col(subrow, "col-md-12 align-top", marker_col_entire);  // {grid}-upload-entire-progress-entire
+
+      var progress = grid_create_progress(subcol, 0, 0, arr_pages_jqXHR_iss_securities_json.length, "Загрузка символов в ElasticSearch, index: " + index);
+      console.log(progress);
+      $.each(arr_pages_jqXHR_iss_securities_json, function (i, jqXHR) {
+        //console.log(jqXHR.securities.data);
+        var columns = jqXHR.securities.columns;
+        // columns: Array(16)
+        // 0: "id"
+        // 1: "secid"
+        // 2: "shortname"
+        // 3: "regnumber"
+        // 4: "name"
+        // 5: "isin"
+        // 6: "is_traded"
+        // 7: "emitent_id"
+        // 8: "emitent_title"
+        // 9: "emitent_inn"
+        // 10: "emitent_okpo"
+        // 11: "gosreg"
+        // 12: "type"
+        // 13: "group"
+        // 14: "primary_boardid"
+        // 15: "marketprice_boardid"
+        
+        var body = new Array();
+        $.each(jqXHR.securities.data, function (j, sec) {
+          var doc = {
+            "securities_iss": {
+              "id"                  : sec[jqXHR.securities.columns.indexOf("id")],
+              "secid"               : sec[jqXHR.securities.columns.indexOf("secid")],
+              "shortname"           : sec[jqXHR.securities.columns.indexOf("shortname")],
+              "regnumber"           : sec[jqXHR.securities.columns.indexOf("regnumber")],
+              "name"                : sec[jqXHR.securities.columns.indexOf("name")],
+              "isin"                : sec[jqXHR.securities.columns.indexOf("isin")],
+              "is_traded"           : sec[jqXHR.securities.columns.indexOf("is_traded")],
+              "emitent_id"          : sec[jqXHR.securities.columns.indexOf("emitent_id")],
+              "emitent_title"       : sec[jqXHR.securities.columns.indexOf("emitent_title")],
+              "emitent_inn"         : sec[jqXHR.securities.columns.indexOf("emitent_inn")],
+              "emitent_okpo"        : sec[jqXHR.securities.columns.indexOf("emitent_okpo")],
+              "gosreg"              : sec[jqXHR.securities.columns.indexOf("gosreg")],
+              "type"                : sec[jqXHR.securities.columns.indexOf("type")],
+              "group"               : sec[jqXHR.securities.columns.indexOf("group")],
+              "primary_boardid"     : sec[jqXHR.securities.columns.indexOf("primary_boardid")],
+              "marketprice_boardid" : sec[jqXHR.securities.columns.indexOf("marketprice_boardid")],
+            },
+            "description"         : new Array(),
+            "boards"              : new Array(),
+          }
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html#bulk-api-request-body
+          body.push({ 
+            index: { 
+              _index: index,
+              _id:    sec[jqXHR.securities.columns.indexOf("secid")] 
+            }
+          });
+          body.push(doc);
+        });
+
+        var info = {
+          index:    index,
+          mappings: mappings,
+          settings: settings,
+          body:     body,
+        }
+        console.log(info);
+        es_bulk(info, progress).catch(console.log);
+      });
+    }
+  </script>
+</html>

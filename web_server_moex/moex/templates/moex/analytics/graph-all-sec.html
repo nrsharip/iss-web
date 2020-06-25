@@ -1,0 +1,1715 @@
+<html>
+  {% load static %}
+
+  <title>{% block title %} Граф: ценные бумаги {% endblock %}</title>
+  <!-- https://www.favicon-generator.org/ -->
+  <link rel="apple-touch-icon" sizes="57x57" href='{% static "moex/icon2.ico/apple-icon-57x57.png" %}'>
+  <link rel="apple-touch-icon" sizes="60x60" href='{% static "moex/icon2.ico/apple-icon-60x60.png" %}'>
+  <link rel="apple-touch-icon" sizes="72x72" href='{% static "moex/icon2.ico/apple-icon-72x72.png" %}'>
+  <link rel="apple-touch-icon" sizes="76x76" href='{% static "moex/icon2.ico/apple-icon-76x76.png" %}'>
+  <link rel="apple-touch-icon" sizes="114x114" href='{% static "moex/icon2.ico/apple-icon-114x114.png" %}'>
+  <link rel="apple-touch-icon" sizes="120x120" href='{% static "moex/icon2.ico/apple-icon-120x120.png" %}'>
+  <link rel="apple-touch-icon" sizes="144x144" href='{% static "moex/icon2.ico/apple-icon-144x144.png" %}'>
+  <link rel="apple-touch-icon" sizes="152x152" href='{% static "moex/icon2.ico/apple-icon-152x152.png" %}'>
+  <link rel="apple-touch-icon" sizes="180x180" href='{% static "moex/icon2.ico/apple-icon-180x180.png" %}'>
+  <link rel="icon" type="image/png" sizes="192x192"  href='{% static "moex/icon2.ico/android-icon-192x192.png" %}'>
+  <link rel="icon" type="image/png" sizes="32x32" href='{% static "moex/icon2.ico/favicon-32x32.png" %}'>
+  <link rel="icon" type="image/png" sizes="96x96" href='{% static "moex/icon2.ico/favicon-96x96.png" %}'>
+  <link rel="icon" type="image/png" sizes="16x16" href='{% static "moex/icon2.ico/favicon-16x16.png" %}'>
+  <!-- This one causing 404 for android icons going out of Django 'static' parser -->
+  <!-- <link rel="manifest" href='{% static "moex/icon2.ico/manifest.json" %}'>   -->
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content='{% static "moex/icon2.ico/ms-icon-144x144.png" %}'>
+  <meta name="theme-color" content="#ffffff">
+
+  <div id="mobile-device-test"></div>
+
+  <!-- jQuery CDN – Latest Stable Versions: https://code.jquery.com/ -->
+  <!-- jQuery Core – All Versions:          https://code.jquery.com/jquery/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+  <!-- DataTables CDN: https://cdn.datatables.net/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- https://bashooka.com/coding/9-useful-javascript-color-libraries/ -->
+  <!-- chroma.js -->
+  <!-- https://gka.github.io/chroma.js/ -->
+  <!-- https://www.npmjs.com/package/chroma-js -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src='{% static "moex/node_modules/chroma-js/chroma.min.js" %}'></script> -->
+  <script src='{% static "moex/node_modules/chroma-js/chroma.js" %}'></script>
+
+
+  <!-- https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html -->
+  <script src='{% static "moex/node_modules/elasticsearch-browser/elasticsearch.jquery.min.js" %}'></script>
+
+  <style>
+    .divider{
+        width  :10px;
+        height :auto;
+        display:inline-block;
+    }
+  </style>
+
+  <!-- START SIGMA IMPORTS -->
+  <script src="{% static 'moex/sigma.js-1.2.1/src/sigma.core.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/conrad.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/utils/sigma.utils.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/utils/sigma.polyfills.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/sigma.settings.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.dispatcher.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.configurable.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.graph.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.camera.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.quad.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.edgequad.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/captors/sigma.captors.mouse.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/captors/sigma.captors.touch.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.canvas.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.webgl.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.svg.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.nodes.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.nodes.fast.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.fast.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.arrow.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.labels.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.hovers.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.nodes.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.curve.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.arrow.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.curve.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.extremities.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.utils.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.nodes.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.edges.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.edges.curve.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.labels.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.hovers.def.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/middlewares/sigma.middlewares.rescale.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/middlewares/sigma.middlewares.copy.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.animation.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.bindEvents.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.bindDOMEvents.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.drawHovers.js' %}"></script>
+  <!-- END SIGMA IMPORTS -->
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dashed.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dotted.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.parallel.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.tapered.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dashed.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dotted.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.parallel.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.tapered.js' %}"></script>
+  
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.layout.forceAtlas2/worker.js' %}"></script>
+  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.layout.forceAtlas2/supervisor.js' %}"></script>
+
+  <div id="container">
+    <style>
+      body {
+        margin: 0;
+      }
+      #graph-container {
+        top: 0%;
+        bottom: 0%;
+        left: 0px;
+        right: 0px;
+        position: absolute;
+        background: #fff;
+      }
+      #container {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: #ccc;
+      }
+    </style>
+    <div id="graph-container"></div>
+  </div>
+
+<!-- //!!! -->
+  <!--
+  <div id="container">
+    <style>
+      #graph-container {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+      }
+    </style>
+    <div id="graph-container"></div>
+  </div>
+  -->
+  <!-- https://en.wikipedia.org/wiki/Mesh_generation -->
+  <!-- https://en.wikipedia.org/wiki/Types_of_mesh -->
+  <!-- https://en.wikipedia.org/wiki/Polygon_mesh -->
+  <!-- https://en.wikipedia.org/wiki/Ruppert%27s_algorithm -->
+  <!-- http://toxiclibs.org/ -->
+  <!-- http://toxiclibs.org/docs/core/ -->
+  <!-- http://haptic-data.com/toxiclibsjs -->
+  <!-- https://github.com/hapticdata/toxiclibsjs -->
+  <script src="{% static 'moex/toxiclibsjs-master/build/toxiclibs.min.js' %}"></script>
+
+  <!-- https://en.wikipedia.org/wiki/Packing_problems#Packing_rectangles -->
+  <!-- Google: rectangle packing javascript -->
+  <!-- https://www.google.com/search?rlz=1C1CHZL_enUS739US739&biw=1707&bih=838&sxsrf=ALeKk0023SvDin395jHOLv6FtMv5iiYGzg%3A1592223993850&ei=-WjnXtCqM4GrmwWoho_ICA&q=rectangle+packing+javascript&oq=Packing+rectangles+ja&gs_lcp=CgZwc3ktYWIQAxgAMgYIABAWEB4yBggAEBYQHjoCCAA6CAgAEBYQChAeUPGsiQFYuLuJAWDbyYkBaABwAHgAgAF9iAHmA5IBAzAuNJgBAKABAqABAaoBB2d3cy13aXo&sclient=psy-ab -->
+  <!-- https://github.com/mapbox/potpack -->
+  <script src="{% static 'moex/node_modules/potpack/index.js' %}"></script>
+
+
+
+  <script src='{% static "moex/scripts/global.js" %}'></script>
+  <script>
+    uri = {{ bucket }};
+  </script>
+  <script>
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+    // https://stackoverflow.com/questions/27612372/how-to-await-the-ajax-request
+
+    // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
+    // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
+
+    es_hits_all_sec                             = null;
+    es_hits_all_boards                          = null;
+    es_response_all_sec_aggs_by_type            = null;
+    es_response_all_sec_no_emitent_aggs_by_type = null;
+    es_hits_max_boards                          = null;
+
+
+    arr_agg_emitents = new Array();
+
+    g = {
+      nodes: [],
+      edges: []
+    };
+
+    $( document ).ready(function() {
+      var request = "http://iss.moex.com/iss/index.json"
+      console.log("GET iss/index: " + request);
+      // http://iss.moex.com/iss/reference/28
+      // http://iss.moex.com/iss/index
+      jQuery.get("http://iss.moex.com/iss/index.json").done( function( data ) {
+        jqXHR_iss_index_json = data;
+
+        process_iss_index_markets();              // map_jqXHR_iss_index_json_markets_data              : engine -> markets
+        process_iss_index_boardgroups();          // map_jqXHR_iss_index_json_boardgroups_data          : engine -> markets -> boardgroups
+        process_iss_index_boards();               // map_jqXHR_iss_index_json_boards_data               : engine -> markets -> boardgroups -> boards
+        process_iss_index_securitytypes();        // map_jqXHR_iss_index_json_securitytypes_data        : engine -> securitytypes
+        process_iss_index_securitygroups();       // map_jqXHR_iss_index_json_securitygroups_data       : engine -> securitygroups
+        process_iss_index_securitycollections();  // map_jqXHR_iss_index_json_securitycollection_data   : engine -> securitygroups -> securitycollection
+
+        var grid = $("<div/>", {'class' : "container-fluid", 'id' : prefix_grid + marker_row_home});  // grid-home
+        grid.appendTo($("#graph-container"));
+        
+        main(grid);
+      });
+    });
+
+    async function main(grid) {
+      var title = "";
+      var response = null;
+      var row = grid_create_row(grid);                                          // grid-home-1
+      var col = grid_create_col(row, "col-md-12 align-top", marker_col_entire); // grid-home-1-entire
+      var spinner = grid_create_spinner(col);
+
+
+
+      // colors = ['#fe0000', '#fdfe02', '#0bff01', '#011efe', '#fe00f6'];  // https://www.color-hex.com/color-palette/1131
+      // var colors = ['#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425']; // https://www.color-hex.com/color-palette/700 
+      // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+      //var colors = ['#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928']
+
+      //console.log("security types:");
+      //$.each(jqXHR_iss_index_json.securitytypes.data, function (i, type) {
+      //  console.log(type[jqXHR_iss_index_json.securitytypes.columns.indexOf("security_type_name")]);
+      //});
+      var colors = {
+        emitent                 : '#d11141',  // colors[0] // https://www.color-hex.com/color-palette/700 
+        common_share            : '#f37735',  // colors[3] // https://www.color-hex.com/color-palette/700 
+        preferred_share         : '#a6cee3',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        depositary_receipt      : '#1f78b4',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        ofz_bond                : '#b2df8a',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        cb_bond                 : '#33a02c',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        subfederal_bond         : '#fb9a99',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        municipal_bond          : '#e31a1c',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        corporate_bond          : '#fdbf6f',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        exchange_bond           : '#00b159',  // colors[1] // https://www.color-hex.com/color-palette/700 
+        ifi_bond                : '#ff7f00',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        euro_bond               : '#cab2d6',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        public_ppif             : '#6a3d9a',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        interval_ppif           : '#ffff99',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        rts_index               : '#b15928',  // colors[] // https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+        private_ppif            : '#c33c3c',  // colors[] // https://colorswall.com/palette/65646
+        stock_mortgage          : '#df9999',  // colors[] // https://colorswall.com/palette/65646
+        etf_ppif                : '#0c547c',  // colors[] // https://colorswall.com/palette/65646
+        stock_index             : '#96624f',  // colors[] // https://colorswall.com/palette/65646
+        gcc                     : '#9187af',  // colors[] // https://colorswall.com/palette/65646
+        exchange_ppif           : '#583357',  // colors[] // https://colorswall.com/palette/65646
+        stock_deposit           : '#fb6154',  // colors[] // https://colorswall.com/palette/65519
+        state_index             : '#fccd7c',  // colors[] // https://colorswall.com/palette/65519
+        state_bond              : '#810c03',  // colors[] // https://colorswall.com/palette/65519
+        currency_index          : '#599685',  // colors[] // https://colorswall.com/palette/65519
+        currency                : '#415f50',  // colors[] // https://colorswall.com/palette/65519
+        currency_basket         : '#f6b815',  // colors[] // https://colorswall.com/palette/65498
+        gold_metal              : '#ebcd89',  // colors[] // https://colorswall.com/palette/65498
+        silver_metal            : '#5a830a',  // colors[] // https://colorswall.com/palette/65498
+        currency_futures        : '#885044',  // colors[] // https://colorswall.com/palette/65498
+        currency_fixing         : '#b3bcc7',  // colors[] // https://colorswall.com/palette/65498
+        currency_wap            : '#605f5e',  // colors[] // https://colorswall.com/palette/65498
+        futures                 : '#ffc425',  // colors[4] // https://www.color-hex.com/color-palette/700 
+        option                  : '#00aedb',  // colors[2] // https://www.color-hex.com/color-palette/700 
+        commodity_futures       : '#2c0ebc',  // colors[] // https://colorswall.com/palette/65500
+        commodity_intervention  : '#92064a',  // colors[] // https://colorswall.com/palette/65500
+      }
+
+
+/*
+      // ====== NEW SEARCH ======
+      spinner.find("strong").html("<font color='darkcyan'>Загрузка акций...</font>");
+      response = await es_search({ index: esi_all_sec, size : size_all_sec });
+      console.log(response)
+      es_hits_all_sec = response.hits.hits;
+
+*/
+
+      // ====== NEW SEARCH ======
+      title = "Загрузка данных с рынка...";
+      console.log(title);
+      spinner.find("strong").html("<font color='darkcyan'>" + title + "</font>");
+      response = await es_search({ 
+        index   : esi_all_boards, 
+        size    : size_all_sec, 
+        _source : ["marketdata.SYSTIME", "marketdata.BOARDID", "marketdata.SECID", "marketdata.VALTODAY", "marketdata.VALTODAY_RUR", "marketdata.VALTODAY_USD"]
+      });
+      console.log(response)
+      //es_hits_all_boards = response.hits.hits;
+      es_hits_all_boards = {};
+      $.each(response.hits.hits, function (i, hit) {
+        var marketdata = {};
+        $.each(hit._source.marketdata, function (i, sec) {
+          marketdata[sec.SECID] = sec;
+        });
+        es_hits_all_boards[hit._id] = marketdata;
+      });
+
+      // ====== NEW SEARCH ======
+      title = "Загрузка сортированных данных с рынка...";
+      console.log(title);
+      spinner.find("strong").html("<font color='darkcyan'>" + title + "</font>");
+      response = await es_search({ 
+        index: esi_all_boards, 
+        size : size_all_sec, 
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html#search-search-api-request-body
+// - docvalue_fields (Optional, array of strings and objects) Array of wildcard (*) patterns. 
+//                                                            The request returns doc values for field names matching these patterns in the hits.fields property of the response. 
+//                                                            You can specify items in the array as a string or object. See Doc value fields.
+//    Properties of docvalue_fields objects
+//    * field   (Required, string)  Wildcard pattern. The request returns doc values for field names matching this pattern.
+//    * format  (Optional, string)  Format in which the doc values are returned.
+//                                  For date fields, you can specify a date date format. For numeric fields fields, you can specify a DecimalFormat pattern.
+//                                  For other field datatypes, this parameter is not supported.
+// - explain  (Optional, boolean) If true, returns detailed information about score computation as part of a hit. Defaults to false.
+// - from     (Optional, integer) Starting document offset. Defaults to 0.
+//                                By default, you cannot page through more than 10,000 documents using the from and size parameters. 
+//                                This limit is set using the index.max_result_window index setting.
+//                                Deep paging or requesting many results at once can result in slow searches. Results are sorted before being returned. 
+//                                Because search requests usually span multiple shards, each shard must generate its own sorted results. 
+//                                These separate results must then be combined and sorted to ensure that the overall order is correct.
+//                                As an alternative to deep paging, we recommend using scroll or the search_after parameter.
+// - query    (Optional, query object)        Defines the search definition using the Query DSL.
+// - seq_no_primary_term (Optional, boolean)  If true, returns sequence number and primary term of the last modification of each hit. See Optimistic concurrency control.
+// - size     (Optional, integer)             The number of hits to return. Defaults to 10.
+//                                            By default, you cannot page through more than 10,000 documents using the from and size parameters. 
+//                                            This limit is set using the index.max_result_window index setting.
+//                                            Deep paging or requesting many results at once can result in slow searches. 
+//                                            Results are sorted before being returned. Because search requests usually span multiple shards, each shard must generate its own sorted results. 
+//                                            These separate results must then be combined and sorted to ensure that the overall order is correct.
+//                                            As an alternative to deep paging, we recommend using scroll or the search_after parameter.
+//                                            If the scroll parameter is specified, this value cannot be 0.
+// - _source  (Optional) Indicates which source fields are returned for matching documents. These fields are returned in the hits._source property of the search response. Defaults to true.
+//    Valid values for _source
+//    * true (boolean) The entire document source is returned.
+//    * false (boolean) The document source is not returned.
+//    * <wildcard_pattern> (string or array of strings) Wildcard (*) pattern or array of patterns containing source fields to return.
+//    * <object> (object) Object containing a list of source fields to include or exclude.
+//      Properties for <object>
+//      + excludes (string or array of strings) Wildcard (*) pattern or array of patterns containing source fields to exclude from the response. 
+//                                              You can also use this property to exclude fields from the subset specified in includes property.
+//      + includes (string or array of strings) Wildcard (*) pattern or array of patterns containing source fields to return. 
+//                                              If this property is specified, only these source fields are returned. You can exclude fields from this subset using the excludes property.
+// - terminate_after (Optional, integer)  The maximum number of documents to collect for each shard, upon reaching which the query execution will terminate early. 
+//                                        Defaults to 0, which does not terminate query execution early.
+// - timeout (Optional, time units) Specifies the period of time to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. 
+//                                  Defaults to no timeout.
+// - version (Optional, boolean)    If true, returns document version as part of a hit. Defaults to false.
+        body : {
+            // https://stackoverflow.com/questions/43426444/sort-a-nested-array-and-return-top-10-in-elastic
+            //"_source": ["marketdata"],
+            "query": {
+              "nested": {
+                // [nested] query does not support [_source]
+                "path": "marketdata",
+                "query": {
+                    "match_all": {}
+                },
+                "inner_hits": {
+                  "_source": ["marketdata.SYSTIME", "marketdata.BOARDID", "marketdata.SECID", "marketdata.VALTODAY", "marketdata.VALTODAY_RUR", "marketdata.VALTODAY_USD"],
+                  "sort": [{
+                    "marketdata.VALTODAY": "desc"
+                  }],
+                  size: 1, // we need only 1 hit with max value
+                }
+              }
+            },
+/* // workking
+            "query": {
+                "bool": {
+                    "must": [
+                        //{
+                        //    "terms": {
+                        //        "_id": ["ROPD"]
+                        //    }
+                        //},
+                        {
+                            "nested": {
+                                "path": "marketdata",
+                                "query": {
+                                    "match_all": {}
+                                },
+                                "inner_hits": {
+                                    "sort": [{
+                                        "marketdata.VALTODAY": "desc"
+                                    }],
+                                    size: 5, // see scripts.js: max_inner_result_window:
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+*/
+            //"sort": [{
+            //    "marketdata.VALTODAY": {
+            //        "order": "asc",
+            //        "nested_path": "marketdata"
+            //    }
+            //}]
+        }
+      });
+      console.log(response)
+      es_hits_max_boards = {};
+      $.each(response.hits.hits, function (i, hit) {
+        es_hits_max_boards[hit._id] = hit.inner_hits.marketdata.hits.hits[0]._source;
+      });
+
+/*
+      // ====== NEW SEARCH ====== // empty emitent id
+      title = "Загрузка ценных бумаг без эмитента...";
+      console.log(title);
+      spinner.find("strong").html("<font color='darkcyan'>" + title + "</font>");
+      response = await es_search({ 
+        index: esi_all_sec, 
+        size : size_all_sec,
+        body : {
+          "query": {
+            "bool": {
+              "must_not": {
+                "exists": {
+                  "field": "securities_iss.emitent_id"
+                }
+              }
+            }
+          }
+        }
+      });
+      if (response.error) { console.log("ERROR: ") };
+      console.log(response)
+*/
+
+      // ====== NEW SEARCH ====== // empty emitent id aggregated by type
+      title = "Загрузка агрегации ценных бумаг без эмитента по типу...";
+      console.log(title);
+      spinner.find("strong").html("<font color='darkcyan'>" + title + "</font>");
+      response = await es_search({ 
+        index: esi_all_sec, 
+        size : 0, // no need in general search...
+        body : {
+          "query": {
+            "bool": {
+              "must_not": {
+                "exists": {
+                  "field": "securities_iss.emitent_id"
+                }
+              }
+            }
+          },
+          aggs: {
+            "sec_types": {
+              terms : { 
+                field : "securities_iss.type", 
+                // https://stackoverflow.com/questions/22927098/show-all-elasticsearch-aggregation-results-buckets-and-not-just-10
+                size : size_all_inner_sec,
+              },
+              aggs: {
+                "sec_type": {
+                  top_hits: {
+                    size: size_all_inner_sec, 
+                    //_source: {
+                    //  include: [
+                    //    'securities_iss.emitent_id',
+                    //    'securities_iss.emitent_inn',
+                    //    'securities_iss.emitent_okpo',
+                    //    'securities_iss.emitent_title',
+                    //  ]
+                    //}
+                  }
+                },
+              }
+            }
+          }
+        }
+      });
+      if (response.error) { console.log("ERROR: ") };
+      console.log(response)
+      es_response_all_sec_no_emitent_aggs_by_type = response;
+
+      // ====== NEW SEARCH ======
+      title = "Загрузка агрегации ценных бумаг по эмитентам и по типам...";
+      console.log(title);
+      spinner.find("strong").html("<font color='darkcyan'>" + title + "</font>");
+      response = await es_search({ 
+        // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html
+        //   * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket.html
+        //        NOTE: The maximum number of buckets allowed in a single response is limited by a dynamic cluster setting named search.max_buckets. 
+        //              It defaults to 10,000, requests that try to return more than the limit will fail with an exception. 
+
+        //   * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics.html
+        //   * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-matrix.html
+        //   * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-pipeline.html
+        index: esi_all_sec, 
+        size : 0, // no need in general search...
+        body : {
+          aggs : {
+            "emitents" : {
+              terms : { 
+                field : "securities_iss.emitent_id", 
+                // https://stackoverflow.com/questions/22927098/show-all-elasticsearch-aggregation-results-buckets-and-not-just-10
+                size : size_all_sec,
+              },
+              // https://stackoverflow.com/questions/33301915/adding-additional-fields-to-elasticsearch-terms-aggregation
+              // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-top-hits-aggregation.html
+              aggs: {
+                "emitent": {
+                  top_hits: {
+                    size: 1, //size_emitent_sec, - change to get the full list of securities for emitent, now it is sufficient to aggregate by sec type below 
+                    //_source: {
+                    //  include: [
+                    //    'securities_iss.emitent_id',
+                    //    'securities_iss.emitent_inn',
+                    //    'securities_iss.emitent_okpo',
+                    //    'securities_iss.emitent_title',
+                    //  ]
+                    //}
+                  }
+                },
+                "sec_types": {
+                  terms : { 
+                    field : "securities_iss.type", 
+                    // https://stackoverflow.com/questions/22927098/show-all-elasticsearch-aggregation-results-buckets-and-not-just-10
+                    size : size_emitent_sec,
+                  },
+                  aggs: {
+                    "sec_type": {
+                      top_hits: {
+                        size: size_emitent_sec, 
+                        //_source: {
+                        //  include: [
+                        //    'securities_iss.emitent_id',
+                        //    'securities_iss.emitent_inn',
+                        //    'securities_iss.emitent_okpo',
+                        //    'securities_iss.emitent_title',
+                        //  ]
+                        //}
+                      }
+                    },
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+      if (response.error) { console.log("ERROR: ") };
+      console.log(response)
+      es_response_all_sec_aggs_by_type = response;
+
+      // ====== SEARCH OVER ======
+
+      console.log("es_hits_all_sec:");
+      console.log(es_hits_all_sec);
+      console.log("es_hits_all_boards:");
+      console.log(es_hits_all_boards);
+      console.log("es_hits_max_boards:");
+      console.log(es_hits_max_boards);
+      console.log("es_response_all_sec_aggs_by_type:");
+      console.log(es_response_all_sec_aggs_by_type);
+      console.log("es_response_all_sec_no_emitent_aggs_by_type:");
+      console.log(es_response_all_sec_no_emitent_aggs_by_type);
+
+      // http://toxiclibs.org/docs/core/
+      var width  = $(window).width();
+      var height = $(window).height();
+      var ratio  = $(window).width()/$(window).height();
+      var Vec2D  = toxi.geom.Vec2D;
+
+      // NO EMITENTS
+      var no_emitent_sec_base_futures_option  = {};
+      var no_emitent_sec_misc  = {};
+      function calc_no_emitent_sec_all () {
+      // 0: {key: "option", doc_count: 7728, sec_type: {…}}
+      // 1: {key: "stock_index", doc_count: 230, sec_type: {…}}
+      // 2: {key: "futures", doc_count: 202, sec_type: {…}}
+      // 3: {key: "currency", doc_count: 81, sec_type: {…}}
+      // 4: {key: "currency_futures", doc_count: 48, sec_type: {…}}
+      // 5: {key: "gold_metal", doc_count: 9, sec_type: {…}}
+      // 6: {key: "silver_metal", doc_count: 9, sec_type: {…}}
+      // 7: {key: "currency_index", doc_count: 8, sec_type: {…}}
+      // 8: {key: "currency_fixing", doc_count: 2, sec_type: {…}}
+      // 9: {key: "exchange_bond", doc_count: 2, sec_type: {…}}
+      // 10: {key: "stock_deposit", doc_count: 2, sec_type: {…}}
+      // 11: {key: "currency_basket", doc_count: 1, sec_type: {…}}
+      // 12: {key: "currency_wap", doc_count: 1, sec_type: {…}}
+
+      var log_e = true;
+      var count_e = 0;
+      var arr_errors = [];
+
+      // misc
+      $.each(es_response_all_sec_no_emitent_aggs_by_type.aggregations.sec_types.buckets, function (i, bucket) {      
+        switch (bucket.key) {
+          case "futures":
+          case "option":
+            break;
+          default:
+            if (!no_emitent_sec_misc.hasOwnProperty(bucket.key)) {
+              no_emitent_sec_misc[bucket.key] = {}
+            }
+            $.each(bucket.sec_type.hits.hits, function (j, hit) {
+              no_emitent_sec_misc[bucket.key][hit._source.securities_iss.secid] = { sec : hit };
+            });
+            break;
+        }
+
+      });
+
+      // futures
+      $.each(es_response_all_sec_no_emitent_aggs_by_type.aggregations.sec_types.buckets, function (i, bucket) {      
+        switch (bucket.key) {
+          case "futures":
+            //console.log("--------" + bucket.key + "--------");
+            $.each(bucket.sec_type.hits.hits, function (j, hit) {
+              var desc = {};
+              $.each (hit._source.description, function (i, description) {
+                desc[description.name] = description.value;
+              })
+
+              if (!desc.ASSETCODE) { 
+                var error = "(no emitent) futures secid: " + hit._source.securities_iss.secid + " doesn't have the base security in the description";
+                arr_errors.push(error);
+                if (log_e) {
+                  console.log(error);
+                  console.log(desc);
+                }
+                count_e += 1;
+                return;
+              } 
+
+              if (!no_emitent_sec_base_futures_option.hasOwnProperty(desc.ASSETCODE)) {
+                no_emitent_sec_base_futures_option[desc.ASSETCODE] = {}
+              }
+              // storing the shortname to further reference the options
+              no_emitent_sec_base_futures_option[desc.ASSETCODE][hit._source.securities_iss.shortname] = { sec : hit };
+            });
+            break;
+        }
+      });
+      // option
+      $.each(es_response_all_sec_no_emitent_aggs_by_type.aggregations.sec_types.buckets, function (i, bucket) {      
+        switch (bucket.key) {
+          case "option":
+            //console.log("--------" + bucket.key + "--------");
+            $.each(bucket.sec_type.hits.hits, function (j, hit) {
+              var desc = {};
+              $.each (hit._source.description, function (i, description) {
+                desc[description.name] = description.value;
+              })
+
+              if (!desc.ASSETCODE) { 
+                var error = "(no emitent) option secid: " + hit._source.securities_iss.secid + " doesn't have the base security in the description";
+                arr_errors.push(error);
+                if (log_e) { console.log(error); console.log(desc); }
+                count_e += 1;
+                return;
+              } 
+              if (!no_emitent_sec_base_futures_option.hasOwnProperty(desc.ASSETCODE)) {
+                var error = "(no emitent) option secid: " + hit._source.securities_iss.secid + " base: " + desc.ASSETCODE  + " is not in no_emitent_sec_base_futures_option";
+                arr_errors.push(error);
+                if (log_e) { console.log(error); }
+                count_e += 1;
+                return;
+              }
+              
+              // Eu-12.20M171220CA71000
+              // BR-8.20M280720CA18
+              //                                       m[1]             
+              var m = desc.SHORTNAME.match(/([a-zA-Z]+-[0-9]+\.[0-9]{2})/);
+              if (!m) {
+                var error = "(no emitent) option "
+                  + "secid: " + hit._source.securities_iss.secid 
+                  + " couldn't regex the desc.SHORTNAME: " + desc.SHORTNAME;
+                arr_errors.push(error);
+                if (log_e) { console.log(error); }
+                count_e += 1;
+                return;
+              }
+              
+              var assetcode = m[1];
+              
+              if (!no_emitent_sec_base_futures_option[desc.ASSETCODE].hasOwnProperty(assetcode)) {
+                var error = "(no emitent) option " 
+                  + "secid: " + hit._source.securities_iss.secid 
+                  + " base: " + desc.ASSETCODE  
+                  + " futures: " + assetcode
+                  + " is not in no_emitent_sec_base_futures_option";
+                arr_errors.push(error);
+                if (log_e) { console.log(error); }
+                count_e += 1;
+                return;
+              }
+
+              if (!no_emitent_sec_base_futures_option[desc.ASSETCODE][assetcode].hasOwnProperty("der")) { 
+                no_emitent_sec_base_futures_option[desc.ASSETCODE][assetcode].der = {}; 
+              }
+              no_emitent_sec_base_futures_option[desc.ASSETCODE][assetcode].der[hit._source.securities_iss.secid] = { sec : hit };
+            });
+            break;
+        }
+      });
+      }
+      calc_no_emitent_sec_all();
+      console.log("no_emitent_sec_base_futures_option:");
+      console.log(no_emitent_sec_base_futures_option);
+      console.log("no_emitent_sec_misc:");
+      console.log(no_emitent_sec_misc);
+
+      //for (base in no_emitent_sec_base_futures_option) {
+      //  console.log(base);
+      //}
+      var no_emitent_sec_base_titles = {
+        ED    : "курс евро-доллар США",
+        AUDU  : "курс австралийский доллар – доллар США",
+        BR    : "нефть Brent",
+        GBMW  : "обыкновенные акции BMW AG",
+        UCAD  : "курс доллар США - канадский доллар",
+        AFKS  : "обыкновенные акции ПАО «Акционерная финансовая корпорация «Система»",
+        ALMN  : "алюминий",
+        UCHF  : "курс доллар США-швейцарский франк",
+        GDBK  : "обыкновенные акции Deutsche Bank AG",
+        CY    : "курс китайский юань - российский рубль",
+        Co    : "медь",
+        '1MDR': "ставка RUSFARUSD",
+        GDAI  : "обыкновенные акции Daimler AG",
+        CL    : "нефть Light Sweet Crude Oil",
+        FIVE  : "глобальные депозитарные расписки (ГДР) на акции Икс 5 Ритейл Груп Н.В.",
+        GOLD  : "золото",
+        UINR  : "курс доллар США – индийская рупия",
+        UJPY  : "курс доллар США – японская йена",
+        '1MFR': "ставка RUSFAR",
+        PLD   : "палладий",
+        OF10  : "\"десятилетние\" облигации федерального займа",
+        OF15  : "\"пятнадцатилетние\" облигации федерального займа",
+        OFZ2  : "\"двухлетние\" облигации федерального займа",
+        OFZ6  : "\"шестилетние\" облигации федерального займа",
+        OFZ4  : "\"четырехлетние\" облигации федерального займа",
+        MIX   : "Индекс МосБиржи",
+        NG    : "природный газ",
+        Nl    : "никель",
+        RTS   : "Индекс РТС",
+        SUGR  : "сахар-сырец",
+        Eu    : "курс евро-российский рубль",
+        GLD   : "золото",
+        GBPU  : "курс фунт стерлингов – доллар США",
+        MOPR  : "ставка MosPrime",
+        MXI   : "Индекс МосБиржи (мини)",
+        RVI   : "волатильность российского рынка",
+        GVW3  : "привилегированные акции Volkswagen AG",
+        Zn    : "цинк",
+        PLT   : "платина",
+        RUON  : "ставка однодневных кредитов RUONIA",
+        RTSS  : "Индекс голубых фишек",
+        Si    : "курс доллар США - российский рубль",
+        SLV   : "серебро",
+        GSIE  : "обыкновенные акции Siemens AG",
+        UTRY  : "курс доллар США - турецкая лира",
+        SILV  : "серебро",
+        TCSI  : "глобальные депозитарные расписки (ГДР) на акции ТиСиЭс Груп Холдинг ПиЭлСи",
+        UUAH  : "курс доллар США – украинская гривна",
+      }
+
+      var max_no_emitent_base_count = 0;
+      for (base in no_emitent_sec_base_futures_option) {
+        if (Object.keys(base).length > max_no_emitent_base_count) {
+          max_no_emitent_base_count = Object.keys(base).length;
+        }
+      }
+
+      function calc_no_emitent_sec_base (x, y, base_id, log_e = false, draw = false) {
+        var arr_errors  = [];
+        var arr_nodes   = [];
+        var arr_edges   = [];
+
+        //var base_id = "BR"
+        var base = no_emitent_sec_base_futures_option[base_id];
+        //var x = 600;
+        //var y = 300;
+        //var draw = true;
+        //var log_e = true;
+//!!!
+      //if (Object.keys(base).length < 20) {
+        var c = new Vec2D(x, y);
+        //console.log("c: ", c.x, c.y);
+
+        var scale = 100;
+        var count         = parseInt(Object.keys(base).length);
+        var percent_count = 100 * count / max_no_emitent_base_count
+
+        var node = {
+          id    : "base-" + base_id,
+          label : base_id + " - " + no_emitent_sec_base_titles[base_id], //.replace(/П?п?убличное акционерное общество\s?/,""),
+          x     : c.x,
+          y     : c.y,
+          size  : count,
+                                        // 2 * Math.log(count),
+                                        // Math.log(scale * percent_count) + 2,
+                                        // 10 + Math.log(percent_count), //Math.log(scale * percent_count) + 2,
+          color : "#FF0000",
+        }
+
+        if (draw) { g.nodes.push(node); }
+        arr_nodes.push(node);
+
+        var a1 = Math.PI / 4;
+        var r1 = 30;
+        for (sec1 in base) {
+          var secid1 = base[sec1].sec._source.securities_iss.secid
+          var label1 = base[sec1].sec._source.securities_iss.secid + " - " + base[sec1].sec._source.securities_iss.name
+
+          if (base[sec1].der) {
+            r1 = 150;
+            for (sec2 in base[sec1].der) {
+              var secid2 = base[sec1].der[sec2].sec._source.securities_iss.secid
+              var label2 = base[sec1].der[sec2].sec._source.securities_iss.secid + " - " + base[sec1].der[sec2].sec._source.securities_iss.name
+
+              var p1 = new Vec2D(0, 0).toPolar();
+              p1.x = r1;
+              p1.y = a1;
+              p1.toCartesian().addSelf(c.x, c.y);
+
+              var p2  = new Vec2D(0, 0).toPolar();
+              p2.x = 5 + Math.random() * 75;
+              p2.y = Math.random() * 2 * Math.PI;
+              p2.toCartesian().addSelf(p1.x, p1.y);
+
+              // calculating the size based on the trade day VALUE
+              if (!es_hits_max_boards.hasOwnProperty(base[sec1].der[sec2].sec._source.securities_iss.primary_boardid)) {
+                var error = "(no emitent) - error der2 ("
+                    + "boardid: " + base[sec1].der[sec2].sec._source.securities_iss.primary_boardid 
+                    + " secid2: " + secid2 
+                    + " secid1: " + secid1 
+                    + ") doesn't have a board maximum listed in es_hits_max_boards";
+                arr_errors.push(error);
+                if (log_e) {
+                  console.log(error); 
+                  //console.log("es_hits_max_boards");
+                  //console.log(es_hits_max_boards);
+                }
+                //count_e += 1;
+                continue; 
+              }
+              if (    !es_hits_all_boards.hasOwnProperty(base[sec1].der[sec2].sec._source.securities_iss.primary_boardid) 
+                  ||  !es_hits_all_boards[base[sec1].der[sec2].sec._source.securities_iss.primary_boardid].hasOwnProperty(secid2) 
+                  ) {
+                var error = "(no emitent) - error der2 ("
+                    + "boardid: " + base[sec1].der[sec2].sec._source.securities_iss.primary_boardid 
+                    + " secid2: " + secid2 
+                    + " secid1: " + secid1 
+                    + ") doesn't have marketdata listed in es_hits_all_boards";
+                arr_errors.push(error);
+                if (log_e) {
+                  console.log(error); 
+                  //console.log("es_hits_all_boards");
+                  //console.log(es_hits_all_boards);
+                }
+                //count_e += 1;
+                continue; 
+              }
+              
+              var val_max = es_hits_max_boards[base[sec1].der[sec2].sec._source.securities_iss.primary_boardid].VALTODAY          // max value in currency
+              var val_sec = es_hits_all_boards[base[sec1].der[sec2].sec._source.securities_iss.primary_boardid][secid2].VALTODAY  // sec value in currency
+              var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+              if (percent_val < 1) { percent_val = 0.01; }
+              var size = 7 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+              //console.log(val_max, secid, val_sec, percent_val, size);
+
+              var node = { id : secid2, label : label2, x : p2.x, y : p2.y, size : size, color : colors[base[sec1].der[sec2].sec._source.securities_iss.type] };
+              if (draw) { g.nodes.push(node); }
+              arr_nodes.push(node);
+
+            }
+          }
+
+          var p1 = new Vec2D(0, 0).toPolar();
+          p1.x = r1;
+          p1.y = a1;
+          p1.toCartesian().addSelf(c.x, c.y);
+
+          // calculating the size based on the trade day VALUE
+          if (!es_hits_max_boards.hasOwnProperty(base[sec1].sec._source.securities_iss.primary_boardid)) {
+            var error = "(no emitent) - error der1 ("
+                + "boardid: " + base[sec1].sec._source.securities_iss.primary_boardid 
+                + " secid1: " + secid1 
+                + ") doesn't have a board maximum listed in es_hits_max_boards";
+            arr_errors.push(error);
+            if (log_e) {
+              console.log(error); 
+              //console.log("es_hits_max_boards");
+              //console.log(es_hits_max_boards);
+            }
+            //count_e += 1;
+            continue; 
+          }
+          if (    !es_hits_all_boards.hasOwnProperty(base[sec1].sec._source.securities_iss.primary_boardid) 
+              ||  !es_hits_all_boards[base[sec1].sec._source.securities_iss.primary_boardid].hasOwnProperty(secid1) 
+              ) {
+            var error = "(no emitent) - error der1 ("
+                + "boardid: " + base[sec1].sec._source.securities_iss.primary_boardid 
+                + " secid1: " + secid1 
+                + ") doesn't have marketdata listed in es_hits_all_boards";
+            arr_errors.push(error);
+            if (log_e) {
+              console.log(error); 
+              //console.log("es_hits_all_boards");
+              //console.log(es_hits_all_boards);
+            }
+            //count_e += 1;
+            continue; 
+          }
+
+          var val_max = es_hits_max_boards[base[sec1].sec._source.securities_iss.primary_boardid].VALTODAY          // max value in currency
+          var val_sec = es_hits_all_boards[base[sec1].sec._source.securities_iss.primary_boardid][secid1].VALTODAY  // sec value in currency
+          var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+          if (percent_val < 1) { percent_val = 0.01; }
+          var size = 8 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+          //console.log(val_max, secid, val_sec, percent_val, size);
+
+          var node = { id : secid1, label : label1, x : p1.x, y : p1.y, size : size, color : colors[base[sec1].sec._source.securities_iss.type] };
+          if (draw) { g.nodes.push(node); }
+          arr_nodes.push(node);
+
+          var edge = { id : 'e-' + secid1, source: "base-" + base_id, target: secid1, size : 0.05, color : colors[base[sec1].sec._source.securities_iss.type], type: 'dashed' };
+          if (draw) { g.edges.push(edge); }
+          arr_edges.push(edge);
+
+          a1 += 2 * Math.PI / Object.keys(base).length;
+        }
+      //}
+
+        var t = 0, b = 0, l = 0, r = 0;
+        $.each(arr_nodes, function (i, node) {
+          if (node.x < l) { l = node.x }
+          if (node.y < t) { t = node.y }
+          if (node.x > r) { r = node.x }
+          if (node.y > b) { b = node.y }
+        })
+        var w = r - l + 5;
+        var h = b - t + 5;
+        return { 
+          id    : base_id,
+          nodes : arr_nodes, 
+          edges : arr_edges, 
+          box : {w : w, h : h}, 
+          corners : {t : t, b : b, l : l, r : r}, 
+          errors : arr_errors,
+        };
+      }
+
+
+      function calc_no_emitent_sec_misc (x, y, type, log_e = false) {
+        var arr_errors  = [];
+        var arr_nodes   = [];
+        var arr_edges   = [];
+        
+        for (sec in no_emitent_sec_misc[type]) {
+          var secid = no_emitent_sec_misc[type][sec].sec._source.securities_iss.secid;
+          var label = no_emitent_sec_misc[type][sec].sec._source.securities_iss.secid + " - " + no_emitent_sec_misc[type][sec].sec._source.securities_iss.name;
+
+          var p = new Vec2D(0, 0).toCartesian();
+          p.x = Math.random() * 200;
+          p.y = Math.random() * 200;
+          p.addSelf(x, y);
+
+          // calculating the size based on the trade day VALUE
+          if (!es_hits_max_boards.hasOwnProperty(no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid)) {
+            var error = "(no emitent) - error misc ("
+                + "boardid: " + no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid 
+                + " secid: " + secid
+                + ") doesn't have a board maximum listed in es_hits_max_boards";
+            arr_errors.push(error);
+            if (log_e) {
+              console.log(error); 
+              //console.log("es_hits_max_boards");
+              //console.log(es_hits_max_boards);
+            }
+            //count_e += 1;
+            continue; 
+          }
+          if (    !es_hits_all_boards.hasOwnProperty(no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid) 
+              ||  !es_hits_all_boards[no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid].hasOwnProperty(secid) 
+              ) {
+            var error = "(no emitent) - error misc ("
+                + "boardid: " + no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid 
+                + " secid: " + secid
+                + ") doesn't have marketdata listed in es_hits_all_boards";
+            arr_errors.push(error);
+            if (log_e) {
+              console.log(error); 
+              //console.log("es_hits_all_boards");
+              //console.log(es_hits_all_boards);
+            }
+            //count_e += 1;
+            continue; 
+          }
+
+          var val_max = es_hits_max_boards[no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid].VALTODAY          // max value in currency
+          var val_sec = es_hits_all_boards[no_emitent_sec_misc[type][sec].sec._source.securities_iss.primary_boardid][secid].VALTODAY  // sec value in currency
+          var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+          if (percent_val < 1) { percent_val = 0.01; }
+          var size = 8 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+          //console.log(val_max, secid, val_sec, percent_val, size);
+
+          var node = { id : "misc-" + secid, label : label, x : p.x, y : p.y, size : size, color : colors[no_emitent_sec_misc[type][sec].sec._source.securities_iss.type] };
+          arr_nodes.push(node);
+        }
+
+        var t = 0, b = 0, l = 0, r = 0;
+        $.each(arr_nodes, function (i, node) {
+          if (node.x < l) { l = node.x }
+          if (node.y < t) { t = node.y }
+          if (node.x > r) { r = node.x }
+          if (node.y > b) { b = node.y }
+        })
+        var w = r - l + 5;
+        var h = b - t + 5;
+        return { 
+          id    : type,
+          nodes : arr_nodes, 
+          edges : arr_edges, 
+          box : {w : w, h : h}, 
+          corners : {t : t, b : b, l : l, r : r}, 
+          errors : arr_errors,
+        };
+      }
+
+      // EMITENTS
+      var max_emitent_count = parseInt(es_response_all_sec_aggs_by_type.aggregations.emitents.buckets[0].doc_count);
+      //var bucket = response.aggregations.emitents.buckets[{{ bucket }}]; //!!!
+      if (uri < 0) {
+        //console.log("security types:");
+/*  AMA LEGEND
+        var legend_w = 100;
+        var legend_h = 5;
+        $.each(jqXHR_iss_index_json.securitytypes.data, function (i, type) {
+          var node = {
+            id    : type[jqXHR_iss_index_json.securitytypes.columns.indexOf("security_type_name")],
+            label : type[jqXHR_iss_index_json.securitytypes.columns.indexOf("security_type_title")],
+            x     : 10,
+            y     : legend_h,
+            size  : 15,
+            color : colors[type[jqXHR_iss_index_json.securitytypes.columns.indexOf("security_type_name")]],
+          }
+          legend_h += 15;
+
+          g.nodes.push(node);
+        });
+*/
+
+        var boxes = [];
+        var graph_no_emitent_sec_bases = [];
+        for (base_id in no_emitent_sec_base_futures_option) {
+          //if (base_id == "AFKS") continue; // (index):1530 Uncaught (in promise) The node "AFKS" already exists.
+          //if (base_id == "FIVE") continue; // (index):1531 Uncaught (in promise) The node "FIVE" already exists.
+          var rect = calc_no_emitent_sec_base(0, 0, base_id);
+          graph_no_emitent_sec_bases.push(rect);
+          boxes.push(rect.box);
+        }
+
+        var graph_no_emitent_sec_misc = [];
+        for (type in no_emitent_sec_misc) {
+          var rect = calc_no_emitent_sec_misc(0, 0, type);
+          graph_no_emitent_sec_misc.push(rect);
+          boxes.push(rect.box);
+        }
+        //var potpack_2 = potpack(boxes);
+        //console.log(potpack_2);
+        //console.log(boxes);
+
+        var graph_emitents = [];
+        // https://github.com/mapbox/potpack
+        //boxes = [];
+        $.each(es_response_all_sec_aggs_by_type.aggregations.emitents.buckets, function (i, bucket) { //.slice(0,400)
+          var rect = calc_bucket_emitent(0, 0, bucket);
+          graph_emitents.push(rect); // just in case: https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
+          boxes.push(rect.box);      // just in case: https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
+        })
+        var potpack_1 = potpack(boxes)
+        //console.log(potpack_1);
+        //console.log(boxes);
+        
+        var obj_errors  = {};
+        var total_e = 0;
+        $.each(graph_no_emitent_sec_bases, function (i, graph_no_emitent_sec_base) {
+          if (graph_no_emitent_sec_base.errors.length > 0) { 
+            obj_errors[graph_no_emitent_sec_base.id] = { count : graph_no_emitent_sec_base.errors.length, errors : graph_no_emitent_sec_base.errors }; 
+            total_e += graph_no_emitent_sec_base.errors.length;
+          }
+
+          var lx = graph_no_emitent_sec_base.box.x - graph_no_emitent_sec_base.corners.l;
+          var ty = graph_no_emitent_sec_base.box.y - graph_no_emitent_sec_base.corners.t;
+          $.each(graph_no_emitent_sec_base.nodes, function (j, node) {
+            node.x += lx;
+            node.y += ty;// + legend_h; //!!!
+            g.nodes.push(node);
+          });
+          $.each(graph_no_emitent_sec_base.edges, function (j, edge) {
+            g.edges.push(edge);
+          });
+        });
+        console.log("no emitents base total error count: " + total_e);
+        console.log("errors:");
+        console.log(obj_errors);
+
+        var obj_errors  = {};
+        var total_e = 0;
+        $.each(graph_no_emitent_sec_misc, function (i, misc_type) {
+          if (misc_type.errors.length > 0) { 
+            obj_errors[misc_type.id] = { count : misc_type.errors.length, errors : misc_type.errors }; 
+            total_e += misc_type.errors.length;
+          }
+
+          var lx = misc_type.box.x - misc_type.corners.l;
+          var ty = misc_type.box.y - misc_type.corners.t;
+          $.each(misc_type.nodes, function (j, node) {
+            node.x += lx;
+            node.y += ty;// + legend_h; //!!!
+            g.nodes.push(node);
+          });
+          $.each(misc_type.edges, function (j, edge) {
+            g.edges.push(edge);
+          });
+        });
+        console.log("no emitents misc total error count: " + total_e);
+        console.log("errors:");
+        console.log(obj_errors);
+
+        obj_errors  = {};
+        total_e = 0;
+        $.each(graph_emitents, function (i, graph_emitent) {
+          if (graph_emitent.errors.length > 0) { 
+            obj_errors[graph_emitent.id] = { count : graph_emitent.errors.length, errors : graph_emitent.errors }; 
+            total_e += graph_emitent.errors.length;
+          }
+          
+          var lx = graph_emitent.box.x - graph_emitent.corners.l;
+          var ty = graph_emitent.box.y - graph_emitent.corners.t;
+          $.each(graph_emitent.nodes, function (j, node) {
+            node.x += lx;
+            node.y += ty; //+ potpack_2.h;// + legend_h; //!!!
+            g.nodes.push(node);
+          });
+          $.each(graph_emitent.edges, function (j, edge) {
+            g.edges.push(edge);
+          });
+        })
+        console.log("emitents total error count: " + total_e);
+        console.log("errors:");
+        console.log(obj_errors);
+
+        // potpack_1.w //: 1065.5496429940072 --- $(window).width();
+        // potpack_1.h //: 1167.8985003360722 --- $(window).height();
+        if ($(window).width() > $(window).height()) {
+          $("#container").css("height", (potpack_1.h * $(window).width() / potpack_1.w) + "px"); // + legend_h // (potpack_1.w > potpack_2.w ? potpack_1.w : potpack_2.w)
+        }
+      } else {
+        var rect = calc_bucket_emitent(0, 0, es_response_all_sec_aggs_by_type.aggregations.emitents.buckets[uri], true, true);
+        console.log(rect);
+      }
+
+      // 0: {key: "option", doc_count: 7728, sec_type: {…}}
+      // 1: {key: "stock_index", doc_count: 230, sec_type: {…}}
+      // 2: {key: "futures", doc_count: 202, sec_type: {…}}
+      // 3: {key: "currency", doc_count: 81, sec_type: {…}}
+      // 4: {key: "currency_futures", doc_count: 48, sec_type: {…}}
+      // 5: {key: "gold_metal", doc_count: 9, sec_type: {…}}
+      // 6: {key: "silver_metal", doc_count: 9, sec_type: {…}}
+      // 7: {key: "currency_index", doc_count: 8, sec_type: {…}}
+      // 8: {key: "currency_fixing", doc_count: 2, sec_type: {…}}
+      // 9: {key: "exchange_bond", doc_count: 2, sec_type: {…}}
+      // 10: {key: "stock_deposit", doc_count: 2, sec_type: {…}}
+      // 11: {key: "currency_basket", doc_count: 1, sec_type: {…}}
+      // 12: {key: "currency_wap", doc_count: 1, sec_type: {…}}
+/*
+      $.each(es_response_all_sec_no_emitent_aggs_by_type.aggregations.sec_types.buckets, function (i, bucket) {      
+        console.log("--------" + bucket.key + "--------");
+        $.each(bucket.sec_type.hits.hits, function (j, hit) {
+          var desc = {};
+          $.each (hit._source.description, function (i, description) {
+            desc[description.name] = description.value;
+          })
+          console.log(
+            hit._source.securities_iss.secid 
+            + ";" + hit._source.securities_iss.shortname 
+            + ";" + hit._source.securities_iss.name
+            + (desc.ASSETCODE ? "; base: " + desc.ASSETCODE : "")
+          );
+        });
+      });
+*/
+      function calc_bucket_emitent (x, y, bucket, log_e = false, draw = false) {
+        var errors    = [];
+        var arr_nodes = [];
+        var arr_edges = [];
+
+        var emitent_id    = bucket.emitent.hits.hits[0]._source.securities_iss.emitent_id;
+        var emitent_inn   = bucket.emitent.hits.hits[0]._source.securities_iss.emitent_inn;
+        var emitent_okpo  = bucket.emitent.hits.hits[0]._source.securities_iss.emitent_okpo;
+        var emitent_title = bucket.emitent.hits.hits[0]._source.securities_iss.emitent_title;
+
+        var count_e = 0;
+
+        var emitent_sec_types   = {};
+        var emitent_sec_all     = {};
+        var emitent_sec_futures = {};
+        var emitent_sec_option  = {};
+
+        $.each(bucket.sec_types.buckets, function (i, type) {
+          emitent_sec_types[type.key] = { i : i, count : type.doc_count };
+          switch (type.key) {
+            case "futures":
+            case "option":
+              break;
+            default:
+              $.each(type.sec_type.hits.hits, function (i, sec) {
+                emitent_sec_all[sec._source.securities_iss.secid] = { sec : sec };
+              });
+              break;
+          }
+        })
+        
+        if (bucket.sec_types.buckets.length > 1) {
+          $.each(bucket.sec_types.buckets, function (i, type) {
+            if (type.key == "futures") { 
+              $.each(type.sec_type.hits.hits, function (i, sec) {
+                var secid     = sec._source.securities_iss.secid
+                var desc = {};
+                $.each (sec._source.description, function (i, description) {
+                  desc[description.name] = description.value;
+                })
+                if (!desc.ASSETCODE) { 
+                  var error = emitent_id + " - error type: " + type.key + " secid: " + secid + " doesn't have the base security in the description";
+                  errors.push(error);
+                  if (log_e) {
+                    console.log(error);
+                    console.log(desc);
+                  }
+                  count_e += 1;
+                  return;
+                } 
+                if (!emitent_sec_all.hasOwnProperty(desc.ASSETCODE)) {
+                  switch (desc.ASSETCODE) {
+                    //!!!
+                    // https://www.moex.com/ru/derivatives/contracts.aspx
+                    case "SBRF": desc.ASSETCODE = "SBER";   break; // SBRF-3.21 Фьючерсный контракт на обыкновенные акции ПАО Сбербанк
+                    case "SBPR": desc.ASSETCODE = "SBERP";  break; // SBPR-6.20 Фьючерсный контракт на привилегированные акции ПАО Сбербанк
+                    case "GAZR": desc.ASSETCODE = "GAZP";   break; // GAZR-3.21 Фьючерсный контракт на обыкновенные акции ПАО «Газпром»
+                    case "GMKR": desc.ASSETCODE = "GMKN";   break; // GMKR-6.20 Фьючерсный контракт на обыкновенные акции ПАО «ГМК «Норильский Никель»
+                    case "SNGR": desc.ASSETCODE = "SNGS";   break; // SNGR-3.21 Фьючерсный контракт на обыкновенные акции ПАО «Сургутнефтегаз»
+                    case "SNGP": desc.ASSETCODE = "SNGSP";  break; // SNGP-6.20 Фьючерсный контракт на привилегированные акции ОАО «Сургутнефтегаз»
+                    case "MTSI": desc.ASSETCODE = "MTSS";   break; // MTSI-6.20 Фьючерсный контракт на обыкновенные акции ПАО «МТС»
+                    case "TRNF": desc.ASSETCODE = "TRNFP";  break; // TRNF-6.20 Фьючерсный контракт на привилегированные акции ПАО «Транснефть»
+                    case "NOTK": desc.ASSETCODE = "NVTK";   break; // NOTK-6.20	Фьючерсный контракт на обыкновенные акции ПАО «НОВАТЭК»
+                    default    : { 
+                      var error = emitent_id + " - error type: " + type.key + " secid: " + secid + " base: " + desc.ASSETCODE + " doesn't match the manual map";
+                      errors.push(error);
+                      if (log_e) {
+                        console.log(error); 
+                        console.log(Object.keys(emitent_sec_all));
+                        console.log(emitent_sec_all);
+                      }
+                      count_e += 1;
+                      return; 
+                    } 
+                  }
+                }
+                if (!emitent_sec_all.hasOwnProperty(desc.ASSETCODE)) {
+                  var error = emitent_id + " - error type: " + type.key + " secid: " + secid + " base: " + desc.ASSETCODE + " doesn't match any of base securities";
+                  errors.push(error);
+                  if (log_e) {
+                    console.log(error); 
+                    console.log(Object.keys(emitent_sec_all));
+                    console.log(emitent_sec_all);
+                  }
+                  count_e += 1;
+                  return; 
+                }
+                if (!emitent_sec_all[desc.ASSETCODE].hasOwnProperty("der")) { emitent_sec_all[desc.ASSETCODE].der = {}; }
+                emitent_sec_all[desc.ASSETCODE].der[desc.SHORTNAME] = { sec : sec };
+                emitent_sec_futures[desc.SHORTNAME] = { ASSETCODE : desc.ASSETCODE };
+              });
+            };
+          });
+          $.each(bucket.sec_types.buckets, function (i, type) {
+            if (type.key == "option") { 
+              $.each(type.sec_type.hits.hits, function (i, sec) {
+                var secid = sec._source.securities_iss.secid
+                var desc  = {};
+                $.each (sec._source.description, function (i, description) {
+                  desc[description.name] = description.value;
+                })
+                // SBPR-6.20M170620CA13000
+                //                                       m[1]             
+                var m = desc.SHORTNAME.match(/([A-Z]+-[0-9]+\.[0-9]{2})/);
+                var assetcode = m[1];
+
+                if (!emitent_sec_futures.hasOwnProperty(assetcode)) {
+                  var error = emitent_id + " - error type: " + type.key + " secid: " + secid + " base: " + assetcode + " doesn't match any futures";
+                  errors.push(error);
+                  if (log_e) {
+                    console.log(error); 
+                    console.log(Object.keys(emitent_sec_futures));
+                    console.log(emitent_sec_futures);
+                  }
+                  count_e += 1;
+                  return; 
+                }
+                if (!emitent_sec_all[emitent_sec_futures[assetcode].ASSETCODE].der[assetcode].hasOwnProperty("der")) {
+                  emitent_sec_all[emitent_sec_futures[assetcode].ASSETCODE].der[assetcode].der = {};
+                }
+                emitent_sec_all[emitent_sec_futures[assetcode].ASSETCODE].der[assetcode].der[secid] = { sec : sec };
+                emitent_sec_option[secid] = { ASSETCODE : assetcode };
+              });
+            };
+          });
+        };
+        //console.log("bucket.sec_types.buckets:");
+        //console.log(bucket.sec_types.buckets);
+        //console.log("emitent_sec_types:");
+        //console.log(emitent_sec_types);
+        //console.log("emitent_sec_all:");
+        //console.log(emitent_sec_all);
+        //console.log("emitent_sec_futures:");
+        //console.log(emitent_sec_futures);
+        //console.log("emitent_sec_option:");
+        //console.log(emitent_sec_option);
+
+        var c = new Vec2D(x, y);
+        //console.log("c: ", c.x, c.y);
+
+        var scale = 100;
+        var count         = parseInt(bucket.doc_count);
+        var percent_count = 100 * count / max_emitent_count
+
+        var node = {
+          id    : emitent_id,
+          label : emitent_title, //.replace(/П?п?убличное акционерное общество\s?/,""),
+          x     : c.x,
+          y     : c.y,
+          size  : 2 * Math.log(count), // Math.log(scale * percent_count) + 2,
+                                       // 10 + Math.log(percent_count), //Math.log(scale * percent_count) + 2,
+          color : colors.emitent,
+        }
+
+        if (draw) { g.nodes.push(node); }
+        arr_nodes.push(node);
+
+        var large = {};
+        var small = {};
+        $.each(bucket.sec_types.buckets, function (i, type) {
+          switch (type.key) {
+            case "futures":
+            case "option":
+              break;
+            default:
+              if (type.doc_count > 10) {
+                large[type.key] = type;
+              } else {
+                small[type.key] = type;
+              }
+              break;
+          }
+        })
+        //console.log("large:");
+        //console.log(large);
+        //console.log("small:");
+        //console.log(small);
+
+        var o = 10;
+        var r = 50;
+        for (key in large) {
+          var type = large[key];
+          var hits = bucket.sec_types.buckets[emitent_sec_types[type.key].i].sec_type.hits.hits;
+          $.each(hits, function(i, hit) {
+            var p = new Vec2D(0, 0).toPolar();
+            p.x = o + Math.random() * r;
+            p.y = Math.random() * 2 * Math.PI;
+            p.toCartesian().addSelf(c.x, c.y);
+            var secid = hit._source.securities_iss.secid;
+            var label = hit._source.securities_iss.secid + " - " + hit._source.securities_iss.name;
+
+
+            // calculating the size based on the trade day VALUE
+            if (!es_hits_max_boards.hasOwnProperty(hit._source.securities_iss.primary_boardid)) {
+              var error = emitent_id + " - error der ("
+                  + "boardid: " + hit._source.securities_iss.primary_boardid 
+                  +  " secid: " + secid 
+                  + ") doesn't have a board maximum listed in es_hits_max_boards";
+              errors.push(error);
+              if (log_e) {
+                console.log(error); 
+                //console.log("es_hits_max_boards");
+                //console.log(es_hits_max_boards);
+              }
+              count_e += 1;
+              return; 
+            }
+            if (    !es_hits_all_boards.hasOwnProperty(hit._source.securities_iss.primary_boardid) 
+                ||  !es_hits_all_boards[hit._source.securities_iss.primary_boardid].hasOwnProperty(secid) 
+                ) {
+              var error = emitent_id + " - error der ("
+                  + "boardid: " + hit._source.securities_iss.primary_boardid 
+                  +  " secid: " + secid 
+                  + ") doesn't have marketdata listed in es_hits_all_boards";
+              errors.push(error);
+              if (log_e) {
+                console.log(error); 
+                //console.log("es_hits_all_boards");
+                //console.log(es_hits_all_boards);
+              }
+              count_e += 1;
+              return; 
+            }
+            var val_max = es_hits_max_boards[hit._source.securities_iss.primary_boardid].VALTODAY         // max value in currency
+            var val_sec = es_hits_all_boards[hit._source.securities_iss.primary_boardid][secid].VALTODAY  // sec value in currency
+            var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+            if (percent_val < 1) { percent_val = 0.01; }
+            var size = 8 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+            //console.log(val_max, secid, val_sec, percent_val, size);
+
+            var node = { id : secid, label : label, x : p.x, y : p.y, size : size, color : colors[type.key] };
+            if (draw) { g.nodes.push(node); }
+            arr_nodes.push(node);
+
+          })
+          o += r;
+          r += r/2;
+        }
+
+        var total = 0;
+        for (key in small) { total += small[key].doc_count; }
+
+        var a = Math.PI / 4;
+        for (key in small) {
+          var type = small[key];
+
+          var hits = bucket.sec_types.buckets[emitent_sec_types[type.key].i].sec_type.hits.hits;
+          //console.log(key + " - hits:");
+          //console.log(hits);
+          $.each(hits, function(i, hit) {
+            var secid = hit._source.securities_iss.secid;
+            var label = hit._source.securities_iss.secid + " - " + hit._source.securities_iss.name;
+
+            var o1 = 10;
+            if (emitent_sec_all.hasOwnProperty(secid)) {
+
+              // futures?
+              if (emitent_sec_all[secid].der) {
+                o1 = 50;
+                var a1 = Math.PI / 4;
+                for (name in emitent_sec_all[secid].der) {
+                  var der = emitent_sec_all[secid].der[name];
+
+                  var secid1 = der.sec._source.securities_iss.secid;
+                  var label1 = der.sec._source.securities_iss.secid + " - " + der.sec._source.securities_iss.name;
+
+                  // options?
+                  if (der.der) { 
+                    //console.log("futures: " + Object.keys(emitent_sec_all[secid].der).length;
+                    if (Object.keys(emitent_sec_all[secid].der).length < 4) {
+                      o1 = 50;
+                    } else {
+                      o1 = 100;
+                    }
+                    
+                    for (secid2 in der.der) {
+                      var der2 = der.der[secid2];
+                      var label2 = der2.sec._source.securities_iss.secid + " - " + der2.sec._source.securities_iss.name;
+
+                      if (Object.keys(der.der).length > 20) {
+                        var p   = new Vec2D(0, 0).toPolar(); p.x  = o + o1;   p.y   = a;  p .toCartesian().addSelf(c.x, c.y);
+                        var p1  = new Vec2D(0, 0).toPolar(); p1.x = o1 * 3/4; p1.y  = a1; p1.toCartesian().addSelf(p.x, p.y);
+                        var p2  = new Vec2D(0, 0).toPolar();
+                        p2.x = 5 + Math.random() * (o1 * 1/2);
+                        p2.y = Math.random() * 2 * Math.PI;
+                        p2.toCartesian().addSelf(p1.x, p1.y);
+
+                        // calculating the size based on the trade day VALUE
+                        if (!es_hits_max_boards.hasOwnProperty(der2.sec._source.securities_iss.primary_boardid)) {
+                          var error = emitent_id + " - error der2 ("
+                              + "boardid: " + der2.sec._source.securities_iss.primary_boardid 
+                              + " secid2: " + secid2 
+                              + " secid1: " + secid1 
+                              +  " secid: " + secid 
+                              + ") doesn't have a board maximum listed in es_hits_max_boards";
+                          errors.push(error);
+                          if (log_e) {
+                            console.log(error); 
+                            //console.log("es_hits_max_boards");
+                            //console.log(es_hits_max_boards);
+                          }
+                          count_e += 1;
+                          continue; 
+                        }
+                        if (    !es_hits_all_boards.hasOwnProperty(der2.sec._source.securities_iss.primary_boardid) 
+                            ||  !es_hits_all_boards[der2.sec._source.securities_iss.primary_boardid].hasOwnProperty(secid2) 
+                            ) {
+                          var error = emitent_id + " - error der2 ("
+                              + "boardid: " + der2.sec._source.securities_iss.primary_boardid 
+                              + " secid2: " + secid2 
+                              + " secid1: " + secid1 
+                              +  " secid: " + secid 
+                              + ") doesn't have marketdata listed in es_hits_all_boards";
+                          errors.push(error);
+                          if (log_e) {
+                            console.log(error); 
+                            //console.log("es_hits_all_boards");
+                            //console.log(es_hits_all_boards);
+                          }
+                          count_e += 1;
+                          continue; 
+                        }
+                        var val_max = es_hits_max_boards[der2.sec._source.securities_iss.primary_boardid].VALTODAY                  // max value in currency
+                        var val_sec = es_hits_all_boards[der2.sec._source.securities_iss.primary_boardid][secid2].VALTODAY          // sec value in currency
+                        var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+                        if (percent_val < 1) { percent_val = 0.01; }
+                        var size = 7 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+//!!!
+                        var node = { id : secid2, label : label2, x : p2.x, y : p2.y, size : size, color : colors[der2.sec._source.securities_iss.type] };
+                        if (draw) { g.nodes.push(node); }
+                        arr_nodes.push(node);
+                      } else {
+                        console.log("WARNING: unimplemented der: ");
+                        console.log(der.der);
+                      }
+                    }
+                  }
+                  var p   = new Vec2D(0, 0).toPolar(); p.x = o + o1; p.y = a; p.toCartesian().addSelf(c.x, c.y);
+                  var p1  = new Vec2D(0, 0).toPolar(); p1.x = o1 * 3/4; p1.y = a1; p1.toCartesian().addSelf(p.x, p.y);
+
+                  // calculating the size based on the trade day VALUE
+                  if (!es_hits_max_boards.hasOwnProperty(der.sec._source.securities_iss.primary_boardid)) {
+                    var error = emitent_id + " - error der ("
+                        + "boardid: " + der.sec._source.securities_iss.primary_boardid 
+                        + " secid1: " + secid1 
+                        +  " secid: " + secid 
+                        + ") doesn't have a board maximum listed in es_hits_max_boards";
+                    errors.push(error);
+                    if (log_e) {
+                      console.log(error); 
+                      //console.log("es_hits_max_boards");
+                      //console.log(es_hits_max_boards);
+                    }
+                    count_e += 1;
+                    continue; 
+                  }
+                  if (    !es_hits_all_boards.hasOwnProperty(der.sec._source.securities_iss.primary_boardid) 
+                      ||  !es_hits_all_boards[der.sec._source.securities_iss.primary_boardid].hasOwnProperty(secid1) 
+                      ) {
+                    var error = emitent_id + " - error der ("
+                        + "boardid: " + der.sec._source.securities_iss.primary_boardid 
+                        + " secid1: " + secid1 
+                        +  " secid: " + secid 
+                        + ") doesn't have marketdata listed in es_hits_all_boards";
+                    errors.push(error);
+                    if (log_e) {
+                      console.log(error); 
+                      //console.log("es_hits_all_boards");
+                      //console.log(es_hits_all_boards);
+                    }
+                    count_e += 1;
+                    continue; 
+                  }
+                  var val_max = es_hits_max_boards[der.sec._source.securities_iss.primary_boardid].VALTODAY                  // max value in currency
+                  var val_sec = es_hits_all_boards[der.sec._source.securities_iss.primary_boardid][secid1].VALTODAY          // sec value in currency
+                  var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+                  if (percent_val < 1) { percent_val = 0.01; }
+                  var size = 8 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+                  //console.log(val_max, secid1, val_sec, percent_val, size);
+
+                  var node = { id : secid1, label : label1, x : p1.x, y : p1.y, size : size, color : colors[der.sec._source.securities_iss.type] }
+                  if (draw) { g.nodes.push(node); }
+                  arr_nodes.push(node);
+
+                  var edge = { id : 'e-' + secid1, source: secid, target: secid1, size : 0.05, color : colors[der.sec._source.securities_iss.type], type: 'dashed' }
+                  if (draw) { g.edges.push(edge); }
+                  arr_edges.push(edge);
+
+                  a1 += 2 * Math.PI / Object.keys(emitent_sec_all[secid].der).length;
+                }
+              }
+            } else {
+              var error = emitent_id + " - error type: " + type.key + " secid: " + secid + " is not in emitent_sec_all";
+              errors.push(error);
+              if (log_e) {
+                console.log(error); 
+                //console.log(Object.keys(emitent_sec_all));
+                //console.log(emitent_sec_all);
+              }
+              count_e += 1;
+              return; 
+            }
+            var p = new Vec2D(0, 0).toPolar();
+            p.x = o + o1;
+            p.y = a;
+            p.toCartesian().addSelf(c.x, c.y);
+
+            // calculating the size based on the trade day VALUE
+            if (!es_hits_max_boards.hasOwnProperty(hit._source.securities_iss.primary_boardid)) {
+              var error = emitent_id + " - error der ("
+                  + "boardid: " + hit._source.securities_iss.primary_boardid 
+                  +  " secid: " + secid 
+                  + ") doesn't have a board maximum listed in es_hits_max_boards";
+              errors.push(error);
+              if (log_e) {
+                console.log(error); 
+                //console.log("es_hits_max_boards");
+                //console.log(es_hits_max_boards);
+              }
+              count_e += 1;
+              return; 
+            }
+            if (    !es_hits_all_boards.hasOwnProperty(hit._source.securities_iss.primary_boardid) 
+                ||  !es_hits_all_boards[hit._source.securities_iss.primary_boardid].hasOwnProperty(secid) 
+                ) {
+              var error = emitent_id + " - error der ("
+                  + "boardid: " + hit._source.securities_iss.primary_boardid 
+                  +  " secid: " + secid 
+                  + ") doesn't have marketdata listed in es_hits_all_boards";
+              errors.push(error);
+              if (log_e) {
+                console.log(error); 
+                //console.log("es_hits_all_boards");
+                //console.log(es_hits_all_boards);
+              }
+              count_e += 1;
+              return; 
+            }
+            var val_max = es_hits_max_boards[hit._source.securities_iss.primary_boardid].VALTODAY         // max value in currency
+            var val_sec = es_hits_all_boards[hit._source.securities_iss.primary_boardid][secid].VALTODAY  // sec value in currency
+            var percent_val = ( val_max > 0 ) ? (100 * val_sec / val_max) : 0;
+            if (percent_val < 1) { percent_val = 0.01; }
+            var size = 6 + Math.log(percent_val); //  Math.log(scale * percent_val) + 2,
+            //console.log(val_max, secid, val_sec, percent_val, size);
+
+            var node = { id : secid, label : label, x : p.x, y : p.y, size : size, color : colors[hit._source.securities_iss.type] };
+            if (draw) { g.nodes.push(node); }
+            arr_nodes.push(node);
+
+            var edge = { id : 'e-' + secid, source: emitent_id, target: secid, size : 0.05, color : colors[hit._source.securities_iss.type], type: 'dashed' };
+            if (draw) { g.edges.push(edge); }
+            arr_edges.push(edge);
+
+            a += 2 * Math.PI / total;
+          })
+        }
+      
+        var t = 0, b = 0, l = 0, r = 0;
+        $.each(arr_nodes, function (i, node) {
+          if (node.x < l) { l = node.x }
+          if (node.y < t) { t = node.y }
+          if (node.x > r) { r = node.x }
+          if (node.y > b) { b = node.y }
+        })
+        var w = r - l + 5;
+        var h = b - t + 5;
+        return { 
+          id    : emitent_id,
+          nodes : arr_nodes, 
+          edges : arr_edges, 
+          box : {w : w, h : h}, 
+          corners : {t : t, b : b, l : l, r : r}, 
+          errors : errors,
+        };
+      }
+
+      spinner.remove();
+      s = new sigma({
+        graph: g,
+        renderer: {
+          // IMPORTANT:
+          // This works only with the canvas renderer, so the
+          // renderer type set as "canvas" is necessary here.
+          container: document.getElementById('graph-container'),
+          type: 'canvas'
+        },
+        settings: {
+          //!!! https://github.com/jacomyal/sigma.js/wiki/Settings
+          // https://github.com/jacomyal/sigma.js/issues/892
+          //defaultLabelSize: 16,
+          //labelSize: 'fixed',
+          //minNodeSize: 1,
+          //maxNodeSize: 10,
+          //minEdgeSize: 0.1,
+          //maxEdgeSize: 2,
+          //touchEnabled : false,
+          enableEdgeHovering: true,
+          edgeHoverSizeRatio: 2
+        }
+      });
+      // Start the ForceAtlas2 algorithm:
+      // s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+    }
+
+
+  </script>
+</html>

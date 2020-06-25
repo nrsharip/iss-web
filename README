@@ -1,0 +1,517 @@
+*************** ElasticSearch *************
+
+https://www.elastic.co/downloads/elasticsearch
+
+Downloading:      https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.7.1-windows-x86_64.zip
+Reference:        https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
+JS API Reference: https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
+
+
+Extracted to: C:\my_files\trading\elasticsearch-7.7.1-windows-x86_64\
+
+Added to PATH: C:\my_files\trading\elasticsearch-7.7.1-windows-x86_64\elasticsearch-7.7.1\bin
+
+Updated \elasticsearch-7.7.1-windows-x86_64\elasticsearch-7.7.1\config\elasticsearch.yml to have the following lines:
+network.host: 192.168.196.146
+http.port: 9200
+discovery.seed_hosts: ["127.0.0.1", "192.168.196.146", "[::1]"]
+
+Add the following lines (https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html):
+http.cors.enabled: true
+http.cors.allow-origin: http://192.168.196.146:8000
+
+* https://github.com/elastic/elasticsearch/issues/41954
+* https://www.eclipse.org/openj9/docs/xxmaxdirectmemorysize/
+Change to the following values so the heap size is 5G
+in \elasticsearch-7.7.1-windows-x86_64\elasticsearch-7.7.1\config\jvm.options:
+-Xms5g
+-Xmx5g
+
+
+
+*************** ElasticSearch: JS Client *************
+
+JS API Reference: https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
+
+Installation
+> npm install elasticsearch
+ISSUES...
+
+Browser version: https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html
+> npm install elasticsearch-browser
+
+
+
+*************** IDEs **********************
+
+1. Install Eclipse IDE for JavaScript
+2. Install Eclipse Extension: Codemix CI 2020.4.7 for Python
+
+
+*************** FOLDERS *******************
+
+mysql-8.0.20-winx64:
+
+https://dev.mysql.com/downloads/
+https://dev.mysql.com/downloads/mysql/
+  Downloaded: mysql-8.0.20-winx64.zip
+
+  Update PATH: E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\bin
+  1. In Search, search for and then select: System (Control Panel)
+  2. Click the Advanced system settings link.
+  3. Click Environment Variables. In the section System Variables, find the PATH environment variable and select it. Click Edit. If the PATH environment variable does not exist, click New.
+  4. In the Edit System Variable (or New System Variable) window, specify the value of the PATH environment variable. Click OK. Close all remaining windows by clicking OK.
+
+  Starting the Server:
+  https://dev.mysql.com/doc/refman/8.0/en/starting-server.html
+  https://dev.mysql.com/doc/refman/8.0/en/windows-server-first-start.html
+  > mysqld.exe --console
+  > mysql-8.0.20-winx64\bin\mysqld.exe --console
+  ISSUES:
+  2020-05-20T06:50:44.765297Z 0 [ERROR] [MY-013276] [Server] Failed to set datadir to 'E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\data\' (OS errno: 2 - No such file or directory)
+  FIXES:
+  1. Creating an Option File
+     https://dev.mysql.com/doc/refman/8.0/en/windows-create-option-file.html
+
+     The ZIP archive does not include a data directory. To initialize a MySQL installation by creating the data directory and populating the tables in the mysql system database, 
+     initialize MySQL using either --initialize or --initialize-insecure. For additional information, see Section 2.10.1, "Initializing the Data Directory".
+
+     https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html
+
+     Data Directory Initialization Overview
+       > cd /usr/local/mysql
+       > mkdir mysql-files
+       Use the server to initialize the data directory, including the mysql schema containing the initial MySQL grant tables that determine how users are permitted to connect to the server. 
+
+     Data Directory Initialization Procedure
+       Use --initialize for "secure by default" installation (that is, including generation of a random initial root password). In this case, the password is marked as expired and you will need to choose a new one.
+       With --initialize-insecure, no root password is generated. This is insecure; it is assumed that you will assign a password to the account in timely fashion before putting the server into production use.
+         > bin/mysqld --initialize --user=mysql
+         > bin/mysqld --initialize-insecure --user=mysql
+           
+       For instructions on assigning a new 'root'@'localhost' password, see Post-Initialization root Password Assignment.
+
+       It might be necessary to specify other options such as --basedir or --datadir if mysqld cannot identify the correct locations for the installation directory or data directory. For example (enter the command on a single line):
+         > bin/mysqld --initialize --user=mysql
+             --basedir=/opt/mysql/mysql
+             --datadir=/opt/mysql/mysql/data
+       
+       Alternatively, put the relevant option settings in an option file and pass the name of that file to mysqld. 
+
+       For Unix and Unix-like systems, suppose that the option file name is /opt/mysql/mysql/etc/my.cnf. Put these lines in the file:
+         [mysqld]
+         basedir=/opt/mysql/mysql
+         datadir=/opt/mysql/mysql/data
+       Then invoke mysqld as follows (enter the command on a single line with the --defaults-file option first):
+         > bin/mysqld --defaults-file=/opt/mysql/mysql/etc/my.cnf --initialize --user=mysql
+
+       On Windows, suppose that E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\my.ini contains these lines:
+         [mysqld]
+         # set basedir to your installation path
+         basedir=E:\\my_files\\trading\\frommoex_20200519\\iss-web\\mysql-8.0.20-winx64
+         # set datadir to the location of your data directory
+         datadir=E:\\my_files\\trading\\frommoex_20200519\\iss-web\\mysql-8.0.20-winx64\\data
+       Then invoke mysqld as follows (enter the command on a single line with the --defaults-file option first):
+         > bin\mysqld --defaults-file=E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\my.ini --initialize --console
+
+       COMMAND:
+         > bin\mysqld --defaults-file=E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\my.ini --initialize-insecure --user=mysql --console
+       OUTPUT:
+         2020-05-20T07:45:30.952833Z 0 [System] [MY-013169] [Server] E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\bin\mysqld.exe (mysqld 8.0.20) initializing of server in progress as process 9564
+         2020-05-20T07:45:30.972137Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+         2020-05-20T07:45:37.988449Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+         2020-05-20T07:45:50.875438Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+
+     Post-Initialization root Password Assignment
+       1. Start the server. For instructions, see Section 2.10.2, "Starting the Server".
+       2. Connect to the server:
+            If you used --initialize but not --initialize-insecure to initialize the data directory, connect to the server as root:
+              > mysql -u root -p
+              Then, at the password prompt, enter the random password that the server generated during the initialization sequence:
+              > Enter password: (enter the random root password here)
+              Look in the server error log if you do not know this password.
+            If you used --initialize-insecure to initialize the data directory, connect to the server as root without a password:
+              > mysql -u root --skip-password
+       3. After connecting, use an ALTER USER statement to assign a new root password:
+            > ALTER USER 'root'@'localhost' IDENTIFIED BY 'root-password';
+     https://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
+     https://dev.mysql.com/doc/refman/8.0/en/option-files.html
+     https://dev.mysql.com/doc/refman/8.0/en/mysql-config-editor.html
+     https://forums.mysql.com/read.php?169,673459,673506#msg-673506
+     ISSUE FIXED
+
+
+  SQL Statements
+  https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html
+     Account Management Statements
+     https://dev.mysql.com/doc/refman/8.0/en/account-management-statements.html
+        + 13.7.1.3 CREATE USER Statement
+          https://dev.mysql.com/doc/refman/8.0/en/create-user.html
+          CREATE USER [IF NOT EXISTS]
+              user [auth_option] [, user [auth_option]] ...
+              DEFAULT ROLE role [, role ] ...
+              [REQUIRE {NONE | tls_option [[AND] tls_option] ...}]
+              [WITH resource_option [resource_option] ...]
+              [password_option | lock_option] ...
+              [COMMENT 'comment_string' | ATTRIBUTE 'json_object']
+      
+          user: (see Section 6.2.4, "Specifying Account Names")
+
+     SHOW Statements:
+        + 13.7.7.14 SHOW DATABASES Statement
+          SHOW {DATABASES | SCHEMAS} [LIKE 'pattern' | WHERE expr]
+          
+          mysql> SHOW DATABASES;
+          +--------------------+
+          | Database           |
+          +--------------------+
+          | information_schema |
+          | mysql              |
+          | performance_schema |
+          | sys                |
+          +--------------------+
+          4 rows in set (0.00 sec)
+
+        + 13.7.7.37 SHOW TABLES Statement
+          SHOW [EXTENDED] [FULL] TABLES [{FROM | IN} db_name] [LIKE 'pattern' | WHERE expr]
+
+          mysql> SHOW TABLES IN mysql;
+          +---------------------------+
+          | Tables_in_mysql           |
+          +---------------------------+
+          | columns_priv              |
+          | component                 |
+          | db                        |
+                      ...
+          | time_zone_transition      |
+          | time_zone_transition_type |
+          | user                      |
+          +---------------------------+
+          33 rows in set (0.00 sec)
+
+        + 13.7.7.21 SHOW GRANTS Statement
+          SHOW GRANTS [FOR user_or_role [USING role [, role] ...]]
+          user_or_role: {
+              user (see Section 6.2.4, "Specifying Account Names")
+            | role (see Section 6.2.5, "Specifying Role Names".
+          }
+
+          mysql> SHOW GRANTS;
+          +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+          | Grants for root@localhost                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+          +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+          | GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `root`@`localhost` WITH GRANT OPTION                                                                                                                        |
+          | GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `root`@`localhost` WITH GRANT OPTION |
+          | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+          +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+          3 rows in set (0.00 sec)
+
+
+mysql-shell-8.0.20-windows-x86-64bit:
+
+  https://dev.mysql.com/downloads/shell/
+  Downloaded: mysql-shell-8.0.20-windows-x86-64bit.zip
+
+  Update PATH: E:\my_files\trading\frommoex_20200519\iss-web\mysql-shell-8.0.20-windows-x86-64bit\bin
+  1. In Search, search for and then select: System (Control Panel)
+  2. Click the Advanced system settings link.
+  3. Click Environment Variables. In the section System Variables, find the PATH environment variable and select it. Click Edit. If the PATH environment variable does not exist, click New.
+  4. In the Edit System Variable (or New System Variable) window, specify the value of the PATH environment variable. Click OK. Close all remaining windows by clicking OK.
+
+  COMMAND:
+  > mysqlsh
+
+  ISSUES: VCRUNTIME140_1.dll missing
+  FIXES:
+  1. Install Microsoft Visual C++ Redistributable
+     https://answers.microsoft.com/en-us/windows/forum/all/vcruntime1401dll-missing-where-to-get/268964c7-6910-4cdd-9a96-b03f4c1f6954
+     Download from: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+     * x86: vc_redist.x86.exe
+     * x64: vc_redist.x64.exe
+     ISSUE FIXED
+  
+  REFERENCE: https://dev.mysql.com/doc/mysql-shell/8.0/en/mysqlsh.html 
+
+
+
+web_server_moex:
+
+https://docs.djangoproject.com/en/3.0/ref/databases/#mysql-db-api-drivers
+  * mysqlclient is a native driver. It's the recommended choice.
+  * MySQL Connector/Python is a pure Python driver from Oracle that does not require the MySQL client library or any Python modules outside the standard library.
+  mysqlclient - Django requires mysqlclient 1.3.13 or later.
+  
+  https://pypi.org/project/mysqlclient/
+
+  > pip install mysqlclient
+  Successfully installed mysqlclient-1.4.6
+
+https://docs.djangoproject.com/en/3.0/topics/install/#installing-official-release
+
+> python -m pip install Django
+> python -m django --version
+
+https://docs.djangoproject.com/en/3.0/intro/tutorial01/
+
+> django-admin startproject web_server_moex
+
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        asgi.py
+        wsgi.py
+
+These files are:
+
+- The outer mysite/ root directory is a container for your project. Its name doesn't matter to Django; you can rename it to anything you like.
+- manage.py: A command-line utility that lets you interact with this Django project in various ways. You can read all the details about manage.py in django-admin and manage.py.
+- The inner mysite/ directory is the actual Python package for your project. Its name is the Python package name you'll need to use to import anything inside it (e.g. mysite.urls).
+-  mysite/__init__.py: An empty file that tells Python that this directory should be considered a Python package. If you're a Python beginner, read more about packages in the official Python docs.
+-  mysite/settings.py: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
+-  mysite/urls.py: The URL declarations for this Django project; a "table of contents" of your Django-powered site. You can read more about URLs in URL dispatcher.
+-  mysite/asgi.py: An entry-point for ASGI-compatible web servers to serve your project. See How to deploy with ASGI for more details.
+-  mysite/wsgi.py: An entry-point for WSGI-compatible web servers to serve your project. See How to deploy with WSGI for more details.
+
+Change into the outer mysite directory, if you haven't already, and run the following commands:
+> python manage.py runserver
+
+  ISSUES: You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+  FIX:    Installing MySQL
+
+If you want to change the server's port, pass it as a command-line argument. For instance, this command starts the server on port 8080:
+> python manage.py runserver 8080
+If you want to change the server's IP, pass it along with the port. For example, to listen on all available public IPs (which is useful if you are running Vagrant or want to show off your work on other computers on the network), use:
+> python manage.py runserver 0:8000
+
+mysql> CREATE DATABASE IF NOT EXISTS db_moex;
+mysql> DROP DATABASE IF EXISTS db_moex;
+mysql> CREATE USER IF NOT EXISTS 'db_moex_user'@'localhost' IDENTIFIED BY 'moex_is_cool';
+mysql> DROP USER IF EXISTS db_moex_user;
+mysql> GRANT ALTER, CREATE, DELETE, DROP, INSERT, SELECT, UPDATE, REFERENCES, INDEX ON db_moex.* TO 'db_moex_user'@'localhost';
+mysql> SHOW GRANTS FOR 'db_moex_user'@'localhost';
+       +--------------------------------------------------------------------------------------------------------+
+       | Grants for db_moex_user@localhost                                                                      |
+       +--------------------------------------------------------------------------------------------------------+
+       | GRANT USAGE ON *.* TO `db_moex_user`@`localhost`                                                       |
+       | GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER ON `db_moex`.* TO `db_moex_user`@`localhost` |
+       +--------------------------------------------------------------------------------------------------------+
+       2 rows in set (0.00 sec)
+
+Update the following in web_server_moex\settings.py:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_moex',
+        'USER': 'db_moex_user',
+        'PASSWORD': 'moex_is_cool',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+
+
+Perform the following command:
+> python manage.py migrate
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, sessions
+  Running migrations:
+    Applying contenttypes.0001_initial... OK
+    Applying auth.0001_initial... OK
+    Applying admin.0001_initial... OK
+    Applying admin.0002_logentry_remove_auto_add... OK
+    Applying admin.0003_logentry_add_action_flag_choices... OK
+    Applying contenttypes.0002_remove_content_type_name... OK
+    Applying auth.0002_alter_permission_name_max_length... OK
+    Applying auth.0003_alter_user_email_max_length... OK
+    Applying auth.0004_alter_user_username_opts... OK
+    Applying auth.0005_alter_user_last_login_null... OK
+    Applying auth.0006_require_contenttypes_0002... OK
+    Applying auth.0007_alter_validators_add_error_messages... OK
+    Applying auth.0008_alter_user_username_max_length... OK
+    Applying auth.0009_alter_user_last_name_max_length... OK
+    Applying auth.0010_alter_group_name_max_length... OK
+    Applying auth.0011_update_proxy_permissions... OK
+    Applying sessions.0001_initial... OK
+
+To check the SQL code for 'migrate' use 'sqlmigrate' e.g.:
+> python manage.py sqlmigrate admin 0001
+  --
+  -- Create model LogEntry
+  --
+  CREATE TABLE `django_admin_log` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `action_time` datetime(6) NOT NULL, `object_id` longtext NULL, `object_repr` varchar(200) NOT NULL, `action_flag` smallint UNSIGNED NOT NULL CHECK (`action_flag` >= 0), `change_message` longtext NOT NULL, `content_type_id` integer NULL, `user_id` integer NOT NULL);
+  ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
+  ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+If you're interested, you can also run 
+> python manage.py check
+this checks for any problems in your project without making migrations or touching the database.
+
+The migrate command will only run migrations for apps in INSTALLED_APPS.
+
+Check with MySQL:
+
+mysql> SHOW TABLES IN db_moex;
++----------------------------+
+| Tables_in_db_moex          |
++----------------------------+
+| auth_group                 |
+| auth_group_permissions     |
+| auth_permission            |
+| auth_user                  |
+| auth_user_groups           |
+| auth_user_user_permissions |
+| django_admin_log           |
+| django_content_type        |
+| django_migrations          |
+| django_session             |
++----------------------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM db_moex.auth_group;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.auth_group_permissions;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.auth_permission;
+  +----+-------------------------+-----------------+--------------------+
+  | id | name                    | content_type_id | codename           |
+  +----+-------------------------+-----------------+--------------------+
+  |  1 | Can add log entry       |               1 | add_logentry       |
+  |  2 | Can change log entry    |               1 | change_logentry    |
+  |  3 | Can delete log entry    |               1 | delete_logentry    |
+  |  4 | Can view log entry      |               1 | view_logentry      |
+  |  5 | Can add permission      |               2 | add_permission     |
+  |  6 | Can change permission   |               2 | change_permission  |
+  |  7 | Can delete permission   |               2 | delete_permission  |
+  |  8 | Can view permission     |               2 | view_permission    |
+  |  9 | Can add group           |               3 | add_group          |
+  | 10 | Can change group        |               3 | change_group       |
+  | 11 | Can delete group        |               3 | delete_group       |
+  | 12 | Can view group          |               3 | view_group         |
+  | 13 | Can add user            |               4 | add_user           |
+  | 14 | Can change user         |               4 | change_user        |
+  | 15 | Can delete user         |               4 | delete_user        |
+  | 16 | Can view user           |               4 | view_user          |
+  | 17 | Can add content type    |               5 | add_contenttype    |
+  | 18 | Can change content type |               5 | change_contenttype |
+  | 19 | Can delete content type |               5 | delete_contenttype |
+  | 20 | Can view content type   |               5 | view_contenttype   |
+  | 21 | Can add session         |               6 | add_session        |
+  | 22 | Can change session      |               6 | change_session     |
+  | 23 | Can delete session      |               6 | delete_session     |
+  | 24 | Can view session        |               6 | view_session       |
+  +----+-------------------------+-----------------+--------------------+
+  24 rows in set (0.00 sec)
+mysql> SELECT * FROM db_moex.auth_user;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.auth_user_groups;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.auth_user_user_permissions;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.django_admin_log;
+  Empty set (0.00 sec)
+mysql> SELECT * FROM db_moex.django_content_type;
+  +----+--------------+-------------+
+  | id | app_label    | model       |
+  +----+--------------+-------------+
+  |  1 | admin        | logentry    |
+  |  3 | auth         | group       |
+  |  2 | auth         | permission  |
+  |  4 | auth         | user        |
+  |  5 | contenttypes | contenttype |
+  |  6 | sessions     | session     |
+  +----+--------------+-------------+
+  6 rows in set (0.00 sec)
+mysql> SELECT * FROM db_moex.django_migrations;
+  +----+--------------+------------------------------------------+----------------------------+
+  | id | app          | name                                     | applied                    |
+  +----+--------------+------------------------------------------+----------------------------+
+  |  1 | contenttypes | 0001_initial                             | 2020-05-20 12:16:10.474664 |
+  |  2 | auth         | 0001_initial                             | 2020-05-20 12:16:13.388325 |
+  |  3 | admin        | 0001_initial                             | 2020-05-20 12:16:22.561139 |
+  |  4 | admin        | 0002_logentry_remove_auto_add            | 2020-05-20 12:16:24.892998 |
+  |  5 | admin        | 0003_logentry_add_action_flag_choices    | 2020-05-20 12:16:25.002706 |
+  |  6 | contenttypes | 0002_remove_content_type_name            | 2020-05-20 12:16:26.702463 |
+  |  7 | auth         | 0002_alter_permission_name_max_length    | 2020-05-20 12:16:27.788858 |
+  |  8 | auth         | 0003_alter_user_email_max_length         | 2020-05-20 12:16:28.072579 |
+  |  9 | auth         | 0004_alter_user_username_opts            | 2020-05-20 12:16:28.161343 |
+  | 10 | auth         | 0005_alter_user_last_login_null          | 2020-05-20 12:16:29.186565 |
+  | 11 | auth         | 0006_require_contenttypes_0002           | 2020-05-20 12:16:29.259719 |
+  | 12 | auth         | 0007_alter_validators_add_error_messages | 2020-05-20 12:16:29.371965 |
+  | 13 | auth         | 0008_alter_user_username_max_length      | 2020-05-20 12:16:30.457966 |
+  | 14 | auth         | 0009_alter_user_last_name_max_length     | 2020-05-20 12:16:31.611065 |
+  | 15 | auth         | 0010_alter_group_name_max_length         | 2020-05-20 12:16:31.804957 |
+  | 16 | auth         | 0011_update_proxy_permissions            | 2020-05-20 12:16:31.874867 |
+  | 17 | sessions     | 0001_initial                             | 2020-05-20 12:16:32.452938 |
+  +----+--------------+------------------------------------------+----------------------------+
+  17 rows in set (0.00 sec)
+mysql> SELECT * FROM db_moex.django_session;
+Empty set (0.00 sec)
+
+
+============ CREATING AN ADMIN USER ============
+> python manage.py createsuperuser
+  Username (leave blank to use 'shari'): admin
+  Email address: admin@example.com
+  Password:
+  Password (again):
+  Superuser created successfully.
+
+
+============ CREATING THE APP ============
+
+To create your app, make sure you're in the same directory as manage.py and type this command:
+> python manage.py startapp polls
+
+Chart JS:
+
+Plugins https://www.chartjs.org/docs/2.7.2/notes/extensions.html
+chartjs-plugin-annotation - Draws lines and boxes on chart area.
+  https://github.com/chartjs/chartjs-plugin-annotation
+  > npm install chartjs-plugin-annotation --save
+chartjs-plugin-datalabels - Displays labels on data for any type of charts.
+  https://chartjs-plugin-datalabels.netlify.app
+  https://github.com/chartjs/chartjs-plugin-datalabels
+  > npm install chartjs-plugin-datalabels --save
+chartjs-plugin-deferred - Defers initial chart update until chart scrolls into viewport.
+chartjs-plugin-draggable - Makes select chart elements draggable with the mouse.
+chartjs-chart-financial
+  https://github.com/chartjs/chartjs-chart-financial
+  
+chartjs-plugin-stacked100 - Draws 100% stacked bar chart.
+  https://github.com/y-takey/chartjs-plugin-stacked100
+  > npm install chartjs-plugin-stacked100 --save
+chartjs-plugin-waterfall - Enables easy use of waterfall charts.
+chartjs-plugin-zoom - Enables zooming and panning on charts.
+  https://github.com/chartjs/chartjs-plugin-zoom
+  > npm install chartjs-plugin-zoom --save
+
+https://bashooka.com/coding/9-useful-javascript-color-libraries/
+Chroma JS:
+  https://gka.github.io/chroma.js/#api
+  https://bundlephobia.com/result?p=chroma-js@2.1.0
+  https://www.npmjs.com/package/chroma-js  
+  > npm install chroma-js
+
+For color-blinded people:
+1. Download Patternomaly: https://github.com/ashiguruma/patternomaly
+2. Place it in static/moex
+HAD ISSUES, using npm instead:
+> npm install patternomaly
+
+CORS ISSUE:
+  Access to XMLHttpRequest at 'https://www.google.com/' (redirected from 'http://www.google.com/') from origin 'http://192.168.196.146:8000' has been blocked by CORS policy: 
+  No 'Access-Control-Allow-Origin' header is present on the requested resource.
+  SOLUTIONS:
+  https://www.html5rocks.com/en/tutorials/cors/
+  https://stackoverflow.com/questions/20035101/why-doesn-t-postman-get-a-no-access-control-allow-origin-header-is-present-on
+  https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
+  https://github.com/Rob--W/cors-anywhere/#documentation
+
+--------------- TO LAUNCH ------------------
+> mysqld --console
+> elasticsearch
+> cd web_server_moex
+> python manage.py runserver 192.168.196.146:8000

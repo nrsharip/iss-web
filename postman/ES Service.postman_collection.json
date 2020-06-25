@@ -1,0 +1,153 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ES Service",
+		"_postman_id": "398bc198-6155-89a0-a48d-e48c9ab5e0b0",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ES Service - Get Foos",
+			"request": {
+				"url": "http://localhost:8080/et/quotes/ex/foos",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Service - GET Quote By Id",
+			"request": {
+				"url": "http://localhost:8080/et/quotes/t5-TFmEBq1JdmA8Y_FlZ",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Service - GET Search by Volume",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8080/et/quotes?search=(volume > 0)&size=30&sort=volume",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"et",
+						"quotes"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "(volume > 0)",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "30",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "sort",
+							"value": "volume",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Service - GET Search by Symbol",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8080/et/quotes?search=(symbol==AAPL or symbol==INTC)&size=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"et",
+						"quotes"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "(symbol==AAPL or symbol==INTC)",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "100",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Service - POST Quote",
+			"request": {
+				"url": "http://localhost:8080/et/quotes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": 11111111111111,\n    \"open\": 11.11,\n    \"high\": 11.11,\n    \"low\": 11.11,\n    \"close\": 11.11,\n    \"adj\": 11.11,\n    \"volume\": 111111,\n    \"symbol\": \"WWW\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Service - POST Job",
+			"request": {
+				"url": "http://localhost:8080/et/quotes/jobs",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"request\" : {\n    \t\"timeToSleep\" : 10000\n    },\n    \"priority\" : \"HIGH\",\n    \"callback\" : \"http://example.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,259 @@
+<html>
+  {% load static %}
+
+  <title>{% block title %} Временной график: ценные бумаги по рынкам {% endblock %}</title>
+  <!-- https://www.favicon-generator.org/ -->
+  <link rel="apple-touch-icon" sizes="57x57" href='{% static "moex/icon2.ico/apple-icon-57x57.png" %}'>
+  <link rel="apple-touch-icon" sizes="60x60" href='{% static "moex/icon2.ico/apple-icon-60x60.png" %}'>
+  <link rel="apple-touch-icon" sizes="72x72" href='{% static "moex/icon2.ico/apple-icon-72x72.png" %}'>
+  <link rel="apple-touch-icon" sizes="76x76" href='{% static "moex/icon2.ico/apple-icon-76x76.png" %}'>
+  <link rel="apple-touch-icon" sizes="114x114" href='{% static "moex/icon2.ico/apple-icon-114x114.png" %}'>
+  <link rel="apple-touch-icon" sizes="120x120" href='{% static "moex/icon2.ico/apple-icon-120x120.png" %}'>
+  <link rel="apple-touch-icon" sizes="144x144" href='{% static "moex/icon2.ico/apple-icon-144x144.png" %}'>
+  <link rel="apple-touch-icon" sizes="152x152" href='{% static "moex/icon2.ico/apple-icon-152x152.png" %}'>
+  <link rel="apple-touch-icon" sizes="180x180" href='{% static "moex/icon2.ico/apple-icon-180x180.png" %}'>
+  <link rel="icon" type="image/png" sizes="192x192"  href='{% static "moex/icon2.ico/android-icon-192x192.png" %}'>
+  <link rel="icon" type="image/png" sizes="32x32" href='{% static "moex/icon2.ico/favicon-32x32.png" %}'>
+  <link rel="icon" type="image/png" sizes="96x96" href='{% static "moex/icon2.ico/favicon-96x96.png" %}'>
+  <link rel="icon" type="image/png" sizes="16x16" href='{% static "moex/icon2.ico/favicon-16x16.png" %}'>
+  <!-- This one causing 404 for android icons going out of Django 'static' parser -->
+  <!-- <link rel="manifest" href='{% static "moex/icon2.ico/manifest.json" %}'>   -->
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content='{% static "moex/icon2.ico/ms-icon-144x144.png" %}'>
+  <meta name="theme-color" content="#ffffff">
+
+  <div id="mobile-device-test"></div>
+
+  <!-- jQuery CDN – Latest Stable Versions: https://code.jquery.com/ -->
+  <!-- jQuery Core – All Versions:          https://code.jquery.com/jquery/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+  <!-- DataTables CDN: https://cdn.datatables.net/ -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- https://bashooka.com/coding/9-useful-javascript-color-libraries/ -->
+  <!-- chroma.js -->
+  <!-- https://gka.github.io/chroma.js/ -->
+  <!-- https://www.npmjs.com/package/chroma-js -->
+  <!-- once out of DEBUG switch to min.js version -->
+  <!-- <script src='{% static "moex/node_modules/chroma-js/chroma.min.js" %}'></script> -->
+  <script src='{% static "moex/node_modules/chroma-js/chroma.js" %}'></script>
+
+
+  <!-- https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html -->
+  <script src='{% static "moex/node_modules/elasticsearch-browser/elasticsearch.jquery.min.js" %}'></script>
+
+  <!-- https://developers.google.com/chart/interactive/docs/gallery/timeline -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <style>
+    .divider{
+        width  :10px;
+        height :auto;
+        display:inline-block;
+    }
+  </style>
+
+  <script src='{% static "moex/scripts/global.js" %}'></script>
+  <script type="text/javascript">
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+  // https://stackoverflow.com/questions/27612372/how-to-await-the-ajax-request
+  // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
+  // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
+  $( document ).ready(function() {
+    var request = "http://iss.moex.com/iss/index.json"
+    console.log("GET iss/index: " + request);
+    // http://iss.moex.com/iss/reference/28
+    // http://iss.moex.com/iss/index
+    jQuery.get(request).done( function( data ) {
+      jqXHR_iss_index_json = data;
+
+      process_iss_index_markets();              // map_jqXHR_iss_index_json_markets_data              : engine -> markets
+      process_iss_index_boardgroups();          // map_jqXHR_iss_index_json_boardgroups_data          : engine -> markets -> boardgroups
+      process_iss_index_boards();               // map_jqXHR_iss_index_json_boards_data               : engine -> markets -> boardgroups -> boards
+      process_iss_index_securitytypes();        // map_jqXHR_iss_index_json_securitytypes_data        : engine -> securitytypes
+      process_iss_index_securitygroups();       // map_jqXHR_iss_index_json_securitygroups_data       : engine -> securitygroups
+      process_iss_index_securitycollections();  // map_jqXHR_iss_index_json_securitycollection_data   : engine -> securitygroups -> securitycollection
+
+/*
+      var grid = $("<div/>", {'class' : "container-fluid", 'id' : prefix_grid + marker_row_home});  // grid-home
+      grid.appendTo($('body'));
+
+      var  row =  grid_create_row(grid, marker_row_main);                                           // grid-home-main
+      var  col =  grid_create_col(row, "col-md-12 align-top", marker_col_entire);                   // grid-home-main-entire
+           row =  grid_create_row(grid, marker_row_info);                                           // grid-home-info
+      var cell =  grid_create_col(row, "col-md-12 align-top", marker_col_entire);                   // grid-home-info-entire
+*/
+      google.charts.load("current", {packages:["timeline"]});
+      google.charts.setOnLoadCallback(main());
+      
+      
+    }).fail( function() {
+      // TODO: FINISH THIS PART
+      // Power Outage causing Internet off. Switching to saved JSONs for now
+      alert("Failed request: " + request);
+    });
+  });
+
+  async function main () {
+    var height  = $(window).height();
+    var width   = $(window).width();
+    var colors = ['#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425'];             // https://www.color-hex.com/color-palette/700
+    colors = colors.concat(['#ed5555', '#b4c468', '#b8a7ea', '#b7e0dc', '#bdd1a0']);  // https://www.color-hex.com/color-palette/36398
+    var i_color = 0;
+    for (var i_m = 0; i_m < jqXHR_iss_index_json.markets.data.length; i_m += 1) {
+    //for (var i_m = 0; i_m < 2; i_m += 1) {
+      // 0: "id"
+      // 1: "trade_engine_id"
+      // 2: "trade_engine_name"
+      // 3: "trade_engine_title"
+      // 4: "market_name"
+      // 5: "market_title"
+      // 6: "market_id"
+      // 7: "marketplace"
+      var market = jqXHR_iss_index_json.markets.data[i_m];
+      var es_index_list_market = 
+        esi_list_market + "-" 
+        + market[jqXHR_iss_index_json.markets.columns.indexOf("trade_engine_name")] + "-" 
+        + market[jqXHR_iss_index_json.markets.columns.indexOf("market_name")];
+      var es_index_hist_market = 
+        esi_hist_market + "-" 
+        + market[jqXHR_iss_index_json.markets.columns.indexOf("trade_engine_name")] + "-" 
+        + market[jqXHR_iss_index_json.markets.columns.indexOf("market_name")];
+      var request = "http://192.168.196.146:9200/" + es_index_list_market;
+      console.log("HEAD request: " + request);
+      
+      // https://petetasker.com/using-async-await-jquerys-ajax
+      try {
+        // see https://api.jquery.com/jquery.ajax/
+        await $.ajax({ url: request, type: 'GET', contentType: "application/json", dataType: "json" });
+        
+        var spinner = grid_create_spinner(null, "Загрузка: " + market[jqXHR_iss_index_json.markets.columns.indexOf("market_title")]);
+        spinner.appendTo($('body'));
+        
+        var index_list_minmaxes = await es_search({ 
+          index: es_index_list_market, 
+          size : size_secs_per_market, 
+          // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-max-aggregation.html
+          body : {
+            "_source" : false,
+            "aggs" : {
+              "min_date" : { "min" : { "field" : "date_from" } },
+              "max_date" : { "max" : { "field" : "date_till" } }
+            }
+          }
+        });
+        console.log(index_list_minmaxes);
+        
+        var date_list_min = index_list_minmaxes.aggregations.min_date.value ? new Date(index_list_minmaxes.aggregations.min_date.value) : null;
+        var date_list_max = index_list_minmaxes.aggregations.max_date.value ? new Date(index_list_minmaxes.aggregations.max_date.value) : null;
+        //date_list_max.setDate(date_list_max.getDate() + 1)
+        console.log("Market list dates: " + date_list_min + " - " + date_list_max);
+        
+        var index_list_response = await es_search({ 
+          index   : es_index_list_market, 
+          size    : size_secs_per_market, 
+          //_source : false,
+          sort    : "date_from",
+        });
+        console.log(index_list_response);
+        
+        if (index_list_response.hits.hits.length == 0) { spinner.remove(); continue; }
+        
+        var line_total = 0;
+        var obj_min = null;
+        var obj_lines = {};
+        var arr_rows  = new Array();
+        $.each (index_list_response.hits.hits, function (i_h, hit) {
+          if (hit._source.date_till !== null) {
+            var line = 0;
+          
+            var from = new Date(hit._source.date_from);
+            var till = new Date(hit._source.date_till);
+            
+            if (!obj_min) {
+              obj_min = { line : 0, till : 0 };
+              obj_min.line = line;
+              obj_min.till = till.getTime();
+            }
+            
+            if (from.getTime() > obj_min.till) {
+              line = obj_min.line;
+              obj_lines[line] = till.getTime();
+              obj_min.till = till.getTime();
+              
+              for (l in obj_lines) {
+                if (obj_lines[l] < obj_min.till) {
+                  obj_min.line = l;
+                  obj_min.till = obj_lines[l];
+                }
+              }
+            } else {
+              line = line_total;
+              line_total += 1;
+            }
+
+            if (till.getTime() < obj_min.till) {
+              obj_min.line = line;
+              obj_min.till = till.getTime();
+            }
+            arr_rows.push([line.toString(), hit._source.secid, from, till]);
+            obj_lines[line] = till.getTime();
+          }
+        })
+        console.log ("Records in " + es_index_list_market + ": " + index_list_response.hits.hits.length);
+        console.log ("Rows added: " + arr_rows.length);
+        
+        var h = $("<h5/>", { 
+          class : "text-center", 
+          html : market[jqXHR_iss_index_json.markets.columns.indexOf("market_title")]
+            + " (<span class='text-muted'>" 
+            + market[jqXHR_iss_index_json.markets.columns.indexOf("trade_engine_title")] 
+            + "</span>) - " 
+            + es_index_hist_market
+        });
+        h.appendTo($('body'));
+        var div = $("<div/>", { id : es_index_list_market, })
+        //div.css("width", $(window).width());
+        //div.css("width", $(window).width() - 25);
+        //div.css("height", $(window).height()/2);
+        div.css("width",  width - 25);
+        div.css("height", height - 40);
+        div.appendTo($('body'));
+
+        var container = document.getElementById(es_index_list_market);
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({ type: 'string', id: 'num' });
+        dataTable.addColumn({ type: 'string', id: 'secid' });
+        dataTable.addColumn({ type: 'date',   id: 'from' });
+        dataTable.addColumn({ type: 'date',   id: 'till' });
+        dataTable.addRows(arr_rows);
+        var options = {
+            timeline: { singleColor: colors[i_color % colors.length] },
+            //timeline: { colorByRowLabel: true },
+        };
+        i_color += 1;
+        spinner.remove(); 
+        chart.draw(dataTable, options);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  
+  </script>
+  <body>
+  
+  </body>
+</html>

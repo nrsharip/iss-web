@@ -1,0 +1,453 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ElasticSearch",
+		"_postman_id": "5bb699ee-c63e-36f3-4a0e-fa6ea9e114f6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ES Cluster - Health",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/_cat/health?v&pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"health"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Nodes",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/_cat/nodes?v&pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"nodes"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Shards",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/_cat/shards?v&pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"shards"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - PUT Create Index et0",
+			"request": {
+				"url": "http://localhost:9200/et0",
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - PUT Create Index et1",
+			"request": {
+				"url": "http://localhost:9200/et1",
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - PUT Mapping et0/quotes",
+			"request": {
+				"url": "http://localhost:9200/et0/_mapping/quotes",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quotes\": {\r\n        \"properties\": {\r\n            \"adj\": {\r\n                \"type\": \"text\",\r\n                \"fields\": {\r\n                    \"keyword\": {\r\n                        \"type\": \"keyword\",\r\n                        \"ignore_above\": 256\r\n                    }\r\n                }\r\n            },\r\n            \"close\": {\r\n                \"type\": \"text\",\r\n                \"fields\": {\r\n                    \"keyword\": {\r\n                        \"type\": \"keyword\",\r\n                        \"ignore_above\": 256\r\n                    }\r\n                }\r\n            },\r\n            \"date\": {\r\n                \"type\": \"long\"\r\n            },\r\n            \"high\": {\r\n                \"type\": \"text\",\r\n                \"fields\": {\r\n                    \"keyword\": {\r\n                        \"type\": \"keyword\",\r\n                        \"ignore_above\": 256\r\n                    }\r\n                }\r\n            },\r\n            \"low\": {\r\n                \"type\": \"text\",\r\n                \"fields\": {\r\n                    \"keyword\": {\r\n                        \"type\": \"keyword\",\r\n                        \"ignore_above\": 256\r\n                    }\r\n                }\r\n            },\r\n            \"open\": {\r\n                \"type\": \"text\",\r\n                \"fields\": {\r\n                    \"keyword\": {\r\n                        \"type\": \"keyword\",\r\n                        \"ignore_above\": 256\r\n                    }\r\n                }\r\n            },\r\n            \"symbol\": {\r\n                \"type\": \"keyword\"\r\n            },\r\n            \"volume\": {\r\n                \"type\": \"long\"\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - PUT Mapping et1/jobs",
+			"request": {
+				"url": "http://localhost:9200/et1/_mapping/jobs",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"jobs\": {\r\n\t\t\"properties\": {\r\n\t\t\t\"callback\": {\r\n\t\t\t\t\"type\": \"text\",\r\n\t\t\t\t\"fields\": {\r\n\t\t\t\t\t\"keyword\": {\r\n\t\t\t\t\t\t\"type\": \"keyword\",\r\n\t\t\t\t\t\t\"ignore_above\": 256\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t},\r\n\t\t\t\"priority\": {\r\n\t\t\t\t\"type\": \"text\",\r\n\t\t\t\t\"fields\": {\r\n\t\t\t\t\t\"keyword\": {\r\n\t\t\t\t\t\t\"type\": \"keyword\",\r\n\t\t\t\t\t\t\"ignore_above\": 256\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t},\r\n\t\t\t\"request\": {\r\n\t\t\t\t\"properties\": {\r\n\t\t\t\t\t\"timeToSleep\": {\r\n\t\t\t\t\t\t\"type\": \"long\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - POST et0/quotes Bulk Random Set1",
+			"request": {
+				"url": "http://localhost:9200/et0/quotes/_bulk",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-ndjson",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"index\" : {}}\r\n{\"date\": 860539056922,\"open\": \"11.07\",\"high\": \"195.83\",\"low\": \"72.75\",\"close\": \"42.56\",\"adj\": \"83.39\",\"volume\": 915964,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1439280947892,\"open\": \"165.67\",\"high\": \"142.26\",\"low\": \"97.86\",\"close\": \"91.97\",\"adj\": \"150.19\",\"volume\": 811231,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 862233064653,\"open\": \"40.20\",\"high\": \"158.09\",\"low\": \"63.06\",\"close\": \"25.03\",\"adj\": \"90.51\",\"volume\": 402863,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1397994075164,\"open\": \"52.14\",\"high\": \"166.75\",\"low\": \"54.11\",\"close\": \"95.62\",\"adj\": \"25.93\",\"volume\": 983899,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1333516329883,\"open\": \"173.18\",\"high\": \"182.19\",\"low\": \"97.39\",\"close\": \"182.18\",\"adj\": \"158.75\",\"volume\": 310481,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 686895778290,\"open\": \"24.70\",\"high\": \"149.10\",\"low\": \"51.21\",\"close\": \"109.83\",\"adj\": \"175.19\",\"volume\": 135581,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 641209003001,\"open\": \"143.25\",\"high\": \"174.75\",\"low\": \"84.19\",\"close\": \"114.83\",\"adj\": \"189.12\",\"volume\": 891457,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 752984226347,\"open\": \"190.09\",\"high\": \"173.97\",\"low\": \"47.26\",\"close\": \"27.38\",\"adj\": \"83.27\",\"volume\": 461961,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1005267533429,\"open\": \"17.08\",\"high\": \"156.34\",\"low\": \"77.02\",\"close\": \"123.54\",\"adj\": \"53.42\",\"volume\": 832653,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1414950897589,\"open\": \"97.80\",\"high\": \"186.98\",\"low\": \"32.67\",\"close\": \"44.57\",\"adj\": \"155.52\",\"volume\": 777550,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1059598519163,\"open\": \"45.24\",\"high\": \"123.89\",\"low\": \"23.89\",\"close\": \"155.16\",\"adj\": \"153.14\",\"volume\": 25537,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 667807333944,\"open\": \"148.81\",\"high\": \"154.00\",\"low\": \"69.81\",\"close\": \"49.55\",\"adj\": \"128.08\",\"volume\": 995902,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 844641094307,\"open\": \"163.92\",\"high\": \"126.79\",\"low\": \"43.54\",\"close\": \"128.97\",\"adj\": \"78.76\",\"volume\": 761092,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 659602595157,\"open\": \"154.44\",\"high\": \"173.45\",\"low\": \"20.73\",\"close\": \"103.49\",\"adj\": \"144.59\",\"volume\": 255792,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 689134069907,\"open\": \"99.78\",\"high\": \"107.76\",\"low\": \"66.16\",\"close\": \"193.44\",\"adj\": \"184.19\",\"volume\": 285140,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 880919230078,\"open\": \"15.72\",\"high\": \"103.46\",\"low\": \"94.48\",\"close\": \"45.34\",\"adj\": \"170.67\",\"volume\": 191018,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1502571114674,\"open\": \"179.73\",\"high\": \"173.82\",\"low\": \"52.14\",\"close\": \"46.97\",\"adj\": \"88.57\",\"volume\": 901845,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1230406480020,\"open\": \"79.01\",\"high\": \"103.30\",\"low\": \"92.66\",\"close\": \"142.19\",\"adj\": \"137.68\",\"volume\": 317695,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1290685410617,\"open\": \"108.60\",\"high\": \"172.83\",\"low\": \"11.17\",\"close\": \"123.52\",\"adj\": \"23.82\",\"volume\": 598754,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1074678545207,\"open\": \"91.35\",\"high\": \"121.59\",\"low\": \"92.74\",\"close\": \"109.63\",\"adj\": \"154.25\",\"volume\": 469386,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1054003845368,\"open\": \"63.63\",\"high\": \"137.45\",\"low\": \"57.82\",\"close\": \"68.64\",\"adj\": \"78.51\",\"volume\": 693717,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1353806975037,\"open\": \"193.61\",\"high\": \"158.47\",\"low\": \"46.48\",\"close\": \"169.57\",\"adj\": \"66.82\",\"volume\": 345269,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 647065735188,\"open\": \"144.85\",\"high\": \"193.89\",\"low\": \"95.57\",\"close\": \"82.56\",\"adj\": \"137.01\",\"volume\": 821839,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 660551792702,\"open\": \"14.22\",\"high\": \"125.56\",\"low\": \"87.71\",\"close\": \"101.67\",\"adj\": \"133.68\",\"volume\": 760109,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 757457802380,\"open\": \"83.09\",\"high\": \"191.03\",\"low\": \"91.17\",\"close\": \"14.23\",\"adj\": \"179.47\",\"volume\": 96954,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1371251491053,\"open\": \"23.36\",\"high\": \"133.23\",\"low\": \"17.37\",\"close\": \"81.58\",\"adj\": \"97.89\",\"volume\": 928964,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1331538089185,\"open\": \"193.64\",\"high\": \"136.59\",\"low\": \"66.61\",\"close\": \"105.01\",\"adj\": \"54.27\",\"volume\": 58570,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1490153993070,\"open\": \"100.36\",\"high\": \"109.48\",\"low\": \"62.25\",\"close\": \"71.23\",\"adj\": \"185.11\",\"volume\": 771743,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1276359863809,\"open\": \"133.48\",\"high\": \"131.12\",\"low\": \"56.34\",\"close\": \"177.65\",\"adj\": \"141.19\",\"volume\": 25447,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1501148252112,\"open\": \"135.69\",\"high\": \"184.58\",\"low\": \"45.15\",\"close\": \"65.09\",\"adj\": \"176.71\",\"volume\": 731225,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1388967897494,\"open\": \"177.64\",\"high\": \"139.16\",\"low\": \"73.23\",\"close\": \"93.25\",\"adj\": \"181.31\",\"volume\": 544833,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 994362607276,\"open\": \"136.96\",\"high\": \"153.21\",\"low\": \"64.95\",\"close\": \"179.24\",\"adj\": \"191.45\",\"volume\": 160410,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1393797098330,\"open\": \"178.40\",\"high\": \"116.61\",\"low\": \"17.31\",\"close\": \"52.88\",\"adj\": \"30.18\",\"volume\": 513465,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 948405912457,\"open\": \"142.20\",\"high\": \"163.12\",\"low\": \"51.74\",\"close\": \"121.08\",\"adj\": \"197.42\",\"volume\": 730977,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 720842270915,\"open\": \"94.11\",\"high\": \"198.71\",\"low\": \"46.18\",\"close\": \"73.07\",\"adj\": \"185.75\",\"volume\": 394551,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 711236365627,\"open\": \"180.42\",\"high\": \"157.01\",\"low\": \"70.02\",\"close\": \"123.58\",\"adj\": \"83.94\",\"volume\": 569084,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 889321271768,\"open\": \"84.67\",\"high\": \"146.85\",\"low\": \"85.45\",\"close\": \"145.49\",\"adj\": \"53.70\",\"volume\": 189669,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 719663298512,\"open\": \"150.27\",\"high\": \"152.59\",\"low\": \"38.10\",\"close\": \"199.61\",\"adj\": \"94.71\",\"volume\": 953577,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 646699768797,\"open\": \"31.13\",\"high\": \"107.31\",\"low\": \"49.04\",\"close\": \"121.80\",\"adj\": \"171.03\",\"volume\": 598513,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1195982655346,\"open\": \"122.51\",\"high\": \"121.64\",\"low\": \"50.05\",\"close\": \"33.09\",\"adj\": \"138.68\",\"volume\": 73021,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 797364343949,\"open\": \"107.56\",\"high\": \"147.50\",\"low\": \"93.68\",\"close\": \"69.30\",\"adj\": \"124.22\",\"volume\": 352770,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1270121999872,\"open\": \"175.15\",\"high\": \"156.56\",\"low\": \"96.74\",\"close\": \"84.75\",\"adj\": \"182.01\",\"volume\": 171294,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1339422635938,\"open\": \"147.67\",\"high\": \"117.38\",\"low\": \"35.61\",\"close\": \"62.60\",\"adj\": \"158.30\",\"volume\": 917260,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 820786215630,\"open\": \"71.85\",\"high\": \"176.67\",\"low\": \"13.38\",\"close\": \"191.82\",\"adj\": \"126.27\",\"volume\": 660977,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1060355406798,\"open\": \"133.53\",\"high\": \"154.08\",\"low\": \"72.88\",\"close\": \"166.19\",\"adj\": \"61.71\",\"volume\": 889107,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1476652935311,\"open\": \"122.56\",\"high\": \"132.37\",\"low\": \"61.91\",\"close\": \"161.13\",\"adj\": \"88.23\",\"volume\": 283512,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1367127583905,\"open\": \"154.95\",\"high\": \"130.92\",\"low\": \"87.13\",\"close\": \"62.46\",\"adj\": \"168.72\",\"volume\": 567667,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 944645414318,\"open\": \"22.76\",\"high\": \"176.02\",\"low\": \"37.17\",\"close\": \"97.98\",\"adj\": \"114.81\",\"volume\": 890220,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1386121838836,\"open\": \"47.80\",\"high\": \"154.33\",\"low\": \"62.09\",\"close\": \"82.68\",\"adj\": \"115.29\",\"volume\": 431396,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1367411929282,\"open\": \"163.45\",\"high\": \"126.32\",\"low\": \"94.30\",\"close\": \"32.40\",\"adj\": \"12.26\",\"volume\": 236747,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 669867373423,\"open\": \"113.45\",\"high\": \"128.37\",\"low\": \"64.23\",\"close\": \"199.35\",\"adj\": \"92.20\",\"volume\": 491782,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1324977911428,\"open\": \"74.41\",\"high\": \"184.82\",\"low\": \"56.65\",\"close\": \"40.70\",\"adj\": \"125.96\",\"volume\": 162766,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1393520442659,\"open\": \"197.56\",\"high\": \"119.17\",\"low\": \"47.63\",\"close\": \"83.09\",\"adj\": \"197.55\",\"volume\": 943447,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1462638547635,\"open\": \"62.51\",\"high\": \"159.85\",\"low\": \"59.37\",\"close\": \"178.03\",\"adj\": \"189.93\",\"volume\": 54963,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1311377193512,\"open\": \"124.34\",\"high\": \"146.94\",\"low\": \"26.52\",\"close\": \"51.48\",\"adj\": \"44.97\",\"volume\": 234266,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1212437003251,\"open\": \"57.16\",\"high\": \"153.20\",\"low\": \"48.37\",\"close\": \"155.46\",\"adj\": \"114.13\",\"volume\": 172205,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1103699129171,\"open\": \"130.79\",\"high\": \"150.82\",\"low\": \"31.79\",\"close\": \"108.54\",\"adj\": \"96.22\",\"volume\": 87245,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1100082580484,\"open\": \"193.87\",\"high\": \"115.64\",\"low\": \"64.76\",\"close\": \"174.53\",\"adj\": \"37.44\",\"volume\": 588070,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1495906905923,\"open\": \"87.87\",\"high\": \"148.12\",\"low\": \"59.11\",\"close\": \"123.30\",\"adj\": \"68.80\",\"volume\": 992823,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 735223368542,\"open\": \"83.38\",\"high\": \"162.22\",\"low\": \"63.34\",\"close\": \"35.51\",\"adj\": \"58.92\",\"volume\": 190033,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1363675719404,\"open\": \"167.89\",\"high\": \"197.79\",\"low\": \"19.05\",\"close\": \"32.03\",\"adj\": \"164.00\",\"volume\": 597766,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1240450915497,\"open\": \"171.57\",\"high\": \"148.76\",\"low\": \"90.08\",\"close\": \"183.37\",\"adj\": \"77.80\",\"volume\": 271462,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1308810932479,\"open\": \"147.13\",\"high\": \"174.53\",\"low\": \"81.52\",\"close\": \"161.32\",\"adj\": \"123.26\",\"volume\": 197107,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1431468007344,\"open\": \"134.91\",\"high\": \"109.90\",\"low\": \"12.60\",\"close\": \"138.76\",\"adj\": \"119.32\",\"volume\": 521168,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 904359912018,\"open\": \"39.40\",\"high\": \"163.88\",\"low\": \"50.15\",\"close\": \"69.78\",\"adj\": \"183.77\",\"volume\": 952963,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 819976479796,\"open\": \"110.76\",\"high\": \"158.25\",\"low\": \"97.27\",\"close\": \"151.61\",\"adj\": \"174.12\",\"volume\": 868462,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 669472059904,\"open\": \"79.14\",\"high\": \"112.45\",\"low\": \"77.18\",\"close\": \"165.57\",\"adj\": \"21.31\",\"volume\": 756638,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1442351846848,\"open\": \"92.34\",\"high\": \"113.18\",\"low\": \"49.40\",\"close\": \"187.74\",\"adj\": \"89.48\",\"volume\": 216814,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1019354899766,\"open\": \"179.36\",\"high\": \"189.65\",\"low\": \"73.68\",\"close\": \"100.35\",\"adj\": \"98.12\",\"volume\": 262489,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 886537824976,\"open\": \"194.45\",\"high\": \"185.40\",\"low\": \"68.28\",\"close\": \"56.28\",\"adj\": \"18.68\",\"volume\": 424246,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1113335546161,\"open\": \"132.85\",\"high\": \"175.51\",\"low\": \"94.80\",\"close\": \"182.99\",\"adj\": \"33.62\",\"volume\": 831810,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1383972058678,\"open\": \"150.33\",\"high\": \"114.81\",\"low\": \"37.60\",\"close\": \"139.12\",\"adj\": \"159.08\",\"volume\": 312047,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1257656136212,\"open\": \"47.96\",\"high\": \"155.93\",\"low\": \"15.86\",\"close\": \"65.37\",\"adj\": \"115.22\",\"volume\": 877712,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 766340099138,\"open\": \"126.46\",\"high\": \"167.56\",\"low\": \"83.64\",\"close\": \"41.48\",\"adj\": \"142.53\",\"volume\": 642185,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 902927584800,\"open\": \"144.34\",\"high\": \"194.65\",\"low\": \"42.57\",\"close\": \"171.58\",\"adj\": \"54.27\",\"volume\": 156243,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1287882114842,\"open\": \"90.54\",\"high\": \"165.48\",\"low\": \"25.38\",\"close\": \"95.89\",\"adj\": \"101.79\",\"volume\": 689247,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 863556140387,\"open\": \"87.72\",\"high\": \"150.42\",\"low\": \"21.43\",\"close\": \"45.27\",\"adj\": \"49.22\",\"volume\": 980843,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1256609527782,\"open\": \"153.13\",\"high\": \"117.30\",\"low\": \"16.52\",\"close\": \"66.62\",\"adj\": \"148.49\",\"volume\": 940880,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 755734148497,\"open\": \"184.77\",\"high\": \"181.99\",\"low\": \"36.87\",\"close\": \"36.31\",\"adj\": \"34.86\",\"volume\": 510844,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1275549298200,\"open\": \"126.17\",\"high\": \"139.60\",\"low\": \"28.64\",\"close\": \"68.47\",\"adj\": \"81.67\",\"volume\": 611485,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1028093200987,\"open\": \"82.40\",\"high\": \"191.44\",\"low\": \"55.93\",\"close\": \"192.60\",\"adj\": \"14.97\",\"volume\": 172131,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1452691535772,\"open\": \"25.55\",\"high\": \"159.12\",\"low\": \"14.76\",\"close\": \"55.84\",\"adj\": \"104.76\",\"volume\": 867257,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 716730352606,\"open\": \"50.17\",\"high\": \"141.03\",\"low\": \"81.63\",\"close\": \"11.68\",\"adj\": \"104.51\",\"volume\": 823622,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 964265540164,\"open\": \"71.76\",\"high\": \"133.18\",\"low\": \"95.66\",\"close\": \"148.76\",\"adj\": \"73.19\",\"volume\": 727185,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1405954305848,\"open\": \"129.99\",\"high\": \"136.93\",\"low\": \"99.30\",\"close\": \"53.67\",\"adj\": \"48.06\",\"volume\": 463689,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1054826675959,\"open\": \"95.09\",\"high\": \"105.59\",\"low\": \"11.28\",\"close\": \"199.00\",\"adj\": \"110.88\",\"volume\": 674502,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1457483200711,\"open\": \"20.82\",\"high\": \"138.86\",\"low\": \"94.45\",\"close\": \"91.59\",\"adj\": \"132.29\",\"volume\": 188739,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1168020297177,\"open\": \"190.61\",\"high\": \"177.99\",\"low\": \"95.70\",\"close\": \"113.93\",\"adj\": \"166.14\",\"volume\": 211172,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 694283491200,\"open\": \"130.63\",\"high\": \"104.39\",\"low\": \"66.89\",\"close\": \"149.21\",\"adj\": \"97.62\",\"volume\": 818776,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 804687485248,\"open\": \"161.08\",\"high\": \"184.45\",\"low\": \"90.23\",\"close\": \"148.85\",\"adj\": \"192.27\",\"volume\": 301784,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1057574073421,\"open\": \"51.73\",\"high\": \"124.61\",\"low\": \"68.82\",\"close\": \"111.95\",\"adj\": \"151.39\",\"volume\": 110154,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 859792078790,\"open\": \"143.88\",\"high\": \"104.22\",\"low\": \"33.37\",\"close\": \"122.82\",\"adj\": \"136.57\",\"volume\": 778504,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 860670046139,\"open\": \"159.78\",\"high\": \"167.02\",\"low\": \"49.80\",\"close\": \"158.38\",\"adj\": \"19.35\",\"volume\": 982321,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 1432940787912,\"open\": \"46.74\",\"high\": \"106.61\",\"low\": \"13.07\",\"close\": \"14.98\",\"adj\": \"68.47\",\"volume\": 48052,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 865446297588,\"open\": \"99.73\",\"high\": \"111.44\",\"low\": \"77.77\",\"close\": \"17.07\",\"adj\": \"165.61\",\"volume\": 765404,\"symbol\": \"SBUX\"}\r\n{\"index\" : {}}\r\n{\"date\": 789337454789,\"open\": \"183.00\",\"high\": \"119.03\",\"low\": \"51.95\",\"close\": \"117.18\",\"adj\": \"194.11\",\"volume\": 29660,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1195728070673,\"open\": \"32.33\",\"high\": \"167.92\",\"low\": \"38.70\",\"close\": \"125.50\",\"adj\": \"38.95\",\"volume\": 504546,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1227487810092,\"open\": \"54.84\",\"high\": \"119.88\",\"low\": \"62.47\",\"close\": \"55.96\",\"adj\": \"24.87\",\"volume\": 876186,\"symbol\": \"AAPL\"}\r\n{\"index\" : {}}\r\n{\"date\": 1185191563849,\"open\": \"116.62\",\"high\": \"120.06\",\"low\": \"36.64\",\"close\": \"192.38\",\"adj\": \"51.45\",\"volume\": 333498,\"symbol\": \"INTC\"}\r\n{\"index\" : {}}\r\n{\"date\": 1390599196341,\"open\": \"150.90\",\"high\": \"152.09\",\"low\": \"47.49\",\"close\": \"175.85\",\"adj\": \"54.58\",\"volume\": 717800,\"symbol\": \"INTC\"}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - POST et1/jobs Single",
+			"request": {
+				"url": "http://localhost:9200/et1/jobs/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"request\" : {\n    \t\"timeToSleep\" : 10000\n    },\n    \"priority\" : \"HIGH\",\n    \"callback\" : \"http://example.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - GET Index Mappings et0",
+			"request": {
+				"url": "http://localhost:9200/et0",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - GET Index Mappings et1",
+			"request": {
+				"url": "http://localhost:9200/et1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - GET Document et0/quotes By Id",
+			"request": {
+				"url": "http://localhost:9200/et0/quotes/qwe",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - DELETE Index et0",
+			"request": {
+				"url": "http://localhost:9200/et0",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - DELETE Index et1",
+			"request": {
+				"url": "http://localhost:9200/et1",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Search ALL",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Search ALL Size 100",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/_search?pretty&size=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "100",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Search et0/quotes ALL",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/et0/quotes/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"et0",
+						"quotes",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Search et0/quotes symbol",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/et/quotes/_search?q=symbol:AAPL",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"et",
+						"quotes",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "symbol:AAPL",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ES Cluster - Search et1/jobs ALL",
+			"request": {
+				"url": {
+					"raw": "http://localhost:9200/et1/jobs/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"et1",
+						"jobs",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
