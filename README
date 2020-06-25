@@ -515,3 +515,12 @@ CORS ISSUE:
 > elasticsearch
 > cd web_server_moex
 > python manage.py runserver 192.168.196.146:8000
+
+GIT commands:
+> git status
+> git status -u no
+> git diff
+> git diff --cached
+> git ls-files -m
+> git commit -m ""
+> git push origin master
