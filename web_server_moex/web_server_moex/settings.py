@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['127.0.0.1','192.168.196.146']
 
 INSTALLED_APPS = [
     'moex.apps.MoexConfig',
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
