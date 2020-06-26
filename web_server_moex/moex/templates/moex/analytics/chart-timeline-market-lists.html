@@ -66,10 +66,18 @@
 
   <script src='{% static "moex/scripts/global.js" %}'></script>
   <script type="text/javascript">
+  // https://stackoverflow.com/questions/50566194/correctly-accessing-django-static-files-from-external-javascript
+  NG_STATIC_FILES = {
+     //"HOME": "{% static '/pages/home.html' %}",
+     //"SOMETHING_ELSE": "{% static '/pages/some-angular-template.html' %}",
+     "SVG_QUESTION_CIRCLE" : '{% static "moex/node_modules/icons-master/icons/question-circle.svg" %}',
+  };
+  
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
   // https://stackoverflow.com/questions/27612372/how-to-await-the-ajax-request
   // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
   // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
+  
   $( document ).ready(function() {
     var request = "http://iss.moex.com/iss/index.json"
     console.log("GET iss/index: " + request);
@@ -105,6 +113,151 @@
     });
   });
 
+  function process_event_select_secid(secid, index_hist, index_list) {
+    //console.log(secid)
+
+    // https://stackoverflow.com/questions/18432394/how-to-make-twitter-bootstrap-modal-full-screen
+    // https://www.w3schools.com/css/css_align.asp
+    // https://getbootstrap.com/docs/4.2/components/modal/#via-javascript
+    // https://getbootstrap.com/docs/4.2/components/modal/#options
+    // https://getbootstrap.com/docs/4.2/components/modal/#methods
+
+    // https://getbootstrap.com/docs/4.2/components/modal/#options
+    // Name       Type                    Default     Description
+    // backdrop   boolean                 true        Includes a modal-backdrop element. Alternatively, specify static for a backdrop which doesn't close the modal on click.
+    //            or the string 'static'
+    // keyboard   boolean                 true        Closes the modal when escape key is pressed
+    // focus      boolean                 true        Puts the focus on the modal when initialized.
+    // show       boolean                 true        Shows the modal when initialized.
+    var options = {
+      backdrop  : true,
+      keyboard  : true,
+      focus     : true,
+      show      : true,
+    }
+    $('#modal-secid').find('.modal-dialog').css('max-width', '99%');
+    $('#modal-secid').find('.modal-dialog').css('max-height', '99%');
+
+    $('#modal-secid').find('.modal-header').css('padding-top',    '8px');
+    $('#modal-secid').find('.modal-header').css('padding-bottom', '8px');
+
+    $('#modal-label-secid').empty();
+    var body = $('#modal-secid').find('.modal-body');
+    // emptying the body
+    body.empty();
+
+    // Creating the grid container for the modal-body:
+    var grid = $("<div/>", {'class' : "container-fluid", 'id' : prefix_grid + 'modal-secid'}) // grid-modal-secid
+    grid.appendTo(body);
+    var row = grid_create_row(grid, marker_row_main);                                         // grid-modal-secid-main
+    var col_left    = null;
+    var col_right   = null;
+    var col_entire  = null;
+    if (!is_mobile) {
+      col_left    = grid_create_col(row, "col-md-7 align-top", marker_col_left);              // grid-modal-secid-main-left
+      col_right   = grid_create_col(row, "col-md-5 align-top", marker_col_right);             // grid-modal-secid-main-right
+    } else {
+      col_entire  = grid_create_col(row, "col-md-12 align-top", marker_col_entire);           // grid-modal-secid-main-entire
+    }
+    // https://getbootstrap.com/docs/4.2/components/modal/#via-javascript
+    $('#modal-secid').modal(options)
+
+    var col = null;
+
+    // security
+    if (!is_mobile) {
+      col = col_right;
+    } else {
+      col = col_entire;
+    }
+    // http://iss.moex.com/iss/reference/13  - http://iss.moex.com/iss/securities/AFKS
+    var subrow = grid_create_row(col, marker_row_securities);                             // grid-modal-secid-main-{right|entire}-securities
+    var subcol = grid_create_col(subrow, "col-md-12 align-top", marker_col_entire);       // grid-modal-secid-main-{right|entire}-securities-entire
+    grid_create_spinner(subcol);
+
+    var request = "https://iss.moex.com/iss" + 
+      "/securities/" + secid + 
+      ".json" 
+    console.log("GET security " + secid + " description: " + request);
+    jQuery.get(request).done( function( description ) {
+      console.log(description);
+      var map = new Map();
+      map.set(map_key_security_description,   description.description);
+      map.set(map_key_security_boards,        description.boards);
+      map_secid_jqXHR_iss_securities_security_json.set(secid, map);
+
+      //var desc = new Map();
+      //$.each(description.description.data, function( i, line ) {
+      //  desc.set(line[description.description.columns.indexOf("name")], line[description.description.columns.indexOf("value")]);
+      //});
+      var desc = get_iss_security_description (secid);
+      $('#modal-label-secid').html("<b>" + secid + "</b> - " + desc.get("NAME"));
+
+      var q = "";
+      q += desc.get("SECID")  ?     desc.get("SECID") : "";
+      q += desc.get("ISIN")   ? " " + desc.get("ISIN")  : "";
+      // https://stackoverflow.com/questions/6544564/url-encode-a-string-in-jquery-for-an-ajax-request
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+      q = encodeURIComponent(q);
+
+      var request = "https://iss.moex.com/iss" 
+        + "/securities.json" 
+        + "?"
+        + "q=" + q
+      console.log("GET security " + secid + " securities: " + request);
+      jQuery.get(request).done( function( securities ) {
+        console.log(securities);
+        if (securities.securities.data.length == 0) {
+          alert("ERROR: Got 0 records for " + secid + " request: " + request);
+          return;
+        }
+        if (securities.securities.data.length > 1) {
+          console.log("WARNING: Got more than 1 record for " + secid + " request: " + request);
+        }
+        var map = map_secid_jqXHR_iss_securities_security_json.get(secid);
+        map.set(map_key_security_securities_iss,  securities.securities);
+        map_secid_jqXHR_iss_securities_security_json.set(secid, map);
+
+        subcol.empty()
+        
+        // securities
+        // 
+        $("<h6/>", { style : "text-align: center; font-weight: bold;", html  : "Ценная бумага <font color='red'>" + secid + "</font>" }).appendTo(subcol);
+        // https://getbootstrap.com/docs/4.2/content/tables/#borderless-table
+        // https://getbootstrap.com/docs/4.2/content/tables/#small-table
+        var table = grid_create_table(prefix_iss + marker_table_security + postfix_securities, col, subrow, subcol);
+        table.table.addClass("table-borderless");
+        table_fill_with_iss_security_securities(table, secid);
+
+        // description
+        // 
+        subrow = grid_create_row(col, marker_row_description);                   // grid-modal-secid-main-right-description
+        subcol = grid_create_col(subrow, "col-md-12 align-top", marker_col_entire);    // grid-modal-secid-main-right-description-entire
+        $("<h6/>", { style : "text-align: center; font-weight: bold;", html: "Описание ценной бумаги"}).appendTo(subcol);
+        // https://getbootstrap.com/docs/4.2/content/tables/#borderless-table
+        // https://getbootstrap.com/docs/4.2/content/tables/#small-table
+        var table = grid_create_table(prefix_iss + marker_table_security + postfix_description, col, subrow, subcol);
+        table.table.addClass("table-borderless");
+        table_fill_with_iss_security_description(table, secid);
+        
+        // boards
+        // 
+        subrow = grid_create_row(col, marker_row_boards);                        // grid-modal-secid-main-right-boards
+        subcol = grid_create_col(subrow, "col-md-12 align-top", marker_col_entire);    // grid-modal-secid-main-right-boards-entire
+        $("<h6/>", { style : "text-align: center; font-weight: bold;", html: "Режимы торгов ценной бумагой <font color='red'>" + secid + "</font>" }).appendTo(subcol);
+        var table = grid_create_table(prefix_iss + marker_table_security + postfix_boards, col, subrow, subcol);
+        table_fill_with_iss_security_boards(table, secid);
+        
+      }).fail( function() {
+        // TODO: FINISH THIS PART
+        alert ("ERROR: Request failed: " + request);
+      });
+    }).fail( function() {
+      // TODO: FINISH THIS PART
+      alert ("ERROR: Request failed: " + request);
+    });
+  }
+  
   async function main () {
     var height  = $(window).height();
     var width   = $(window).width();
@@ -227,8 +380,8 @@
         //div.css("width", $(window).width());
         //div.css("width", $(window).width() - 25);
         //div.css("height", $(window).height()/2);
-        div.css("width",  width - 25);
-        div.css("height", height - 40);
+        div.css("width",  width - 25);     // -25 for the scroll-bar...
+        div.css("height", height * (3/4));
         div.appendTo($('body'));
 
         var container = document.getElementById(es_index_list_market);
@@ -260,6 +413,7 @@
             var es_index_list_market = esi_list_market + "-" + market.trade_engine_name + "-" + market.name;
             var es_index_hist_market = esi_hist_market + "-" + market.trade_engine_name + "-" + market.name;
             console.log(es_index_list_market, es_index_hist_market, d.getValue(c.getSelection()[0].row, 1)); // 1 column - secid
+            process_event_select_secid(d.getValue(c.getSelection()[0].row, 1), es_index_hist_market, es_index_list_market);
           }
           
         }) (chart, dataTable, market[jqXHR_iss_index_json.markets.columns.indexOf("id")]));
@@ -276,6 +430,20 @@
   
   </script>
   <body>
-  
+    <div id="modal-secid" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-label-secid" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span style="width: 100%; text-align: center; font-size: 20px;" class="modal-title" id="modal-label-secid"></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
