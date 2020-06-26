@@ -524,3 +524,14 @@ GIT commands:
 > git ls-files -m
 > git commit -m ""
 > git push origin master
+> git pull origin master
+
+Creating the soft link to node_modules (https://www.howtogeek.com/howto/16226/complete-guide-to-symbolic-links-symlinks-on-windows-or-linux/):
+> mklink /D node_modules web_server_moex\moex\static\moex\node_modules
+symbolic link created for node_modules <<===>> web_server_moex\moex\static\moex\node_modules
+
+Create the project.json
+> npm init 
+Install the dependencies (--save stores the dependency in the project.json for later use):
+> npm install {package} --save 
+

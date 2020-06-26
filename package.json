@@ -1,0 +1,46 @@
+{
+  "name": "iss-web",
+  "version": "1.0.0",
+  "description": "Front-end and scripts to access the MOEX ISS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrsharip/iss-web.git"
+  },
+  "keywords": [
+    "MOEX",
+    "Moscow",
+    "Exchange",
+    "FOREX",
+    "Stock",
+    "Exchange"
+  ],
+  "author": "Nail R. Sharipov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nrsharip/iss-web/issues"
+  },
+  "homepage": "https://github.com/nrsharip/iss-web#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "bootstrap-icons": "^1.0.0-alpha4",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-datalabels": "^0.7.0",
+    "chartjs-plugin-zoom": "^0.7.7",
+    "chroma-js": "^2.1.0",
+    "datatables.net": "^1.10.21",
+    "datatables.net-dt": "^1.10.21",
+    "elasticsearch-browser": "^16.7.1",
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.5.1",
+    "moment": "^2.27.0",
+    "patternomaly": "^1.3.2",
+    "popper.js": "^1.16.1",
+    "potpack": "^1.0.1",
+    "sigma": "^1.2.1",
+    "toxiclibsjs": "^0.3.3"
+  }
+}

@@ -28,30 +28,23 @@
   <!-- jQuery Core – All Versions:          https://code.jquery.com/jquery/ -->
   <!-- once out of DEBUG switch to min.js version -->
   <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+  <script src='{% static "jquery/dist/jquery.min.js" %}'></script>
 
-  <!-- DataTables CDN: https://cdn.datatables.net/ -->
-  <!-- once out of DEBUG switch to min.js version -->
-  <!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
-  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-
-
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+  <!-- BOOTSTRAP -->   
+  <script src='{% static "popper.js/dist/umd/popper.min.js" %}'></script>
+  <link rel="stylesheet" href='{% static "bootstrap/dist/css/bootstrap.min.css" %}'>
+  <script src='{% static "bootstrap/dist/js/bootstrap.min.js" %}'></script>
+  
   <!-- https://bashooka.com/coding/9-useful-javascript-color-libraries/ -->
   <!-- chroma.js -->
   <!-- https://gka.github.io/chroma.js/ -->
   <!-- https://www.npmjs.com/package/chroma-js -->
   <!-- once out of DEBUG switch to min.js version -->
-  <!-- <script src='{% static "moex/node_modules/chroma-js/chroma.min.js" %}'></script> -->
-  <script src='{% static "moex/node_modules/chroma-js/chroma.js" %}'></script>
-
+  <script src='{% static "chroma-js/chroma.min.js" %}'></script>
 
   <!-- https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html -->
-  <script src='{% static "moex/node_modules/elasticsearch-browser/elasticsearch.jquery.min.js" %}'></script>
+  <script src='{% static "elasticsearch-browser/elasticsearch.jquery.min.js" %}'></script>
 
   <style>
     .divider{
@@ -62,64 +55,64 @@
   </style>
 
   <!-- START SIGMA IMPORTS -->
-  <script src="{% static 'moex/sigma.js-1.2.1/src/sigma.core.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/conrad.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/utils/sigma.utils.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/utils/sigma.polyfills.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/sigma.settings.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.dispatcher.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.configurable.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.graph.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.camera.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.quad.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/classes/sigma.classes.edgequad.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/captors/sigma.captors.mouse.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/captors/sigma.captors.touch.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.canvas.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.webgl.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.svg.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/sigma.renderers.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.nodes.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.nodes.fast.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.fast.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/webgl/sigma.webgl.edges.arrow.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.labels.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.hovers.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.nodes.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.curve.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.arrow.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.curve.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/canvas/sigma.canvas.extremities.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.utils.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.nodes.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.edges.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.edges.curve.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.labels.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/renderers/svg/sigma.svg.hovers.def.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/middlewares/sigma.middlewares.rescale.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/middlewares/sigma.middlewares.copy.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.animation.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.bindEvents.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.bindDOMEvents.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/src/misc/sigma.misc.drawHovers.js' %}"></script>
+  <script src="{% static 'sigma/src/sigma.core.js' %}"></script>
+  <script src="{% static 'sigma/src/conrad.js' %}"></script>
+  <script src="{% static 'sigma/src/utils/sigma.utils.js' %}"></script>
+  <script src="{% static 'sigma/src/utils/sigma.polyfills.js' %}"></script>
+  <script src="{% static 'sigma/src/sigma.settings.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.dispatcher.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.configurable.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.graph.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.camera.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.quad.js' %}"></script>
+  <script src="{% static 'sigma/src/classes/sigma.classes.edgequad.js' %}"></script>
+  <script src="{% static 'sigma/src/captors/sigma.captors.mouse.js' %}"></script>
+  <script src="{% static 'sigma/src/captors/sigma.captors.touch.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/sigma.renderers.canvas.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/sigma.renderers.webgl.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/sigma.renderers.svg.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/sigma.renderers.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/webgl/sigma.webgl.nodes.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/webgl/sigma.webgl.nodes.fast.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/webgl/sigma.webgl.edges.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/webgl/sigma.webgl.edges.fast.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/webgl/sigma.webgl.edges.arrow.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.labels.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.hovers.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.nodes.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edges.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edges.curve.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edges.arrow.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edgehovers.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edgehovers.curve.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/canvas/sigma.canvas.extremities.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.utils.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.nodes.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.edges.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.edges.curve.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.labels.def.js' %}"></script>
+  <script src="{% static 'sigma/src/renderers/svg/sigma.svg.hovers.def.js' %}"></script>
+  <script src="{% static 'sigma/src/middlewares/sigma.middlewares.rescale.js' %}"></script>
+  <script src="{% static 'sigma/src/middlewares/sigma.middlewares.copy.js' %}"></script>
+  <script src="{% static 'sigma/src/misc/sigma.misc.animation.js' %}"></script>
+  <script src="{% static 'sigma/src/misc/sigma.misc.bindEvents.js' %}"></script>
+  <script src="{% static 'sigma/src/misc/sigma.misc.bindDOMEvents.js' %}"></script>
+  <script src="{% static 'sigma/src/misc/sigma.misc.drawHovers.js' %}"></script>
   <!-- END SIGMA IMPORTS -->
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dashed.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dotted.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.parallel.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.tapered.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dashed.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dotted.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.parallel.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.tapered.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dashed.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.dotted.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.parallel.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.tapered.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dashed.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.dotted.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.parallel.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.tapered.js' %}"></script>
   
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.layout.forceAtlas2/worker.js' %}"></script>
-  <script src="{% static 'moex/sigma.js-1.2.1/plugins/sigma.layout.forceAtlas2/supervisor.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.layout.forceAtlas2/worker.js' %}"></script>
+  <script src="{% static 'sigma/plugins/sigma.layout.forceAtlas2/supervisor.js' %}"></script>
 
   <div id="container">
     <style>
@@ -170,15 +163,14 @@
   <!-- http://toxiclibs.org/docs/core/ -->
   <!-- http://haptic-data.com/toxiclibsjs -->
   <!-- https://github.com/hapticdata/toxiclibsjs -->
-  <script src="{% static 'moex/toxiclibsjs-master/build/toxiclibs.min.js' %}"></script>
+  <!-- <script src="{% static 'moex/toxiclibsjs-master/build/toxiclibs.min.js' %}"></script> -->
+  <script src="{% static 'toxiclibsjs/build/toxiclibs.min.js' %}"></script>
 
   <!-- https://en.wikipedia.org/wiki/Packing_problems#Packing_rectangles -->
   <!-- Google: rectangle packing javascript -->
   <!-- https://www.google.com/search?rlz=1C1CHZL_enUS739US739&biw=1707&bih=838&sxsrf=ALeKk0023SvDin395jHOLv6FtMv5iiYGzg%3A1592223993850&ei=-WjnXtCqM4GrmwWoho_ICA&q=rectangle+packing+javascript&oq=Packing+rectangles+ja&gs_lcp=CgZwc3ktYWIQAxgAMgYIABAWEB4yBggAEBYQHjoCCAA6CAgAEBYQChAeUPGsiQFYuLuJAWDbyYkBaABwAHgAgAF9iAHmA5IBAzAuNJgBAKABAqABAaoBB2d3cy13aXo&sclient=psy-ab -->
   <!-- https://github.com/mapbox/potpack -->
-  <script src="{% static 'moex/node_modules/potpack/index.js' %}"></script>
-
-
+  <script src="{% static 'potpack/index.js' %}"></script>
 
   <script src='{% static "moex/scripts/global.js" %}'></script>
   <script>
