@@ -260,15 +260,17 @@
             var cell  = null;
             var row   = null;
             var col   = null;
+            var analytics = null;
+            var button = null;
             if (!is_mobile) {
               //!!! Hardcoding this for now...
               jqXHR_iss_index_json.engines.data[0][jqXHR_iss_index_json.engines.columns.indexOf("title")] = "Фондовый рынок";
               main_page_desktop();
 
               cell = $("#" + prefix_grid + marker_row_home);
-              row = grid_create_row(cell, marker_row_main);
-                    grid_create_col(row, "col-md-7 align-top", marker_col_left);
-              col = grid_create_col(row, "col-md-5 align-top", marker_col_right);
+              row       = grid_create_row(cell, marker_row_main);
+              analytics = grid_create_col(row, "col-md-7 align-top", marker_col_left);
+              col       = grid_create_col(row, "col-md-5 align-top", marker_col_right);
               // DON'T FORGET TO SET CELL TO COL
               cell = col;
 
@@ -281,6 +283,17 @@
                 var col = grid_create_col(row, "col-md-7 align-top", marker_col_left);
                           grid_create_col(row, "col-md-5 align-top", marker_col_right);
               });
+              
+              $("<h6/>", { class: "text-center", html: "Аналитика: " }).appendTo(grid_create_col(grid_create_row(analytics), "col-md-4 align-top"));
+              
+              button = $("<button/>", {type : "button", class : "btn btn-outline-primary btn-sm btn-block", html: "Граф: ценные бумаги"})
+              button.mouseup(function (event) { open_in_new_tab ("analytics/graph-all-sec/") })
+              button.appendTo(grid_create_col(grid_create_row(analytics), "col-md-4 align-top"));
+              
+              button = $("<button/>", {type : "button", class : "btn btn-outline-primary btn-sm btn-block", html: "Временной график: ценные бумаги по рынкам"})
+              button.mouseup(function (event) { open_in_new_tab ("analytics/chart-timeline-market-lists/") })
+              button.appendTo(grid_create_col(grid_create_row(analytics), "col-md-4 align-top"));
+              
             } else {
               main_page_mobile();
 
@@ -5128,6 +5141,9 @@
           uri += encodeURIComponent(" " + string).replace(/\s/, "+");
         })
         // console.log("google search: " + uri)
+        
+        open_in_new_tab(uri);
+/*
         // https://stackoverflow.com/questions/19851782/how-to-open-a-url-in-a-new-tab-using-javascript-or-jquery
         var win = window.open(uri);
         if (win) {
@@ -5137,6 +5153,7 @@
           //Browser has blocked it
           alert('ERROR: Please allow popups for this website');
         }
+*/
       }
     }
     function grid_create_nav_return(cell, title, target, collapses) {

@@ -2011,3 +2011,14 @@
       return string + "-" + year + month + day;
     }
 
+    function open_in_new_tab(uri) {
+      // https://stackoverflow.com/questions/19851782/how-to-open-a-url-in-a-new-tab-using-javascript-or-jquery
+      var win = window.open(uri);
+      if (win) {
+        //Browser has allowed it to be opened
+        win.focus();
+      } else {
+        //Browser has blocked it
+        alert('ERROR: Please allow popups for this website');
+      }
+    }
