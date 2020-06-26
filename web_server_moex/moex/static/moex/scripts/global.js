@@ -159,6 +159,9 @@
     prefix_doughnut     = "doughnut-";    // prefix: Doughnut
     prefix_pie          = "pie-";         // prefix: Pie
     prefix_candlestick  = "candlestick-"  // prefix: Candlestick
+    prefix_mixed        = "mixed-"        // prefix: Mixed
+    prefix_line         = "line-"         // prefix: Line
+    prefix_bar          = "bar-"          // prefix: Bar
 
                                       // Navigations:
     prefix_tab        = "tab-"        // Tab prefix
@@ -181,6 +184,9 @@
     prefix_index              = "index-";
     prefix_security           = "security-";
 
+    // ES related
+    prefix_es_index           = "es-index-" // ES index e.g. es-index-hist-market-stock-shares
+    
     // Common ID postfixes
     // ISS related
     postfix_markets             = "-markets";
@@ -261,6 +267,7 @@
     size_emitent_sec      = 3000;     // up to 3K of securities per emitent
     size_days_per_market  = 30000;    // expecting up to 30K days of trade in a single market
     size_secs_per_market  = 200000;   // expecting up to 200K securities traded in market during the whole history period
+    
     // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html
     client = new $.es.Client({
       hosts: '192.168.196.146:9200',
