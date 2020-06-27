@@ -34,6 +34,7 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
    2. [Install Node.JS](#install-nodejs)
    3. [Install Python](#install-python)
       1. [Install Django Python module](#install-django-python-module)
+      2. [Install mysqlclient Python module](#install-mysqlclient-python-module)
    4. [Install MySQL Server](#install-mysql-server)
    5. [Install ElasticSearch](#install-elasticsearch)
    6. [Install Postman](#install-postman)
@@ -63,9 +64,9 @@ python --version
 python -m pip --version
 ```
 #### Install Django Python module
-1. See section [Install Python](#install-python) to get core python
+1. See section [Install Python](#install-python) to get the core `python`
 2. See [Django Installation Page](https://docs.djangoproject.com/en/3.0/topics/install/#installing-official-release)
-3. After python is installed, run the following commands from shell: 
+3. After `python` is installed, run the following commands from shell to install Django: 
    <!-- https://www.shellhacks.com/pip-install-specific-version-of-package/ -->
    - check the versions of Django available:
    ```
@@ -96,6 +97,20 @@ python -m pip --version
    - to uninstall the module (for any reason, e.g. reinstall etc.), run: 
    ```
    python -m pip uninstall Django
+   ```
+#### Install mysqlclient Python module
+1. See section [Install Python](#install-python) to get the core `python`
+2. See [Django MySQL DB API Drivers](https://docs.djangoproject.com/en/3.0/ref/databases/#mysql-db-api-drivers)
+3. See [mysqlclient on PyPI](https://pypi.org/project/mysqlclient/)
+4. `mysqlclient` is a native driver. It’s the recommended choice.
+5. After `python` is installed, run the following commands from shell to install `mysqlclient`:
+   - check the versions of `mysqlclient` available:
+   ```
+   python -m pip install mysqlclient==
+   ```
+   - Django requires `mysqlclient` 1.3.13 or later, install the latest `mysqlclient`:
+   ```
+   python -m pip install mysqlclient
    ```
 ### Install MySQL Server
 ### Install ElasticSearch
