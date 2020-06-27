@@ -512,7 +512,7 @@
 			"response": []
 		},
 		{
-			"name": "DELETE hist-market-stock-index",
+			"name": "LIST: DELETE ALL list-market-*",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -524,7 +524,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-index",
+					"raw": "http://192.168.196.146:9200/list-market-*",
 					"protocol": "http",
 					"host": [
 						"192",
@@ -534,94 +534,7 @@
 					],
 					"port": "9200",
 					"path": [
-						"hist-market-stock-index"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE hist-market-stock-shares",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares",
-					"protocol": "http",
-					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
-					],
-					"port": "9200",
-					"path": [
-						"hist-market-stock-shares"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE hist-market-futures-options",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-futures-options",
-					"protocol": "http",
-					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
-					],
-					"port": "9200",
-					"path": [
-						"hist-market-futures-options"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE ALL hist-market-*",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-*",
-					"protocol": "http",
-					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
-					],
-					"port": "9200",
-					"path": [
-						"hist-market-*"
+						"list-market-*"
 					]
 				}
 			},
@@ -1489,6 +1402,122 @@
 						"{{index}}",
 						"_doc",
 						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "!!!! (DANGER) HIST: DELETE ALL hist-market-*",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.196.146:9200/hist-market-*",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"196",
+						"146"
+					],
+					"port": "9200",
+					"path": [
+						"hist-market-*"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE hist-market-stock-index",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.196.146:9200/hist-market-stock-index",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"196",
+						"146"
+					],
+					"port": "9200",
+					"path": [
+						"hist-market-stock-index"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE hist-market-stock-shares",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.196.146:9200/hist-market-stock-shares",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"196",
+						"146"
+					],
+					"port": "9200",
+					"path": [
+						"hist-market-stock-shares"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE hist-market-futures-options",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.196.146:9200/hist-market-futures-options",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"196",
+						"146"
+					],
+					"port": "9200",
+					"path": [
+						"hist-market-futures-options"
 					]
 				}
 			},
