@@ -347,6 +347,44 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
     ```
     For more details on Django management see this [tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial02/#creating-an-admin-user)
 ## Run the server with the moex app
+1. Make sure MySQL Community Server is up and running. 
 
+   For details see [Install MySQL Community Server](#install-mysql-community-server) and [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html)
+2. Make sure ElasticSearch is up and running. 
+
+   For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running]
+3. In the local repo root run the command:
+   ```
+   python manage.py runserver
+   ```
+   output:
+   ```
+   Watching for file changes with StatReloader
+   Performing system checks...
+
+   System check identified no issues (0 silenced).
+   June 27, 2020 - 12:35:52
+   Django version 3.0.6, using settings 'web_server_moex.settings'
+   Starting development server at http://127.0.0.1:8000/
+   Quit the server with CTRL-BREAK.
+   ```
+   There's also an option to run on a different host:port. Make sure the host is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28) 
+   ```
+   python manage.py runserver 192.168.196.146:8000
+   ```
+   output:
+   ```
+   Watching for file changes with StatReloader
+   Performing system checks...
+
+   System check identified no issues (0 silenced).
+   June 27, 2020 - 12:35:52
+   Django version 3.0.6, using settings 'web_server_moex.settings'
+   Starting development server at http://192.168.196.146:8000/
+   Quit the server with CTRL-BREAK.
+   ```
+4. Available urls are:
+   - root Django project routing is set in [`web_server_moex/urls.py`](web_server_moex/urls.py#L19) 
+   - moex app routing is set in [`moex/urls.py`](moex/urls.py#L5) (views: [`moex/views.py`](moex/views.py#L11), templates: [`moex/templates/moex`](moex/templates/moex))
 ## License
 This project is available under the [MIT license](LICENSE) © Nail Sharipov
