@@ -40,7 +40,7 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
    6. [Install Postman](#install-postman)
 2. [Project installation](#project-installation)
 3. [Run the server with the moex app](#run-the-server-with-the-moex-app)
-4. [License](#License)
+4. [License](#license)
 
 ## Prerequisites
 The following is the list of software required for the correct and convenient work with the project:   
@@ -192,10 +192,156 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
 1. Go to [Postman Download page](https://www.postman.com/downloads/)
 2. Download and install the latest version
 ## Project installation
-- git clone repo **AND** npm install
-**OR**
-- npm install repo
+1. Have MySQL Community Server up and running. For details see [Install MySQL Community Server](#install-mysql-community-server) and [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html)
+2. Have ElasticSearch up and running. For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html)
+3. `git clone` this repository:
+   ```
+   git clone https://github.com/nrsharip/iss-web.git
+   ```
+4. Run `npm install` in the root of the cloned repository. This will create `node_modules` in the root with the downloaded dependencies. 
+   - See [`package.json`](package.json#L27) for the list of dependencies. 
+   - See [`web_server_moex/settings.py`](web_server_moex/settings.py#L138): Django's `STATICFILES_DIRS` points to `node_modules`.
+5. Connect to MySQL Community Server with `mysql` client:
+   ```
+   mysql -u root -p
+   ```
+   or
+   ```
+   mysql -u root --skip-password
+   ```
+6. Create the management database for the Django project (for now only Django's system apps will have records there). 
 
+   Perform the following commands while in `mysql`:
+   ```
+   mysql> CREATE DATABASE IF NOT EXISTS db_moex;
+   mysql> CREATE USER IF NOT EXISTS 'db_moex_user'@'localhost' IDENTIFIED BY 'moex_is_cool';
+   mysql> GRANT ALTER, CREATE, DELETE, DROP, INSERT, SELECT, UPDATE, REFERENCES, INDEX ON db_moex.* TO 'db_moex_user'@'localhost';
+   mysql> SHOW GRANTS FOR 'db_moex_user'@'localhost';
+          +--------------------------------------------------------------------------------------------------------+
+          | Grants for db_moex_user@localhost                                                                      |
+          +--------------------------------------------------------------------------------------------------------+
+          | GRANT USAGE ON *.* TO `db_moex_user`@`localhost`                                                       |
+          | GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER ON `db_moex`.* TO `db_moex_user`@`localhost` |
+          +--------------------------------------------------------------------------------------------------------+
+          2 rows in set (0.00 sec)
+   ```
+   in case you need to delete the newly created database/user (e.g. you made a typo and want to re-CREATE), use the following commands:
+   ```
+   mysql> DROP DATABASE IF EXISTS db_moex;
+   mysql> DROP USER IF EXISTS db_moex_user;
+   ```
+7. In case: 
+   - MySQL Community Server is running on a host other than `localhost` 
+   - Database's name is different (not `db_moex`)
+   - User's name/password is different (not `'db_moex_user'@'localhost'`/`'moex_is_cool'`)
+   
+   check and update [`web_server_moex/settings.py`](web_server_moex/settings.py#L84):
+   ```
+   DATABASES = {
+     'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'db_moex',
+       'USER': 'db_moex_user',
+       'PASSWORD': 'moex_is_cool',
+       'HOST': '127.0.0.1',
+       'PORT': '3306',
+     }
+   }
+   ```
+8. Create the models (tables in MySQL Server DB) for the Django's system apps (see the list in [web_server_moex/settings.py](web_server_moex/settings.py#L35)). 
+
+   From the local repo root run the following command:
+   ```
+   python manage.py migrate
+   ```
+   The output should look like:
+   ```
+   Operations to perform:
+     Apply all migrations: admin, auth, contenttypes, sessions
+   Running migrations:
+     Applying contenttypes.0001_initial... OK
+     Applying auth.0001_initial... OK
+     Applying admin.0001_initial... OK
+     Applying admin.0002_logentry_remove_auto_add... OK
+     Applying admin.0003_logentry_add_action_flag_choices... OK
+     Applying contenttypes.0002_remove_content_type_name... OK
+     Applying auth.0002_alter_permission_name_max_length... OK
+     Applying auth.0003_alter_user_email_max_length... OK
+     Applying auth.0004_alter_user_username_opts... OK
+     Applying auth.0005_alter_user_last_login_null... OK
+     Applying auth.0006_require_contenttypes_0002... OK
+     Applying auth.0007_alter_validators_add_error_messages... OK
+     Applying auth.0008_alter_user_username_max_length... OK
+     Applying auth.0009_alter_user_last_name_max_length... OK
+     Applying auth.0010_alter_group_name_max_length... OK
+     Applying auth.0011_update_proxy_permissions... OK
+     Applying sessions.0001_initial... OK
+   ```
+9.  Check with `mysql` that the tables are created in `db_moex` (or any other name specified earlier):
+    ```
+    mysql> SHOW TABLES IN db_moex;
+      +----------------------------+
+      | Tables_in_db_moex          |
+      +----------------------------+
+      | auth_group                 |
+      | auth_group_permissions     |
+      | auth_permission            |
+      | auth_user                  |
+      | auth_user_groups           |
+      | auth_user_user_permissions |
+      | django_admin_log           |
+      | django_content_type        |
+      | django_migrations          |
+      | django_session             |
+      +----------------------------+
+      10 rows in set (0.00 sec)
+    ```
+    ```
+    mysql> SELECT * FROM db_moex.auth_permission;
+      +----+-------------------------+-----------------+--------------------+
+      | id | name                    | content_type_id | codename           |
+      +----+-------------------------+-----------------+--------------------+
+      |  1 | Can add log entry       |               1 | add_logentry       |
+      |  2 | Can change log entry    |               1 | change_logentry    |
+      |  3 | Can delete log entry    |               1 | delete_logentry    |
+      |  4 | Can view log entry      |               1 | view_logentry      |
+                                         ...
+      | 21 | Can add session         |               6 | add_session        |
+      | 22 | Can change session      |               6 | change_session     |
+      | 23 | Can delete session      |               6 | delete_session     |
+      | 24 | Can view session        |               6 | view_session       |
+      +----+-------------------------+-----------------+--------------------+
+      24 rows in set (0.00 sec)
+    ```
+    etc. for other tables in the database
+10. Also following command might come in handy:
+    - `python manage.py sqlmigrate admin 0001`
+    
+      This command prints the SQL code that is executed for a particular migrate stage:
+      ```
+      --
+      -- Create model LogEntry
+      --
+      CREATE TABLE `django_admin_log` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `action_time` datetime(6) NOT NULL, `object_id` longtext NULL, `object_repr` varchar(200) NOT NULL, `action_flag` smallint UNSIGNED NOT NULL CHECK (`action_flag` >= 0), `change_message` longtext NOT NULL, `content_type_id` integer NULL, `user_id` integer NOT NULL);
+      ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
+      ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+      ```
+    - `python manage.py check`
+    
+      This command checks for any problems in your project without making migrations or touching the database.
+11. Create admin user for the django project:
+    ```
+    python manage.py createsuperuser
+    ```
+    with the following questions to answer:
+    ```
+    Username (leave blank to use 'shari'): admin
+    Email address: admin@example.com
+    Password:
+    Password (again):
+    Superuser created successfully.
+    ```
+    For more details on Django management see this [tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial02/#creating-an-admin-user)
 ## Run the server with the moex app
 
 ## License
