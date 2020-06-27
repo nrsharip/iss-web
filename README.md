@@ -1,6 +1,6 @@
 ## Overview
 
-  The intention of this project is to access, store, render and analyze the data posted by the [Moscow Exchange](https://www.moex.com/en/) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920).
+  The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920) for scientific research and analysis.
 
 
 <table>
