@@ -352,7 +352,7 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
    For details see [Install MySQL Community Server](#install-mysql-community-server) and [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html)
 2. Make sure ElasticSearch is up and running. 
 
-   For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running]
+   For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html)
 3. In the local repo root run the command:
    ```
    python manage.py runserver
