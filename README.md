@@ -29,16 +29,16 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
 </table>
 
 ## Table of contents
-1. Prerequisites
-   1. Install Git
-   2. Install Node.JS
-   3. Install Python
-      - Install Django Python module
-   4. Install MySQL Server
-   5. Install ElasticSearch
-   6. Install Postman
-2. Project installation
-3. Run the server with the moex app
+1. [Prerequisites](#prerequisites)
+   1. [Install Git](#install-git)
+   2. [Install Node.JS](#install-nodejs)
+   3. [Install Python](#install-python)
+      - [Install Django Python module](#install-django-python-module)
+   4. [Install MySQL Server](#install-mysql-server)
+   5. [Install ElasticSearch](#install-elasticsearch)
+   6. [Install Postman](#install-postman)
+2. [Project installation](#project-installation)
+3. [Run the server with the moex app](#run-the-server-with-the-moex-app)
 4. [License](#License)
 
 ## Prerequisites
