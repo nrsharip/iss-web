@@ -35,7 +35,7 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
    3. [Install Python](#install-python)
       1. [Install Django Python module](#install-django-python-module)
       2. [Install mysqlclient Python module](#install-mysqlclient-python-module)
-   4. [Install MySQL Server](#install-mysql-server)
+   4. [Install MySQL Community Server](#install-mysql-community-server)
    5. [Install ElasticSearch](#install-elasticsearch)
    6. [Install Postman](#install-postman)
 2. [Project installation](#project-installation)
@@ -112,7 +112,56 @@ The following is the list of software required for the correct and convenient wo
      ```
      python -m pip install mysqlclient
      ```
-### Install MySQL Server
+### Install MySQL Community Server
+1. Go to [MySQL Community Server Download Website](https://dev.mysql.com/downloads/mysql/)
+2. Download the archive of appropriate version of [MySQL Community Server](https://dev.mysql.com/)
+3. Unzip the archive to folder mysql-X.X.XX-some-os and set PATH pointing to the mysql-X.X.XX-some-os\bin
+4. See [Starting the Server page](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html) and try to start the server
+   > :warning: **WINDOWS: known issues**: 
+   <br>[ERROR] [MY-013276] [Server] Failed to set datadir to 'mysql-8.0.20-winx64\data\' (OS errno: 2 - No such file or directory) 
+   <br> 1. See [Installing MySQL on Microsoft Windows Using a noinstall ZIP Archive](https://dev.mysql.com/doc/refman/8.0/en/windows-install-archive.html) and 
+   [Starting the Server for the First Time](https://dev.mysql.com/doc/refman/8.0/en/windows-server-first-start.html)
+   <br> 2. See [Creating an Option File](https://dev.mysql.com/doc/refman/8.0/en/windows-create-option-file.html). The ZIP archive does not include a data directory. To initialize a MySQL installation by creating the data directory and populating the tables in the mysql system database, initialize MySQL using either `--initialize` or `--initialize-insecure`. 
+   <br> 3. See Section 2.10.1, ["Initializing the Data Directory"](https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html).
+   <br> 4. On Windows, suppose that mysql-X.X.XX-some-os\my.ini contains these lines:
+     ```
+     [mysqld]
+     # set basedir to your installation path
+     basedir=disc:\\path\\mysql-X.X.XX-some-os
+     # set datadir to the location of your data directory
+     datadir=disc:\\path\\mysql-X.X.XX-some-os\\data
+     ```
+   > Then invoke `mysqld` as follows (enter the command on a single line with the `--defaults-file` option first):
+     ```
+     bin\mysqld --defaults-file=disc:\path\mysql-X.X.XX-some-os\my.ini --initialize-insecure --user=mysql --console
+     ```
+   > the output should look like:
+     ```
+     0 [System] [MY-013169] [Server] E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\bin\mysqld.exe (mysqld 8.0.20) initializing of server in progress as process 9564
+     1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+     1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+     6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+     ```
+5. Post-Initialization root Password Assignment
+   1. Start the server. For instructions, see Section 2.10.2, [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html).
+   2. Connect to the server:
+      - If you used `--initialize` but not `--initialize-insecure` to initialize the `data` directory, connect to the server as `root`:
+        ```
+        mysql -u root -p
+        ```
+        Then, at the password prompt, enter the random password that the server generated during the initialization sequence:
+        ```
+        Enter password: (enter the random root password here)
+        ```
+        Look in the server error log if you do not know this password.
+      - If you used `--initialize-insecure` to initialize the `data` directory, connect to the server as `root` without a password:
+        ```
+        mysql -u root --skip-password
+        ```
+   3. After connecting, use an `ALTER USER` statement to assign a new `root` password:
+      ```
+      ALTER USER 'root'@'localhost' IDENTIFIED BY 'root-password';
+      ```
 ### Install ElasticSearch
 ### Install Postman
 
