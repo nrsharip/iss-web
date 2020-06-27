@@ -192,8 +192,12 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
 1. Go to [Postman Download page](https://www.postman.com/downloads/)
 2. Download and install the latest version
 ## Project installation
-1. Have MySQL Community Server up and running. For details see [Install MySQL Community Server](#install-mysql-community-server) and [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html)
-2. Have ElasticSearch up and running. For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html)
+1. Have MySQL Community Server up and running. 
+
+   For details see [Install MySQL Community Server](#install-mysql-community-server) and [Starting the Server](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html)
+2. Have ElasticSearch up and running. 
+
+   For details see [Install ElasticSearch](#install-elasticsearch) and [Get Elasticsearch up and running](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html)
 3. `git clone` this repository:
    ```
    git clone https://github.com/nrsharip/iss-web.git
