@@ -1,5 +1,5 @@
 ## Overview
-The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920) for the scientific research and analysis.
+The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) (stock exchange, bonds, foreign exchange - forex, futures, options, ETFs etc.) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920) for the scientific research and analysis.
 
 Before you start interacting with the [Moscow Exchange website](https://www.moex.com/en/), please read these carefully:
 - [MOEX User Agreement](https://assets.moex.com/agreements/en/agreement.pdf) (en)
@@ -186,6 +186,7 @@ The following is the list of software required for the correct and convenient wo
    -Xms5g # from -Xms1g
    -Xmx5g # from -Xmx1g
    ```
+   see the [Issue: Configure a limit on direct memory usage #41954](https://github.com/elastic/elasticsearch/issues/41954) and [-XX:MaxDirectMemorySize](https://www.eclipse.org/openj9/docs/xxmaxdirectmemorysize/)
 ### Install Postman
 
 ## Project installation
