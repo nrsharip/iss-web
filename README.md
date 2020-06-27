@@ -115,7 +115,7 @@ The following is the list of software required for the correct and convenient wo
 ### Install MySQL Community Server
 1. Go to [MySQL Community Server Download Website](https://dev.mysql.com/downloads/mysql/)
 2. Download the archive of appropriate version of [MySQL Community Server](https://dev.mysql.com/)
-3. Unzip the archive to folder mysql-X.X.XX-some-os and set PATH pointing to the mysql-X.X.XX-some-os\bin
+3. Unzip the archive to folder `mysql-X.X.XX-some-os` and set `PATH` pointing to the `mysql-X.X.XX-some-os\bin`
 4. See [Starting the Server page](https://dev.mysql.com/doc/refman/8.0/en/starting-server.html) and try to start the server
    > :warning: **WINDOWS: known issues**: 
    <br>[ERROR] [MY-013276] [Server] Failed to set datadir to 'mysql-8.0.20-winx64\data\' (OS errno: 2 - No such file or directory) 
@@ -123,7 +123,7 @@ The following is the list of software required for the correct and convenient wo
    [Starting the Server for the First Time](https://dev.mysql.com/doc/refman/8.0/en/windows-server-first-start.html)
    <br> 2. See [Creating an Option File](https://dev.mysql.com/doc/refman/8.0/en/windows-create-option-file.html). The ZIP archive does not include a data directory. To initialize a MySQL installation by creating the data directory and populating the tables in the mysql system database, initialize MySQL using either `--initialize` or `--initialize-insecure`. 
    <br> 3. See Section 2.10.1, ["Initializing the Data Directory"](https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html).
-   <br> 4. On Windows, suppose that mysql-X.X.XX-some-os\my.ini contains these lines:
+   <br> 4. On Windows, suppose that `mysql-X.X.XX-some-os\my.ini` contains these lines:
      ```
      [mysqld]
      # set basedir to your installation path
@@ -163,6 +163,29 @@ The following is the list of software required for the correct and convenient wo
       ALTER USER 'root'@'localhost' IDENTIFIED BY 'root-password';
       ```
 ### Install ElasticSearch
+1. See [Getting started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
+2. Go to [Download Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+3. Download the archive of appropriate version of [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
+4. Extract the archive to the folder: `elasticsearch-X.X.X-some-os` and set `PATH` pointing to the `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\bin`
+5. In case you plan to run the server on the host other than `localhost` add/change the following lines in `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\elasticsearch.yml`
+   ```
+   network.host: ip1.ip2.ip3.ip4
+   http.port: XXXX
+   discovery.seed_hosts: ["127.0.0.1", "ip1.ip2.ip3.ip4", "[::1]"]
+   ```
+   where ip1.ip2.ip3.ip4 - is the IP address to run the instance of ElasticSearch on.
+6. Add the following lines to `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\elasticsearch.yml` to enable CORS and allow origin
+   ```
+   http.cors.enabled: true
+   http.cors.allow-origin: /https?:\/\/(localhost)?(127\.0\.0\.1)?(ip1\.ip2\.ip3\.ip4)?(:[0-9]+)?/
+   ```
+   where ip1.ip2.ip3.ip4 - is the IP address of the Django Web Server from which the HTTP requests would come to ElasticSearch.
+   See [Configuring Elasticsearch » HTTP](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) for more details.
+7. It is advisible to increase the heap size (default 1G) of JVM the ElasticSearch is running on by changing the following parameters in `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\jvm.options`
+   ```
+   -Xms5g # from -Xms1g
+   -Xmx5g # from -Xmx1g
+   ```
 ### Install Postman
 
 ## Project installation
