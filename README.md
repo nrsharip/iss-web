@@ -28,5 +28,15 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
 </tr>
 </table>
 
+## Table of contents
+1. Prerequisites
+   1. Download ...
+   2. Download ...
+2. Installation
+   - ...
+3. Run the project
+   - ...
+4. [License](#License)
+
 ## License
 This project is available under the [MIT license](LICENSE) © Nail Sharipov
