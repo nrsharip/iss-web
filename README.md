@@ -53,16 +53,16 @@ The following is the list of software required for the correct and convenient wo
 ### Install Python
 1. Go to [Python Download Website](https://www.python.org/downloads/)
 2. Download and install the appropriate version of [Python](https://www.python.org)
-<!-- https://stackoverflow.com/questions/50544499/how-to-make-a-styled-markdown-admonition-box-in-a-github-gist -->
-> :warning: **WINDOWS: executable installer vs. embeddable zip file**: It is better to download and use the executable installer since it will have the necessary modules within (like `pip`). With embeddable zip file you'll have to manually download the essential modules.
+   <!-- https://stackoverflow.com/questions/50544499/how-to-make-a-styled-markdown-admonition-box-in-a-github-gist -->
+   > :warning: **WINDOWS: executable installer vs. embeddable zip file**: It is better to download and use the executable installer since it will have the necessary modules within (like `pip`). With embeddable zip file you'll have to manually download the essential modules.
 3. Check the version of `python` installed:
-```
-python --version
-```
+   ```
+   python --version
+   ```
 4. Check the version of `pip` installed with `python`:
-```
-python -m pip --version
-```
+   ```
+   python -m pip --version
+   ```
 #### Install Django Python module
 1. See section [Install Python](#install-python) to get the core `python`
 2. See [Django Installation Page](https://docs.djangoproject.com/en/3.0/topics/install/#installing-official-release)
