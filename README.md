@@ -7,6 +7,7 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
 - [MOEX User Agreement](https://fs.moex.com/f/3499/agreement.pdf) (ru)
 - [ISS API Developer manual](https://fs.moex.com/files/8888) (en)
 - [ISS API Developer manual](https://fs.moex.com/files/6523) (ru)
+- [ISS API Reference](http://iss.moex.com/iss/reference) (ru)
 - [ISS API Sample code](https://fs.moex.com/files/6524)
 
 ## Screenshots
