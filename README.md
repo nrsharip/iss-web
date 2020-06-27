@@ -252,7 +252,7 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
      }
    }
    ```
-8. Create the models (tables in MySQL Server DB) for the Django's system apps (see the list in [web_server_moex/settings.py](web_server_moex/settings.py#L35)). 
+8. Create the models (tables in MySQL Server DB) for the Django's system apps (see the list in [`web_server_moex/settings.py`](web_server_moex/settings.py#L35)). 
 
    From the local repo root run the following command:
    ```
