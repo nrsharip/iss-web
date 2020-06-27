@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('moex/', include('moex.urls')),
+    path('', include('moex.urls')),  # change this back to 'moex/' as soon as there's another default app for this project
     path('admin/', admin.site.urls),
 ]

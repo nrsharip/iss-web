@@ -18,7 +18,8 @@ discovery.seed_hosts: ["127.0.0.1", "192.168.196.146", "[::1]"]
 
 Add the following lines (https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html):
 http.cors.enabled: true
-http.cors.allow-origin: http://192.168.196.146:8000
+http.cors.allow-origin: /https?:\/\/(localhost)?(127\.0\.0\.1)?(192\.168\.196\.146)?(:[0-9]+)?/
+#http.cors.allow-origin: http://192.168.196.146:8000
 
 * https://github.com/elastic/elasticsearch/issues/41954
 * https://www.eclipse.org/openj9/docs/xxmaxdirectmemorysize/

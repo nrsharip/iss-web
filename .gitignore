@@ -1,0 +1,4 @@
+# ignore cached pyhton code
+__pycache__
+# ignore NPM's node_modules
+node_modules
