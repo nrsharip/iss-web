@@ -188,7 +188,9 @@ The following is the list of software required for the correct and convenient wo
    ```
    see the [Issue: Configure a limit on direct memory usage #41954](https://github.com/elastic/elasticsearch/issues/41954) and [-XX:MaxDirectMemorySize](https://www.eclipse.org/openj9/docs/xxmaxdirectmemorysize/)
 ### Install Postman
-
+Postman is an effective tool to send different kinds of HTTP requests to REST APIs. Especially it comes in handy when dealing with ElasticSearch since ES exposes the REST API for management and quering the data. 
+1. Go to [Postman Download page](https://www.postman.com/downloads/)
+2. Download and install the latest version
 ## Project installation
 - git clone repo **AND** npm install
 **OR**
