@@ -1,0 +1,59 @@
+{
+	"id": "f764e441-3f3a-47c7-8a42-0454c17d7ecf",
+	"values": [
+		{
+			"key": "index-hist-market",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "index",
+			"value": "sec-all-20200610",
+			"enabled": true
+		},
+		{
+			"key": "index-curr-sec-all",
+			"value": "sec-all-20200610",
+			"enabled": true
+		},
+		{
+			"key": "index-prev-sec-all",
+			"value": "sec-all-20200609",
+			"enabled": true
+		},
+		{
+			"key": "alias-sec-all",
+			"value": "sec-all",
+			"enabled": true
+		},
+		{
+			"key": "secid",
+			"value": "1",
+			"enabled": true
+		},
+		{
+			"key": "alias-all-boards",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "index-curr-all-boards",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "index-prev-all-boards",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "boardid",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2020-06-27T19:35:25.429Z",
+	"_postman_exported_using": "Postman/7.27.0"
+}

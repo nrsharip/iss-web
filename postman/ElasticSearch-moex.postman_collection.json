@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a09e54a5-5d1b-413c-997b-cad540f78d41",
+		"_postman_id": "cff9d3c3-7fbd-42fd-a949-120b5c1ca71a",
 		"name": "ElasticSearch-moex",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,15 +11,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/",
-					"protocol": "http",
+					"raw": "{{host_es}}/",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						""
 					]
@@ -33,15 +28,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_cat/health?v=&pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/_cat/health?v=&pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_cat",
 						"health"
@@ -66,15 +56,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_cat/nodes?v=&pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/_cat/nodes?v=&pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_cat",
 						"nodes"
@@ -99,15 +84,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_cat/shards?v=&pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/_cat/shards?v=&pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_cat",
 						"shards"
@@ -132,15 +112,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_cat/indices?v&pretty&s=index",
-					"protocol": "http",
+					"raw": "{{host_es}}/_cat/indices?v&pretty&s=index",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_cat",
 						"indices"
@@ -169,15 +144,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_aliases",
-					"protocol": "http",
+					"raw": "{{host_es}}/_aliases",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_aliases"
 					]
@@ -200,15 +170,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/_aliases",
-					"protocol": "http",
+					"raw": "{{host_es}}/_aliases",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_aliases"
 					]
@@ -231,15 +196,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/_aliases",
-					"protocol": "http",
+					"raw": "{{host_es}}/_aliases",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_aliases"
 					]
@@ -262,15 +222,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/_aliases",
-					"protocol": "http",
+					"raw": "{{host_es}}/_aliases",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_aliases"
 					]
@@ -293,15 +248,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/_aliases",
-					"protocol": "http",
+					"raw": "{{host_es}}/_aliases",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_aliases"
 					]
@@ -315,15 +265,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}"
 					]
@@ -337,15 +282,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-curr-all-boards}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-curr-all-boards}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-curr-all-boards}}"
 					]
@@ -359,15 +299,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_settings",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_settings",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_settings"
@@ -391,15 +326,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_settings",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_settings",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_settings"
@@ -414,15 +344,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_alias",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_alias",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_alias"
@@ -437,15 +362,10 @@
 				"method": "HEAD",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}"
 					]
@@ -466,15 +386,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-curr-sec-all}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-curr-sec-all}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-curr-sec-all}}"
 					]
@@ -495,15 +410,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-curr-all-boards}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-curr-all-boards}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-curr-all-boards}}"
 					]
@@ -524,15 +434,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/list-market-*",
-					"protocol": "http",
+					"raw": "{{host_es}}/list-market-*",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"list-market-*"
 					]
@@ -546,15 +451,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/_search?pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/_search?pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"_search"
 					],
@@ -574,15 +474,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_search?pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_search?pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_search"
@@ -603,15 +498,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_search?pretty=&size=10000&q=_id:2001-06-18",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_search?pretty=&size=10000&q=_id:2001-06-18",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_search"
@@ -640,15 +530,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-hist-market}}/_search?pretty=&size=5000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-hist-market}}/_search?pretty=&size=5000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-hist-market}}",
 						"_search"
@@ -673,15 +558,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-hist-market}}/_doc/2004-06-18",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-hist-market}}/_doc/2004-06-18",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-hist-market}}",
 						"_doc",
@@ -709,15 +589,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-hist-market}}/_search?pretty=&size=5000&sort=_id",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-hist-market}}/_search?pretty=&size=5000&sort=_id",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-hist-market}}",
 						"_search"
@@ -746,15 +621,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares/_search?pretty=&size=10000&q=_id:2001-06-18",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-shares/_search?pretty=&size=10000&q=_id:2001-06-18",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-shares",
 						"_search"
@@ -783,15 +653,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares/_doc/2001-06-18",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-shares/_doc/2001-06-18",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-shares",
 						"_doc",
@@ -819,15 +684,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares/_search?pretty=&size=5000",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-shares/_search?pretty=&size=5000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-shares",
 						"_search"
@@ -852,15 +712,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares/_search?pretty=&size=10000&_source=false&sort=_id",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-shares/_search?pretty=&size=10000&_source=false&sort=_id",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-shares",
 						"_search"
@@ -893,15 +748,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-bonds/_search?pretty=&size=10000&_source=false&sort=_id",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-bonds/_search?pretty=&size=10000&_source=false&sort=_id",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-bonds",
 						"_search"
@@ -934,15 +784,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/list-market-stock-shares/_search?pretty=&size=10000&sort=secid",
-					"protocol": "http",
+					"raw": "{{host_es}}/list-market-stock-shares/_search?pretty=&size=10000&sort=secid",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"list-market-stock-shares",
 						"_search"
@@ -971,15 +816,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/list-market-stock-shares/_search?pretty=&size=10000&q=date_till:2020-06-23&sort=secid",
-					"protocol": "http",
+					"raw": "{{host_es}}/list-market-stock-shares/_search?pretty=&size=10000&q=date_till:2020-06-23&sort=secid",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"list-market-stock-shares",
 						"_search"
@@ -1012,15 +852,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/list-market-stock-bonds/_search?pretty=&size=10000&sort=secid",
-					"protocol": "http",
+					"raw": "{{host_es}}/list-market-stock-bonds/_search?pretty=&size=10000&sort=secid",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"list-market-stock-bonds",
 						"_search"
@@ -1049,15 +884,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-sec-all}}/_search?pretty=&size=10000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-sec-all}}/_search?pretty=&size=10000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-sec-all}}",
 						"_search"
@@ -1094,15 +924,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-sec-all}}/_search?pretty=&size=10000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-sec-all}}/_search?pretty=&size=10000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-sec-all}}",
 						"_search"
@@ -1127,15 +952,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-sec-all}}/_search?pretty=&size=20000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-sec-all}}/_search?pretty=&size=20000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-sec-all}}",
 						"_search"
@@ -1160,15 +980,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-sec-all}}/_search?pretty=&size=10000&from=10000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-sec-all}}/_search?pretty=&size=10000&from=10000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-sec-all}}",
 						"_search"
@@ -1197,15 +1012,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-sec-all}}/_doc/{{secid}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-sec-all}}/_doc/{{secid}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-sec-all}}",
 						"_doc",
@@ -1221,15 +1031,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-all-boards}}/_search?pretty=&size=10000",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-all-boards}}/_search?pretty=&size=10000",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-all-boards}}",
 						"_search"
@@ -1266,15 +1071,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-all-boards}}/_search?pretty=",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-all-boards}}/_search?pretty=",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-all-boards}}",
 						"_search"
@@ -1295,15 +1095,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{alias-all-boards}}/_search?pretty=&size=10000&q=_id:{{boardid}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{alias-all-boards}}/_search?pretty=&size=10000&q=_id:{{boardid}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{alias-all-boards}}",
 						"_search"
@@ -1332,15 +1127,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-curr-all-boards}}/_doc/{{boardid}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-curr-all-boards}}/_doc/{{boardid}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-curr-all-boards}}",
 						"_doc",
@@ -1365,15 +1155,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index-curr-all-boards}}/_doc/{{boardid}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index-curr-all-boards}}/_doc/{{boardid}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index-curr-all-boards}}",
 						"_doc",
@@ -1389,15 +1174,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.196.146:9200/{{index}}/_doc/{{id}}",
-					"protocol": "http",
+					"raw": "{{host_es}}/{{index}}/_doc/{{id}}",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"{{index}}",
 						"_doc",
@@ -1420,15 +1200,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-*",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-*",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-*"
 					]
@@ -1449,15 +1224,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-index",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-index",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-index"
 					]
@@ -1478,15 +1248,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-stock-shares",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-stock-shares",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-stock-shares"
 					]
@@ -1507,15 +1272,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://192.168.196.146:9200/hist-market-futures-options",
-					"protocol": "http",
+					"raw": "{{host_es}}/hist-market-futures-options",
 					"host": [
-						"192",
-						"168",
-						"196",
-						"146"
+						"{{host_es}}"
 					],
-					"port": "9200",
 					"path": [
 						"hist-market-futures-options"
 					]
