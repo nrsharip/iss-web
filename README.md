@@ -1,13 +1,13 @@
 ## Overview
-The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) (stock exchange, bonds, foreign exchange - forex, futures, options, ETFs etc.) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920) for the scientific research and analysis.
+The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) (Copyright © [Moscow Exchange](https://www.moex.com/en/), 2011 - 2020, stock exchange, bonds, foreign exchange - forex, futures, options, ETFs etc.) [Informational & Statistical Server (ISS) API (© Moscow Exchange)](https://www.moex.com/a2920) for the scientific research and analysis.
 
 Before you start interacting with the [Moscow Exchange website](https://www.moex.com/en/), please read these carefully:
-- [MOEX User Agreement](https://assets.moex.com/agreements/en/agreement.pdf) (en)
-- [MOEX User Agreement](https://fs.moex.com/f/3499/agreement.pdf) (ru)
-- [ISS API Developer manual](https://fs.moex.com/files/8888) (en)
-- [ISS API Developer manual](https://fs.moex.com/files/6523) (ru)
-- [ISS API Reference](http://iss.moex.com/iss/reference) (ru)
-- [ISS API Sample code](https://fs.moex.com/files/6524)
+- [MOEX (Copyright © Moscow Exchange, 2011 - 2020) User Agreement](https://assets.moex.com/agreements/en/agreement.pdf) (en)
+- [MOEX (Copyright © Moscow Exchange, 2011 - 2020) User Agreement](https://fs.moex.com/f/3499/agreement.pdf) (ru)
+- [ISS API Developer manual (© Moscow Exchange)](https://fs.moex.com/files/8888) (en)
+- [ISS API Developer manual (© Moscow Exchange)](https://fs.moex.com/files/6523) (ru)
+- [ISS API Reference (© Moscow Exchange)](http://iss.moex.com/iss/reference) (ru)
+- [ISS API Sample code (© Moscow Exchange)](https://fs.moex.com/files/6524)
 
 ## Screenshots
 <!-- https://stackoverflow.com/questions/14494747/add-images-to-readme-md-on-github -->
@@ -174,12 +174,16 @@ The following is the list of software required for the correct and convenient wo
    discovery.seed_hosts: ["127.0.0.1", "ip1.ip2.ip3.ip4", "[::1]"]
    ```
    where ip1.ip2.ip3.ip4 - is the IP address to run the instance of ElasticSearch on.
+   > :warning: **Running ElasticSearch on a custom host**: make sure the correct URL is supplied for the ElasticSearch instance in [`moex/static/moex/scripts/global.js`](moex/static/moex/scripts/global.js#L271)
+   
 6. Add the following lines to `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\elasticsearch.yml` to enable CORS and allow origin
    ```
    http.cors.enabled: true
    http.cors.allow-origin: /https?:\/\/(localhost)?(127\.0\.0\.1)?(ip1\.ip2\.ip3\.ip4)?(:[0-9]+)?/
    ```
    where ip1.ip2.ip3.ip4 - is the IP address of the Django Web Server from which the HTTP requests would come to ElasticSearch.
+   > :warning: **Running Django server on a custom host**: make sure the correct host for the server is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28)
+   
    See [Configuring Elasticsearch » HTTP](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) for more details.
 7. It is advisible to increase the heap size (default 1G) of JVM the ElasticSearch is running on by changing the following parameters in `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\jvm.options`
    ```
@@ -368,7 +372,8 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
    Starting development server at http://127.0.0.1:8000/
    Quit the server with CTRL-BREAK.
    ```
-   There's also an option to run on a different host:port. Make sure the host is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28) 
+   There's also an option to run on a different host:port. 
+   > :warning: **Running Django server on a custom host**: make sure the correct host for the server is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28) 
    ```
    python manage.py runserver 192.168.196.146:8000
    ```
@@ -386,5 +391,11 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
 4. Available urls are:
    - root Django project routing is set in [`web_server_moex/urls.py`](web_server_moex/urls.py#L19) 
    - moex app routing is set in [`moex/urls.py`](moex/urls.py#L5) (views: [`moex/views.py`](moex/views.py#L11), templates: [`moex/templates/moex`](moex/templates/moex))
+5. Use [Postman](https://learning.postman.com/docs/postman/launching-postman/introduction/) to manage your instance of ElasticSearch:
+   - See [Postman: Documentation](https://learning.postman.com/docs/postman/launching-postman/introduction/)
+   - Import the Postman assets for this project from [`postman`](postman)
+     - See [Postman: Importing and exporting data](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/)
+     - See [Postman: Using variables](https://learning.postman.com/docs/postman/variables-and-environments/variables/)
+     - See [Postman: Managing environments](https://learning.postman.com/docs/postman/variables-and-environments/managing-environments/)
 ## License
 This project is available under the [MIT license](LICENSE) © Nail Sharipov
