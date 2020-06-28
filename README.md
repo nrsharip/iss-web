@@ -15,20 +15,21 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
 
 <table>
 <tr>
-  <td><img src="/prtsc/prtsc_0001.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0002.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0003.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0004.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0001.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0002.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0003.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0004.png?raw=true" width="100%"></td>
 </tr>
 <tr>
-  <td><img src="/prtsc/prtsc_0005.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0006.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0007.png?raw=true" width="100%"></td>
-  <td><img src="/prtsc/prtsc_0008.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0005.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0006.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0007.png?raw=true" width="100%"></td>
+  <td><img src="/misc/prtsc_0008.png?raw=true" width="100%"></td>
 </tr>
 </table>
 
 ## Table of contents
+1. [High level design diagram](#high-level-design-diagram)
 1. [Prerequisites](#prerequisites)
    1. [Install Git](#install-git)
    2. [Install Node.JS](#install-nodejs)
@@ -41,6 +42,9 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
 2. [Project installation](#project-installation)
 3. [Run the server with the moex app](#run-the-server-with-the-moex-app)
 4. [License](#license)
+
+## High level design diagram
+<img src="/misc/iss-web.png?raw=true" width="100%">
 
 ## Prerequisites
 The following is the list of software required for the correct and convenient work with the project:   
@@ -392,7 +396,7 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
    - root Django project routing is set in [`web_server_moex/urls.py`](web_server_moex/urls.py#L19) 
    - moex app routing is set in [`moex/urls.py`](moex/urls.py#L5) (views: [`moex/views.py`](moex/views.py#L11), templates: [`moex/templates/moex`](moex/templates/moex))
 5. Use [Postman](https://learning.postman.com/docs/postman/launching-postman/introduction/) to manage your instance of ElasticSearch:
-   <img src="/prtsc/prtsc_0008.png?raw=true" width="75%">
+   <img src="/misc/prtsc_0008.png?raw=true" width="75%">
    - See [Postman: Documentation](https://learning.postman.com/docs/postman/launching-postman/introduction/)
    - Import the Postman assets for this project from [`postman`](postman)
      - See [Postman: Importing and exporting data](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/)
