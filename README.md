@@ -137,7 +137,7 @@ The following is the list of software required for the correct and convenient wo
      ```
    > the output should look like:
      ```
-     0 [System] [MY-013169] [Server] E:\my_files\trading\frommoex_20200519\iss-web\mysql-8.0.20-winx64\bin\mysqld.exe (mysqld 8.0.20) initializing of server in progress as process 9564
+     0 [System] [MY-013169] [Server] mysql-8.0.20-winx64\bin\mysqld.exe (mysqld 8.0.20) initializing of server in progress as process 9564
      1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
      1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
      6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
