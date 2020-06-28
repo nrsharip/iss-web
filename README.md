@@ -24,7 +24,7 @@ Before you start interacting with the [Moscow Exchange website](https://www.moex
   <td><img src="/prtsc/prtsc_0005.png?raw=true" width="100%"></td>
   <td><img src="/prtsc/prtsc_0006.png?raw=true" width="100%"></td>
   <td><img src="/prtsc/prtsc_0007.png?raw=true" width="100%"></td>
-  <td></td>
+  <td><img src="/prtsc/prtsc_0008.png?raw=true" width="100%"></td>
 </tr>
 </table>
 
@@ -392,6 +392,7 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
    - root Django project routing is set in [`web_server_moex/urls.py`](web_server_moex/urls.py#L19) 
    - moex app routing is set in [`moex/urls.py`](moex/urls.py#L5) (views: [`moex/views.py`](moex/views.py#L11), templates: [`moex/templates/moex`](moex/templates/moex))
 5. Use [Postman](https://learning.postman.com/docs/postman/launching-postman/introduction/) to manage your instance of ElasticSearch:
+   <img src="/prtsc/prtsc_0008.png?raw=true" width="75%">
    - See [Postman: Documentation](https://learning.postman.com/docs/postman/launching-postman/introduction/)
    - Import the Postman assets for this project from [`postman`](postman)
      - See [Postman: Importing and exporting data](https://learning.postman.com/docs/postman/collections/importing-and-exporting-data/)
