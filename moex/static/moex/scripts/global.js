@@ -268,9 +268,15 @@
     size_days_per_market  = 30000;    // expecting up to 30K days of trade in a single market
     size_secs_per_market  = 200000;   // expecting up to 200K securities traded in market during the whole history period
     
+    es_url = {
+      protocol: "http",
+      host:     "127.0.0.1", //"192.168.196.146",
+      port:     "9200",
+    }
+    
     // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/browser-builds.html
     client = new $.es.Client({
-      hosts: '192.168.196.146:9200',
+      hosts: es_url.host + ':' + es_url.port,
       //log: 'trace',
       log: 'error',
       requestTimeout: 120000,

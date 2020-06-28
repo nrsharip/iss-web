@@ -99,7 +99,7 @@
           // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
           $.ajax({
               type: "HEAD",
-              url: "http://192.168.196.146:9200/" + index_all_sec,
+              url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_all_sec,
               contentType: "application/json",
               dataType: "json",
               // see https://api.jquery.com/jquery.ajax/
@@ -122,7 +122,7 @@
           // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
           $.ajax({
               type: "HEAD",
-              url: "http://192.168.196.146:9200/" + index_all_sec,
+              url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_all_sec,
               contentType: "application/json",
               dataType: "json",
               // see https://api.jquery.com/jquery.ajax/
@@ -144,7 +144,7 @@
           // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
           $.ajax({
               type: "HEAD",
-              url: "http://192.168.196.146:9200/" + index_all_boards,
+              url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_all_boards,
               contentType: "application/json",
               dataType: "json",
               // see https://api.jquery.com/jquery.ajax/
@@ -221,7 +221,7 @@
           // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
           $.ajax({
               type: "HEAD",
-              url: "http://192.168.196.146:9200/" + index_hist_market,
+              url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_hist_market,
               contentType: "application/json",
               dataType: "json",
               // see https://api.jquery.com/jquery.ajax/
@@ -258,7 +258,7 @@
           // https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html
           $.ajax({
             type: "HEAD",
-            url: "http://192.168.196.146:9200/" + index_hist_market,
+            url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_hist_market,
             contentType: "application/json",
             dataType: "json",
             // see https://api.jquery.com/jquery.ajax/
@@ -267,7 +267,7 @@
               
               $.ajax({
                 type: "HEAD",
-                url: "http://192.168.196.146:9200/" + index_list_market,
+                url: es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + index_list_market,
                 contentType: "application/json",
                 dataType: "json",
                 // see https://api.jquery.com/jquery.ajax/

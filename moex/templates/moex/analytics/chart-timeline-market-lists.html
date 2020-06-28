@@ -456,6 +456,35 @@
     var colors = ['#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425'];             // https://www.color-hex.com/color-palette/700
     colors = colors.concat(['#ed5555', '#b4c468', '#b8a7ea', '#b7e0dc', '#bdd1a0']);  // https://www.color-hex.com/color-palette/36398
     var i_color = 0;
+    //0: (8) [5, 1, "stock", "Фондовый рынок и рынок депозитов", "index", "Индексы фондового рынка", 5, "INDICES"]
+    //1: (8) [1, 1, "stock", "Фондовый рынок и рынок депозитов", "shares", "Рынок акций", 1, "MXSE"]
+    //2: (8) [2, 1, "stock", "Фондовый рынок и рынок депозитов", "bonds", "Рынок облигаций", 2, "MXSE"]
+    //3: (8) [4, 1, "stock", "Фондовый рынок и рынок депозитов", "ndm", "Режим переговорных сделок", 4, null]
+    //4: (8) [29, 1, "stock", "Фондовый рынок и рынок депозитов", "otc", "ОТС", 29, null]
+    //5: (8) [27, 1, "stock", "Фондовый рынок и рынок депозитов", "ccp", "РЕПО с ЦК", 27, "MXSE"]
+    //6: (8) [35, 1, "stock", "Фондовый рынок и рынок депозитов", "deposit", "Депозиты с ЦК", 35, null]
+    //7: (8) [3, 1, "stock", "Фондовый рынок и рынок депозитов", "repo", "Рынок сделок РЕПО", 3, null]
+    //8: (8) [28, 1, "stock", "Фондовый рынок и рынок депозитов", "qnv", "Квал. инвесторы", 28, null]
+    //9: (8) [36, 1, "stock", "Фондовый рынок и рынок депозитов", "mamc", "Мультивалютный рынок смешанных активов", 36, null]
+    //10: (8) [33, 1, "stock", "Фондовый рынок и рынок депозитов", "moexboard", "MOEX Board", 33, null]
+    //11: (8) [21, 3, "currency", "Валютный рынок", "basket", "Бивалютная корзина", 21, null]
+    //12: (8) [10, 3, "currency", "Валютный рынок", "selt", "Биржевые сделки с ЦК", 10, "MXCX"]
+    //13: (8) [34, 3, "currency", "Валютный рынок", "futures", "Поставочные фьючерсы", 34, "MXCX"]
+    //14: (8) [41, 3, "currency", "Валютный рынок", "index", "Валютный фиксинг", 41, "FIXING"]
+    //15: (8) [12, 4, "futures", "Срочный рынок", "main", "Срочные инструменты", 12, null]
+    //16: (8) [22, 4, "futures", "Срочный рынок", "forts", "ФОРТС", 22, "FORTS"]
+    //17: (8) [24, 4, "futures", "Срочный рынок", "options", "Опционы ФОРТС", 24, "OPTIONS"]
+    //18: (8) [37, 4, "futures", "Срочный рынок", "fortsiqs", "Фьючерсы IQS", 37, null]
+    //19: (8) [38, 4, "futures", "Срочный рынок", "optionsiqs", "Опционы IQS", 38, null]
+    //20: (8) [9, 2, "state", "Рынок ГЦБ (размещение)", "index", "Индексы ГКО/ОФЗ", 9, null]
+    //21: (8) [6, 2, "state", "Рынок ГЦБ (размещение)", "bonds", "Облигации ГЦБ", 6, null]
+    //22: (8) [7, 2, "state", "Рынок ГЦБ (размещение)", "repo", "Междилерское РЕПО", 7, null]
+    //23: (8) [8, 2, "state", "Рынок ГЦБ (размещение)", "ndm", "Внесистемные сделки", 8, null]
+    //24: (8) [39, 7, "offboard", "ОТС-система", "bonds", "Облигации", 39, null]
+    //25: (8) [18, 5, "commodity", "Товарный рынок", "futures", "Секция стандартных контрактов АО НТБ", 18, null]
+    //26: (8) [20, 6, "interventions", "Товарные интервенции", "grain", "Интервенции по зерну", 20, null]
+    //27: (8) [23, 1, "stock", "Фондовый рынок и рынок депозитов", "standard", "Standard", 23, null]
+    //28: (8) [25, 1, "stock", "Фондовый рынок и рынок депозитов", "classica", "Classica", 25, null]
     for (var i_m = 0; i_m < jqXHR_iss_index_json.markets.data.length; i_m += 1) {
     //for (var i_m = 0; i_m < 3; i_m += 1) {
       // 0: "id"
@@ -475,7 +504,7 @@
         esi_hist_market + "-" 
         + market[jqXHR_iss_index_json.markets.columns.indexOf("trade_engine_name")] + "-" 
         + market[jqXHR_iss_index_json.markets.columns.indexOf("market_name")];
-      var request = "http://192.168.196.146:9200/" + es_index_list_market;
+      var request = es_url.protocol + '://' + es_url.host + ':' + es_url.port + '/' + es_index_list_market;
       console.log("HEAD request: " + request);
       
       // https://petetasker.com/using-async-await-jquerys-ajax
