@@ -2,8 +2,8 @@
 The intention of this project is to access, store and render the data posted by the [Moscow Exchange](https://www.moex.com/en/) (Copyright © [Moscow Exchange](https://www.moex.com/en/), 2011 - 2020, stock exchange, bonds, foreign exchange - forex, futures, options, ETFs etc.) [Informational & Statistical Server (ISS) API](https://www.moex.com/a2920) for the scientific research and analysis.
 
 Before you start interacting with the [Moscow Exchange website](https://www.moex.com/en/), please read these carefully:
-- [MOEX (Copyright © Moscow Exchange) User Agreement](https://assets.moex.com/agreements/en/agreement.pdf) (en)
-- [MOEX (Copyright © Moscow Exchange) User Agreement](https://fs.moex.com/f/3499/agreement.pdf) (ru)
+- [MOEX (Copyright © Moscow Exchange, 2011 - 2020) User Agreement](https://assets.moex.com/agreements/en/agreement.pdf) (en)
+- [MOEX (Copyright © Moscow Exchange, 2011 - 2020) User Agreement](https://fs.moex.com/f/3499/agreement.pdf) (ru)
 - [ISS API Developer manual](https://fs.moex.com/files/8888) (en)
 - [ISS API Developer manual](https://fs.moex.com/files/6523) (ru)
 - [ISS API Reference](http://iss.moex.com/iss/reference) (ru)
