@@ -174,12 +174,15 @@ The following is the list of software required for the correct and convenient wo
    discovery.seed_hosts: ["127.0.0.1", "ip1.ip2.ip3.ip4", "[::1]"]
    ```
    where ip1.ip2.ip3.ip4 - is the IP address to run the instance of ElasticSearch on.
+   > :warning: **Running ElasticSearch on a custom host**: make sure the correct URL is supplied for the ElasticSearch instance in [`moex/static/moex/scripts/global.js`](moex/static/moex/scripts/global.js#L271)
+   
 6. Add the following lines to `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\elasticsearch.yml` to enable CORS and allow origin
    ```
    http.cors.enabled: true
    http.cors.allow-origin: /https?:\/\/(localhost)?(127\.0\.0\.1)?(ip1\.ip2\.ip3\.ip4)?(:[0-9]+)?/
    ```
    where ip1.ip2.ip3.ip4 - is the IP address of the Django Web Server from which the HTTP requests would come to ElasticSearch.
+   > :warning: **Running Django server on a custom host**: make sure the correct host for the server is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28)
    See [Configuring Elasticsearch » HTTP](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) for more details.
 7. It is advisible to increase the heap size (default 1G) of JVM the ElasticSearch is running on by changing the following parameters in `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\jvm.options`
    ```
@@ -368,7 +371,8 @@ Postman is an effective tool to send different kinds of HTTP requests to REST AP
    Starting development server at http://127.0.0.1:8000/
    Quit the server with CTRL-BREAK.
    ```
-   There's also an option to run on a different host:port. Make sure the host is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28) 
+   There's also an option to run on a different host:port. 
+   > :warning: **Running Django server on a custom host**: make sure the correct host for the server is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28) 
    ```
    python manage.py runserver 192.168.196.146:8000
    ```
