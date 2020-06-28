@@ -183,6 +183,7 @@ The following is the list of software required for the correct and convenient wo
    ```
    where ip1.ip2.ip3.ip4 - is the IP address of the Django Web Server from which the HTTP requests would come to ElasticSearch.
    > :warning: **Running Django server on a custom host**: make sure the correct host for the server is listed in [`web_server_moex/settings.py`](web_server_moex/settings.py#L28)
+   
    See [Configuring Elasticsearch » HTTP](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) for more details.
 7. It is advisible to increase the heap size (default 1G) of JVM the ElasticSearch is running on by changing the following parameters in `elasticsearch-X.X.X-some-os\elasticsearch-X.X.X\config\jvm.options`
    ```
