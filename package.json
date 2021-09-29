@@ -27,7 +27,7 @@
   "dependencies": {
     "bootstrap": "^4.5.0",
     "bootstrap-icons": "^1.0.0-alpha4",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
     "chartjs-plugin-zoom": "^0.7.7",
     "chroma-js": "^2.1.0",
