@@ -36,7 +36,7 @@
     "elasticsearch-browser": "^16.7.1",
     "hammerjs": "^2.0.8",
     "jquery": "^3.5.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "patternomaly": "^1.3.2",
     "popper.js": "^1.16.1",
     "potpack": "^1.0.1",
