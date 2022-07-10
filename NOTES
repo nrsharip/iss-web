@@ -535,4 +535,11 @@ Create the project.json
 > npm init 
 Install the dependencies (--save stores the dependency in the project.json for later use):
 > npm install {package} --save 
-
+Update the version in package.json
+https://stackoverflow.com/questions/16525430/npm-check-and-update-package-if-needed
+To list the versions currently installed:
+> npm outdated
+To update package.json version numbers, append the --save flag:
+> npm update {package} --save
+(found 4 vulnerabilities (1 moderate, 3 high) run `npm audit fix` to fix them, or `npm audit` for details)
+> npm audit
